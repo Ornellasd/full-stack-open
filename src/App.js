@@ -1,29 +1,40 @@
 import React from 'react'
 
+const Header = (props) => {
+  return <h1>{props.course} </h1>
+}
+ 
+const Content = (props) => {
+  return (
+    <p>
+      {props.part} {props.excercise}
+    </p>
+  )
+}
+
+const Total = (props) => {
+  return <p>Number of excercises {props.total}</p>
+} 
+
 const App = () => {
   const course = 'Half Stack application development'
   const part1 = 'Fundamentals of React'
-  const excercises1 = 10
+  const exercises1 = 10
   const part2 = 'Using props to pass data'
-  const excercises2 = 7
+  const exercises2 = 7
   const part3 = 'State of a component'
-  const excercises3 = 14
+  const exercises3 = 14
 
   return (
     <div>
-      <h1>{course}</h1>
-      <p>
-        {part1} {excercises1}
-      </p>
-      <p>
-        {part2} {excercises2}
-      </p>
-      <p>
-        {part3} {excercises3}
-      </p>
-      <p>Number of excercises {excercises1 + excercises2 + excercises3}</p>
+      <Header course={course} />
+      <Content part={part1} excercise={exercises1} />
+      <Content part={part2} excercise={exercises2} />
+      <Content part={part3} excercise={exercises3} />
+      <Total total={exercises1 + exercises2 + exercises3} />
     </div>
   )
 }
+
 
 export default App
