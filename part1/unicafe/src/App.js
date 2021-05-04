@@ -8,7 +8,28 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Content = ({ text, clicks }) => <p>{text} {clicks}</p>
+const Average = ({ text, votes }) => {
+  const averageVotes = (votes) => {
+    const goods = votes[0]
+    const neutrals = 0 * votes[1]
+    const bads = -1 * votes[2]
+    const sum = goods + neutrals + bads
+    
+    return sum / 3
+  }
+
+  return (
+      <p>{text} {averageVotes(votes)}</p>
+  )
+}
+
+/*
+const Postive = (props) => (
+
+)
+*/
+
+const Statistics = ({ text, clicks }) => <p>{text} {clicks}</p>
 
 const App = () => {
   // save clicks of each button to its own state
@@ -35,9 +56,10 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
       <Heading text="statistics" />
-      <Content text="good" clicks={good} />
-      <Content text="neutral" clicks={neutral} />
-      <Content text="bad" clicks={bad} />
+      <Statistics text="good" clicks={good} />
+      <Statistics text="neutral" clicks={neutral} />
+      <Statistics text="bad" clicks={bad} />
+      <Average text="average" votes={[good, neutral, bad]} />
     </div>
   )
 }
