@@ -1,18 +1,14 @@
 import React, { useState } from 'react'
 
-const Heading = (props) => (
-  <h1>{props.text}</h1>
-)
+const Heading = ({ text }) => <h1>{text}</h1>
 
-const Button = (props) => (
-  <button onClick={props.handleClick}>
-    {props.text}
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>
+    {text}
   </button>
 )
 
-const Content = (props) => (
-  <p>{props.text} {props.clicks}</p>
-)
+const Content = ({ text, clicks }) => <p>{text} {clicks}</p>
 
 const App = () => {
   // save clicks of each button to its own state
