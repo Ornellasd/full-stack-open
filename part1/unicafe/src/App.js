@@ -9,27 +9,26 @@ const Button = ({ handleClick, text }) => (
 )
 
 const Statistics = ({ text, data }) => {
-  const averageVotes = (data) => {
-    const total = data[0] + data[1] + data[2]
-    const goods = data[0]
-    const neutrals = 0 * data[1]
-    const bads = -1 * data[2]
-    const average = (goods + neutrals + bads) / total
-
-    return average
-  }
-
-  if(typeof(data) === 'number') {
-    return (
-      <p>{text} {data}</p>
-    )
-  }
-
   return (
-    <p>{text} {averageVotes(data)}</p> 
+    <p>{text} {data}</p>  
   )
 }
 
+const Averages = ({ data }) => {
+  const total = data[0] + data[1] + data[2]
+  const goods = data[0]
+  const neutrals = 0 * data[1]
+  const bads = -1 * data[2]
+
+  const numOr0 = n => isNaN(n) ? 0 : n
+
+  return (
+    <div>
+      <p>average {numOr0((goods + neutrals + bads) / total)}</p>
+      <p>positive {numOr0(goods / total * 100)} %</p>
+    </div>
+  )
+}
 
 const App = () => {
   // save clicks of each button to its own state
@@ -61,8 +60,7 @@ const App = () => {
       <Statistics text="neutral" data={neutral} />
       <Statistics text="bad" data={bad} />
       <Statistics text="all" data={total} />
-      <Statistics text="average" data={[good, neutral, bad]} />
-      <Statistics text="positive" data={good / total} />
+      <Averages data={[good, neutral, bad]} />
     </div>
   )
 }
