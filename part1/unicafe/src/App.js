@@ -8,26 +8,26 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Statistics = ({ text, data }) => {
-  return (
-    <p>{text} {data}</p>  
-  )
-}
-
-const Averages = ({ data }) => {
+const Statistic = ({ text, data }) => {
   const total = data[0] + data[1] + data[2]
   const goods = data[0]
   const neutrals = 0 * data[1]
   const bads = -1 * data[2]
 
   const numOr0 = n => isNaN(n) ? 0 : n
-
-  return (
-    <div>
-      <p>average {numOr0((goods + neutrals + bads) / total)}</p>
-      <p>positive {numOr0(goods / total * 100)} %</p>
-    </div>
-  )
+  
+  if(typeof(data) === 'number') {
+    return <p>{text} {data}</p>
+  } else if(total === 0) {
+    return <p>No feedback given</p>
+  } else {
+    return (
+      <div>
+        <p>average {numOr0((goods + neutrals + bads) / total)}</p>
+        <p>positive {numOr0(goods / total * 100)} %</p>
+      </div>
+    )
+  }  
 }
 
 const App = () => {
@@ -56,11 +56,11 @@ const App = () => {
       <Button handleClick={handleNeutralClick} text="neutral" />
       <Button handleClick={handleBadClick} text="bad" />
       <Heading text="statistics" />
-      <Statistics text="good" data={good} />
-      <Statistics text="neutral" data={neutral} />
-      <Statistics text="bad" data={bad} />
-      <Statistics text="all" data={total} />
-      <Averages data={[good, neutral, bad]} />
+      <Statistic text="good" data={good} />
+      <Statistic text="neutral" data={neutral} />
+      <Statistic text="bad" data={bad} />
+      <Statistic text="all" data={total} />
+      <Statistic data={[good, neutral, bad]} />
     </div>
   )
 }
