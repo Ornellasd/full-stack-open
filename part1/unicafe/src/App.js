@@ -8,20 +8,15 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-/*
-const Postive = (props) => (
-
-)
-*/
-
 const Statistics = ({ text, data }) => {
   const averageVotes = (data) => {
+    const total = data[0] + data[1] + data[2]
     const goods = data[0]
     const neutrals = 0 * data[1]
     const bads = -1 * data[2]
-    const sum = goods + neutrals + bads
+    const average = (goods + neutrals + bads) / total
 
-    return sum / 3
+    return average
   }
 
   if(typeof(data) === 'number') {
@@ -31,9 +26,8 @@ const Statistics = ({ text, data }) => {
   }
 
   return (
-    <p>{text} {averageVotes(data)}</p>
+    <p>{text} {averageVotes(data)}</p> 
   )
-  
 }
 
 
@@ -42,6 +36,7 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
+  const total = good + neutral + bad
 
   const handleGoodClick = () => {
     setGood(good + 1)
@@ -65,8 +60,9 @@ const App = () => {
       <Statistics text="good" data={good} />
       <Statistics text="neutral" data={neutral} />
       <Statistics text="bad" data={bad} />
-      <Statistics text="all" data={good + neutral + bad} />
+      <Statistics text="all" data={total} />
       <Statistics text="average" data={[good, neutral, bad]} />
+      <Statistics text="positive" data={good / total} />
     </div>
   )
 }
