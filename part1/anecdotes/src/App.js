@@ -4,6 +4,10 @@ const Button = ({ action, text }) => {
   return <button onClick={action}>{text}</button>
 }
 
+const DisplayVotes = (props) => {
+  return <p>has {props.votes} votes</p>
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often',
@@ -13,22 +17,36 @@ const App = () => {
     'Premature optimization is the root of all evil.',
     'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
   ]
-   
-  const [selected, setSelected] = useState(0)
+  
+  const [selectedAnecdote, setSelectedAnecdote] = useState(0)
+
+  const [allVotes, updateVotes] = useState(Array(anecdotes.length).fill(0))
+
+  //const [anecdoteVote, setAnecdoteVote] = useState(0)
 
   const setToAnecdote = (newAnecdote) => {
-    setSelected(newAnecdote)
+    setSelectedAnecdote(newAnecdote)
   }
 
-  const handleButtonClick = () => {
+  const handleNewAnecdoteClick = () => {
     setToAnecdote(Math.floor(Math.random() * anecdotes.length))
+  }
+
+  const handleVoteClick = () => {
+    let newArr = [...allVotes]
+    
+    newArr[selectedAnecdote]++
+    updateVotes(newArr)
+
+    console.log(allVotes)
   }
   
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <Button action={handleButtonClick} text="next anecdote" />
-      <Button action={() => console.log('vote')} text="vote" />
+      <p>{anecdotes[selectedAnecdote]}</p>
+      <DisplayVotes votes={allVotes[selectedAnecdote]}/>
+      <Button action={handleNewAnecdoteClick} text="next anecdote" />
+      <Button action={handleVoteClick} text="vote" />
     </div>
   )
 }
