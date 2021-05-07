@@ -1,17 +1,15 @@
 import React from 'react'
 
 const Header = ({ course }) => {
-  return <h1>{course} </h1>
+  return <h1>{course}</h1>
 }
 
 const Total = ({ parts }) => {
-  return (
-    <p>
-      Number of exercises: {parts[0].exercises + parts[1].exercises + parts[2].exercises}
-    </p>
-  )
-} 
- 
+  const total = parts.reduce(((acc, part) => acc + part.exercises), 0)
+
+  return <b>total of {total} excercises</b>
+}
+
 const Content = ({ parts }) => {
   return (
     <div>
@@ -27,6 +25,7 @@ const Course = ({ course }) => {
     <div>
       <Header course={course.name} />
       <Content parts={course.parts} />
+      <Total parts={course.parts} />
     </div>
   )    
 }
