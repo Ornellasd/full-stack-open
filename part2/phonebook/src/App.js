@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 
-const Heading = ({ text }) => {
-  return <h2>{text}</h2>
-}
+const Heading = ({ text }) => <h2>{text}</h2>
+
 
 const ContactInput = ({ submit, name, phone, nameChange, phoneChange }) => {
   return (
@@ -20,22 +19,10 @@ const ContactInput = ({ submit, name, phone, nameChange, phoneChange }) => {
   )
 }
 
-const FilterInput = ({ text, change }) => {
-  return (
-    <div>
-      {text} <input onChange={change} />
-    </div>
-  ) 
-}
+const FilterInput = ({ text, change }) => <div>{text} <input onChange={change} /></div> 
 
-const ContactDisplay = ({ data }) => {
-  return (
-    <div>
-      {data.map(person => 
-        <p>{person.name} {person.phone}</p>
-      )}
-    </div>
-  )
+const ContactDisplay = ({ contact }) => {
+  return <p>{contact.name} {contact.phone}</p>
 }
 
 const App = () => {
@@ -47,7 +34,7 @@ const App = () => {
   ])
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
-  const [ newSearch, setNewSearch ] = useState('')
+  const [ filter, setFilter ] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -58,13 +45,7 @@ const App = () => {
   }
 
   const handleContactFilter = (event) => {
-    // change to .filter? 
-    persons.forEach(person => {
-      if(person.name.toLowerCase().includes(event.target.value.toLowerCase())){
-        console.log(person.name)
-        // setNewSearch(person.name)
-      }
-    })
+    setFilter(event.target.value.toLowerCase())
   }
 
   const addContact = (event) => {
@@ -72,7 +53,8 @@ const App = () => {
 
     const contactObject = {
       name: newName,
-      phone: newPhone
+      phone: newPhone,
+      id: persons.length + 1
     }
 
     const nameCheck = doesNameExist(newName, persons)
@@ -97,15 +79,19 @@ const App = () => {
 
     return result
   }
-
+  
+  const contactsToShow = persons.filter(person => person.name.toLowerCase().includes(filter))
+  
   return (
     <div>
-      <Heading text="Phonebook" />
+      <h2>Phonebook</h2>
       <FilterInput text="filter shown with" change={handleContactFilter} />
-      <Heading text="add a new" />
+      <h2>add a new</h2>
       <ContactInput submit={addContact} name={newName} phone={newPhone} nameChange={handleNameChange} phoneChange={handlePhoneChange} />
-      <Heading text="Numbers" />      
-      <ContactDisplay data={persons} />
+      <h2>Numbers</h2>      
+      {contactsToShow.map(contact => 
+        <ContactDisplay key={contact.id} contact={contact} />
+      )}
     </div>
   )
 }
