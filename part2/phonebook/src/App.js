@@ -1,5 +1,43 @@
 import React, { useState } from 'react'
 
+const Heading = ({ text }) => {
+  return <h2>{text}</h2>
+}
+
+const ContactInput = ({ submit, name, phone, nameChange, phoneChange }) => {
+  return (
+    <form onSubmit={submit}>
+      <div>
+        name: <input value={name} onChange={nameChange} />
+      </div>
+      <div>
+        number: <input value={phone} onChange={phoneChange} />
+      </div>
+      <div>
+        <button type="submit">add</button>
+      </div>
+    </form>
+  )
+}
+
+const FilterInput = ({ text, change }) => {
+  return (
+    <div>
+      {text} <input onChange={change} />
+    </div>
+  ) 
+}
+
+const ContactDisplay = ({ data }) => {
+  return (
+    <div>
+      {data.map(person => 
+        <p>{person.name} {person.phone}</p>
+      )}
+    </div>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', phone: '040-123456' },
@@ -9,6 +47,7 @@ const App = () => {
   ])
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
+  const [ newSearch, setNewSearch ] = useState('')
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -23,6 +62,7 @@ const App = () => {
     persons.forEach(person => {
       if(person.name.toLowerCase().includes(event.target.value.toLowerCase())){
         console.log(person.name)
+        // setNewSearch(person.name)
       }
     })
   }
@@ -60,24 +100,12 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      filter shown with <input onChange={handleContactFilter} />
-      <h2>add a new</h2>
-      <form onSubmit={addContact}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newPhone} onChange={handlePhoneChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {persons.map(person => 
-        <p>{person.name} {person.phone}</p>
-      )}
+      <Heading text="Phonebook" />
+      <FilterInput text="filter shown with" change={handleContactFilter} />
+      <Heading text="add a new" />
+      <ContactInput submit={addContact} name={newName} phone={newPhone} nameChange={handleNameChange} phoneChange={handlePhoneChange} />
+      <Heading text="Numbers" />      
+      <ContactDisplay data={persons} />
     </div>
   )
 }
