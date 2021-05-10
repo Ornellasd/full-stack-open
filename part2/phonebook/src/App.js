@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 
-const Heading = ({ text }) => <h2>{text}</h2>
-
-
 const ContactInput = ({ submit, name, phone, nameChange, phoneChange }) => {
   return (
     <form onSubmit={submit}>
@@ -57,9 +54,17 @@ const App = () => {
       id: persons.length + 1
     }
 
-    const nameCheck = doesNameExist(newName, persons)
-    
-    if(nameCheck) {
+    const nameCheck = () => {
+      let result
+      
+      persons.forEach(person => {
+        result = person.name === newName
+      })
+      
+      return result
+    }
+
+    if(nameCheck()) {
       alert(`${newName} has already been added to the phonebook`)
       setNewName('')
       setNewPhone('')
@@ -67,18 +72,8 @@ const App = () => {
       setPersons(persons.concat(contactObject))
       setNewName('')
       setNewPhone('')
-    }
+    }    
    }
-
-  const doesNameExist = (name, persons) => {
-    let result
-    
-    persons.forEach(person => {
-      result = person.name === newName
-    })
-
-    return result
-  }
   
   const contactsToShow = persons.filter(person => person.name.toLowerCase().includes(filter))
   
