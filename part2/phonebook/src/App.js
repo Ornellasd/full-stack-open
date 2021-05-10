@@ -54,17 +54,7 @@ const App = () => {
       id: persons.length + 1
     }
 
-    const nameCheck = () => {
-      let result
-      
-      persons.forEach(person => {
-        result = person.name === newName
-      })
-      
-      return result
-    }
-
-    if(nameCheck()) {
+    if(persons.filter(person => person.name === newName).length > 0) {
       alert(`${newName} has already been added to the phonebook`)
       setNewName('')
       setNewPhone('')
