@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Display = ({ countriesToShow }) => {
+const Display = ({ countriesToShow, setSearchTerm }) => {
   if(countriesToShow.length > 10) {
     return <p>Too many matches, specify another filter</p>
   } else if(countriesToShow.length === 1) {
@@ -23,7 +23,9 @@ const Display = ({ countriesToShow }) => {
     return (
       <div>
         {countriesToShow.map(country =>
-          <p>{country.name}</p> 
+          <div>
+            {country.name} <button onClick={() => setSearchTerm(country.name.toLowerCase())}>show</button>
+          </div>
         )}
       </div>
     )
@@ -33,7 +35,7 @@ const Display = ({ countriesToShow }) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [searchTerm, setSearchTerm] = useState([''])
-  
+
   const fetchCountries = () => {
     axios.get('https://restcountries.eu/rest/v2/all')
       .then(response => {
@@ -43,18 +45,18 @@ const App = () => {
 
   useEffect(fetchCountries, [])
 
-  const countriesToShow = countries.filter(country => {
-    return country.name.toLowerCase().includes(searchTerm)
-  })
-  
   const handleFilterChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase())
   }
 
+  const countriesToShow = countries.filter(country => {
+    return country.name.toLowerCase().includes(searchTerm)
+  })
+  
   return (
     <div>
       find countries <input onChange={handleFilterChange} />
-      <Display countriesToShow={countriesToShow} />
+      <Display countriesToShow={countriesToShow} setSearchTerm={setSearchTerm} />
     </div>
   )
 }
