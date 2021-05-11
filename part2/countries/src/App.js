@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Display = ({ countriesToShow, setSearchTerm }) => {
+const Display = ({ countriesToShow, setSearchTerm, setShowSearch }) => {
+  const [country, setCountry] = useState([])
   const [weather, setWeather] = useState([])
 
   const fetchWeather = (city) => {
@@ -15,12 +16,10 @@ const Display = ({ countriesToShow, setSearchTerm }) => {
   if(countriesToShow.length > 10) {
     return <p>Too many matches, specify another filter</p>
   } else if(countriesToShow.length === 1) {
-    // hide search box to limit api calls
-    //fetchWeather(countriesToShow[0].capital)
-
+    setShowSearch(false)
     return (
       <div>
-        <h1>{countriesToShow[0].name}</h1>
+        <h1>{countriesToShow[0].name}</h1><a href="">back</a>
         <p>capital {countriesToShow[0].capital}</p>
         <p>population {countriesToShow[0].population}</p>
         <h2>languages</h2>
@@ -52,6 +51,7 @@ const Display = ({ countriesToShow, setSearchTerm }) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [searchTerm, setSearchTerm] = useState([''])
+  const [showSearch, setShowSearch] = useState(true)
 
   const fetchCountries = () => {
     axios.get('https://restcountries.eu/rest/v2/all')
@@ -72,8 +72,12 @@ const App = () => {
   
   return (
     <div>
-      find countries <input onChange={handleFilterChange} />
-      <Display countriesToShow={countriesToShow} setSearchTerm={setSearchTerm} />
+      {showSearch ?
+        <div>
+          find countries <input onChange={handleFilterChange} />
+        </div>
+      : null}
+      <Display countriesToShow={countriesToShow} setSearchTerm={setSearchTerm} setShowSearch={setShowSearch} />
     </div>
   )
 }
