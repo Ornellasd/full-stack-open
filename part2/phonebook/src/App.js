@@ -64,11 +64,14 @@ const App = () => {
       setNewName('')
       setNewPhone('')
     } else {
-      setPersons(persons.concat(contactObject))
-      setNewName('')
-      setNewPhone('')
+      axios.post('http://localhost:3001/persons', contactObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewPhone('')
+        })
     }    
-   }
+  }
   
   const contactsToShow = persons.filter(person => person.name.toLowerCase().includes(filter))
   
