@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import personService from './services/persons'
 
@@ -40,6 +41,9 @@ const App = () => {
         .then(initialEntries => {
           setPersons(initialEntries)
         })
+        .then(() => {
+          console.log('grabbed data')
+        })
   }
 
   const deletePhonebookEntry = (id) => {
@@ -48,12 +52,10 @@ const App = () => {
     if(window.confirm(`Delete ${entry.name}?`)) {
       personService
         .deleteItem(id)
-        .then(updatedEntries => {
-          console.log(updatedEntries)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
         })
     }
-    //personService
-    //  .deleteItem(id)
   }
 
   useEffect(fetchNotes, [])
