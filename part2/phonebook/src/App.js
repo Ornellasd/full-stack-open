@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import personService from './services/persons'
 
 const ContactInput = ({ submit, name, phone, nameChange, phoneChange }) => {
   return (
@@ -30,10 +30,11 @@ const App = () => {
   const [ filter, setFilter ] = useState('')
 
   const fetchNotes = () => {
-    axios.get('http://localhost:3001/persons')
-    .then(response => {
-      setPersons(response.data)
-    })
+    personService
+      .getAll()
+        .then(initialEntries => {
+          setPersons(initialEntries)
+        })
   }
 
   useEffect(fetchNotes, [])
@@ -64,9 +65,10 @@ const App = () => {
       setNewName('')
       setNewPhone('')
     } else {
-      axios.post('http://localhost:3001/persons', contactObject)
-        .then(response => {
-          setPersons(persons.concat(response.data))
+      personService
+        .create(contactObject)
+        .then(returnedEntry => {
+          setPersons(persons.concat(returnedEntry))
           setNewName('')
           setNewPhone('')
         })
