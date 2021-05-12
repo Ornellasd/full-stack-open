@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 
+const DisplayCountryData = ({ country }) => { 
+  return (
+    <div>
+      <h1>{country.name}</h1><a href="">back</a>
+      <p>capital {country.capital}</p>
+      <p>population {country.population}</p>
+      <h2>languages</h2>
+      <ul>
+        {country.languages.map(language => 
+          <li>{language.name}</li>
+        )}
+      </ul>
+      <img src={country.flag} width="150" />
+      <DisplayWeatherData country={country}/>
+    </div>
+  )
+}
+
 const DisplayWeatherData = ({ country }) => {
   const [weatherData, setWeatherData] = useState([])
 
-  const fetchWeather = (city) => {
-    axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
-      .then(response => {
-        setWeatherData(response.data)
-        console.log(weatherData)
-      })
+  const fetchWeather = () => {   
   }
-
-  //useEffect(fetchWeather(countriesToShow[0].capital), [])
 
   return (
     <div>
@@ -25,28 +36,10 @@ const DisplayWeatherData = ({ country }) => {
 }
 
 const Display = ({ countriesToShow, setSearchTerm, setShowSearch }) => {
-  const [country, setCountry] = useState([])
-
   if(countriesToShow.length > 10) {
     return <p>Too many matches, specify another filter</p>
   } else if(countriesToShow.length === 1) {
-    setShowSearch(false)
-  
-    return (
-      <div>
-        <h1>{countriesToShow[0].name}</h1><a href="">back</a>
-        <p>capital {countriesToShow[0].capital}</p>
-        <p>population {countriesToShow[0].population}</p>
-        <h2>languages</h2>
-        <ul>
-          {countriesToShow[0].languages.map(language => 
-            <li>{language.name}</li>
-          )}
-        </ul>
-        <img src={countriesToShow[0].flag} width="150" />
-        <DisplayWeatherData country={countriesToShow[0]}/>
-      </div>
-    )
+    return <DisplayCountryData country={countriesToShow[0]} />
   } else {
     return (
       <div>
