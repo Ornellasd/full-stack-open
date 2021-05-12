@@ -22,15 +22,22 @@ const DisplayCountryData = ({ country }) => {
 const DisplayWeatherData = ({ country }) => {
   const [weatherData, setWeatherData] = useState([])
 
-  const fetchWeather = () => {   
+  const fetchWeather = () => {
+    axios.get('https://www.metaweather.com/api/location/2487956/')
+      .then(response => {
+        console.log(response.data.consolidated_weather[0])
+        setWeatherData(response.data.consolidated_weather[0])
+      })
   }
 
+  useEffect(fetchWeather, [])
+  
   return (
     <div>
       <h2>Weather in {country.capital}</h2>
-      <h3>temperature:</h3>
-      <img src="http://openweathermap.org/img/wn/03n@2x.png" />
-      <h3>wind:</h3>
+      <h3 style={{display: 'inline-block'}}>temperature:</h3> {Math.round(weatherData.the_temp)} celsius
+      <img style={{display: 'block'}} src={`https://www.metaweather.com/static/img/weather/png/64/${weatherData.weather_state_abbr}.png`} />
+      <h3 style={{display: 'inline-block'}}>wind:</h3> {Math.round(weatherData.wind_speed)} km/h direction {weatherData.wind_direction_compass}
     </div>
   )
 }
