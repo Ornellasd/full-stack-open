@@ -19,8 +19,13 @@ const ContactInput = ({ submit, name, phone, nameChange, phoneChange }) => {
 
 const FilterInput = ({ text, change }) => <div>{text} <input onChange={change} /></div> 
 
-const ContactDisplay = ({ contact }) => {
-  return <p>{contact.name} {contact.phone}</p>
+const Contact = ({ contact, deletePhonebookEntry }) => {
+  return (
+    <div>
+      <p>{contact.name} {contact.phone}</p>
+      <button onClick={deletePhonebookEntry}>Delete</button>
+    </div>
+  )
 }
 
 const App = () => {
@@ -35,6 +40,20 @@ const App = () => {
         .then(initialEntries => {
           setPersons(initialEntries)
         })
+  }
+
+  const deletePhonebookEntry = (id) => {
+    const entry = persons.find(p => p.id === id)
+
+    if(window.confirm(`Delete ${entry.name}?`)) {
+      personService
+        .deleteItem(id)
+        .then(updatedEntries => {
+          console.log(updatedEntries)
+        })
+    }
+    //personService
+    //  .deleteItem(id)
   }
 
   useEffect(fetchNotes, [])
@@ -85,7 +104,11 @@ const App = () => {
       <ContactInput submit={addContact} name={newName} phone={newPhone} nameChange={handleNameChange} phoneChange={handlePhoneChange} />
       <h2>Numbers</h2>      
       {contactsToShow.map(contact => 
-        <ContactDisplay key={contact.id} contact={contact} />
+        <Contact
+          key={contact.id}
+          contact={contact}
+          deletePhonebookEntry={() => deletePhonebookEntry(contact.id)}
+        />
       )}
     </div>
   )
