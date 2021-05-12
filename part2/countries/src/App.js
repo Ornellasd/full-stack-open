@@ -4,7 +4,7 @@ import axios from 'axios'
 const DisplayCountryData = ({ country }) => { 
   return (
     <div>
-      <h1>{country.name}</h1><a href="">back</a>
+      <h1>{country.name}</h1>
       <p>capital {country.capital}</p>
       <p>population {country.population}</p>
       <h2>languages</h2>
@@ -23,10 +23,16 @@ const DisplayWeatherData = ({ country }) => {
   const [weatherData, setWeatherData] = useState([])
 
   const fetchWeather = () => {
-    axios.get('https://www.metaweather.com/api/location/2487956/')
+    const capital = country.capital.split(', ')
+    console.log(capital)
+    
+    axios.get(`https://www.metaweather.com/api/location/search/?query=${capital[0]}`)
       .then(response => {
-        console.log(response.data.consolidated_weather[0])
-        setWeatherData(response.data.consolidated_weather[0])
+        axios.get(`https://www.metaweather.com/api/location/${response.data[0].woeid}`)
+          .then(response => {
+            console.log(response.data.consolidated_weather[0])
+            setWeatherData(response.data.consolidated_weather[0])
+          })
       })
   }
 
@@ -42,7 +48,7 @@ const DisplayWeatherData = ({ country }) => {
   )
 }
 
-const Display = ({ countriesToShow, setSearchTerm, setShowSearch }) => {
+const Display = ({ countriesToShow, setSearchTerm }) => {
   if(countriesToShow.length > 10) {
     return <p>Too many matches, specify another filter</p>
   } else if(countriesToShow.length === 1) {
@@ -63,7 +69,6 @@ const Display = ({ countriesToShow, setSearchTerm, setShowSearch }) => {
 const App = () => {
   const [countries, setCountries] = useState([])
   const [searchTerm, setSearchTerm] = useState([''])
-  const [showSearch, setShowSearch] = useState(true)
 
   const fetchCountries = () => {
     axios.get('https://restcountries.eu/rest/v2/all')
@@ -84,12 +89,12 @@ const App = () => {
   
   return (
     <div>
-      {showSearch ?
+      
         <div>
           find countries <input onChange={handleFilterChange} />
         </div>
-      : null}
-      <Display countriesToShow={countriesToShow} setSearchTerm={setSearchTerm} setShowSearch={setShowSearch} />
+     
+      <Display countriesToShow={countriesToShow} setSearchTerm={setSearchTerm} />
     </div>
   )
 }
