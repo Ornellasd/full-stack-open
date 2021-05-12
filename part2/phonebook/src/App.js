@@ -41,9 +41,6 @@ const App = () => {
         .then(initialEntries => {
           setPersons(initialEntries)
         })
-        .then(() => {
-          console.log('grabbed data')
-        })
   }
 
   const deletePhonebookEntry = (id) => {
@@ -58,7 +55,7 @@ const App = () => {
     }
   }
 
-  useEffect(fetchNotes, [])
+  useEffect(fetchNotes, []) 
 
   const handleNameChange = (event) => {
     setNewName(event.target.value)
@@ -81,10 +78,9 @@ const App = () => {
       id: persons.length + 1
     }
 
-    if(persons.filter(person => person.name === newName).length > 0) {
-      alert(`${newName} has already been added to the phonebook`)
-      setNewName('')
-      setNewPhone('')
+    if(persons.filter(person => person.name === newName).length > 0) { 
+      const entry = persons.find(person => person.name === newName)
+      handleUpdateContact(entry)
     } else {
       personService
         .create(contactObject)
@@ -94,6 +90,22 @@ const App = () => {
           setNewPhone('')
         })
     }    
+  }
+
+  const handleUpdateContact = (entry) => {
+    const changedEntry = { ...entry, phone: newPhone }
+
+    if(window.confirm(`${entry.name} has already been added to the phonebook, replace the old number with a new one?`)) {
+      personService
+        .update(entry.id, changedEntry)
+        .then(returnedEntry => {
+          setPersons(persons.map(person => person.id !== entry.id ? person : returnedEntry ))
+          setNewName('')
+          setNewPhone('')
+        })      
+    }
+
+    
   }
   
   const contactsToShow = persons.filter(person => person.name.toLowerCase().includes(filter))
