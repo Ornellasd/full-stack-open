@@ -34,7 +34,7 @@ const Alert = ({ message }) => {
   }
 
   return (
-    <div>{message}</div>
+    <div className='success'>{message}</div>
   )
 }
 
