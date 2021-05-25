@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import personService from './services/persons'
 
@@ -29,11 +28,22 @@ const Contact = ({ contact, deletePhonebookEntry }) => {
   )
 }
 
+const Alert = ({ message }) => {
+  if(message === null) {
+    return null
+  }
+
+  return (
+    <div>{message}</div>
+  )
+}
+
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
   const [ filter, setFilter ] = useState('')
+  const [ successMessage, setSuccessMessage ] = useState(null) 
 
   const fetchNotes = () => {
     personService
@@ -88,6 +98,12 @@ const App = () => {
           setPersons(persons.concat(returnedEntry))
           setNewName('')
           setNewPhone('')
+          setSuccessMessage(
+            `Added ${contactObject.name}`
+          )
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 5000)
         })
     }    
   }
@@ -103,9 +119,7 @@ const App = () => {
           setNewName('')
           setNewPhone('')
         })      
-    }
-
-    
+    } 
   }
   
   const contactsToShow = persons.filter(person => person.name.toLowerCase().includes(filter))
@@ -113,6 +127,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Alert message={successMessage} />
       <FilterInput text="filter shown with" change={handleContactFilter} />
       <h2>add a new</h2>
       <ContactInput submit={addContact} name={newName} phone={newPhone} nameChange={handleNameChange} phoneChange={handlePhoneChange} />
