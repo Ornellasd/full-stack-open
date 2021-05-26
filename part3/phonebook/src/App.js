@@ -87,7 +87,7 @@ const App = () => {
 
     const contactObject = {
       name: newName,
-      phone: newPhone,
+      number: newPhone,
       id: persons.length + 1
     }
 
