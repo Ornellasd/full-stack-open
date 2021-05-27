@@ -29,10 +29,6 @@ const Contact = ({ contact, deletePhonebookEntry }) => {
 }
 
 const Alert = ({ message, type }) => {
-  if(message === null) {
-    return null
-  }
-
   if(type === 'success') {
     return <div className='alert success'>{message}</div>
   } else {
@@ -45,7 +41,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newPhone, setNewPhone ] = useState('')
   const [ filter, setFilter ] = useState('')
-  const [ alertMessage, setAlertMessage ] = useState(null)
+  const [ alertMessages, setAlertMessages ] = useState([])
   const [ alertType, setAlertType ] = useState(['success', 'error'])
    
   const fetchNotes = () => {
@@ -102,11 +98,16 @@ const App = () => {
           setNewName('')
           setNewPhone('')
           setAlertType('success')
-          setAlertMessage(
-            `Added ${contactObject.name}`
-          )
+          setAlertMessages([`Added ${contactObject.name}`])
           setTimeout(() => {
-            setAlertMessage(null)
+            setAlertMessages([])
+          }, 5000)
+        })
+        .catch(error => {
+          setAlertType('error')
+          setAlertMessages(Object.values(error.response.data))
+          setTimeout(() => {
+            setAlertMessages([])
           }, 5000)
         })
     }    
@@ -125,10 +126,10 @@ const App = () => {
         })
         .catch(error => {
           setAlertType('error')
-          setAlertMessage(`Information of ${newName} has already been removed from the server`)
+          setAlertMessages([`Information of ${newName} has already been removed from the server`])
         })
         setTimeout(() => {
-          setAlertMessage(null)
+          setAlertMessages([])
         }, 5000)
     } 
   }
@@ -138,7 +139,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Alert message={alertMessage} type={alertType} />
+      {alertMessages.map(alert => 
+        <Alert message={alert} type={alertType} />
+      )}
       <FilterInput text="filter shown with" change={handleContactFilter} />
       <h2>add a new</h2>
       <ContactInput submit={addContact} name={newName} phone={newPhone} nameChange={handleNameChange} phoneChange={handlePhoneChange} />
