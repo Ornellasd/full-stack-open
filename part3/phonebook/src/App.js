@@ -80,6 +80,12 @@ const App = () => {
     }, 5000)    
   }
 
+  const handlePhonebookEntries = persons => {
+    setPersons(persons)
+    setNewName('')
+    setNewPhone('')
+  }
+
   const addContact = (event) => {
     event.preventDefault()
 
@@ -96,9 +102,7 @@ const App = () => {
       personService
         .create(contactObject)
         .then(returnedEntry => {
-          setPersons(persons.concat(returnedEntry))
-          setNewName('')
-          setNewPhone('')
+          handlePhonebookEntries(persons.concat(returnedEntry))
           handleAlerts('success', [`Added ${contactObject.name}`])
         })
         .catch(error => {
@@ -114,9 +118,7 @@ const App = () => {
       personService
         .update(entry.id, changedEntry)
         .then(returnedEntry => {
-          setPersons(persons.map(person => person.id !== entry.id ? person : returnedEntry ))
-          setNewName('')
-          setNewPhone('')
+          handlePhonebookEntries(persons.map(person => person.id !== entry.id ? person : returnedEntry))
         })
         .catch(error => {
           handleAlerts('error', [`Information of ${newName} has already been removed from the server`])
