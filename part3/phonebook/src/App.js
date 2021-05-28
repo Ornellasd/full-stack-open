@@ -42,7 +42,7 @@ const App = () => {
   const [ newPhone, setNewPhone ] = useState('')
   const [ filter, setFilter ] = useState('')
   const [ alertMessages, setAlertMessages ] = useState([])
-  const [ alertType, setAlertType ] = useState(['success', 'error'])
+  const [ alertType, setAlertType ] = useState('')
    
   const fetchNotes = () => {
     personService
@@ -78,6 +78,14 @@ const App = () => {
     setFilter(event.target.value.toLowerCase())
   }
 
+  const handleAlerts = (type, messages) => {
+    setAlertType(type)
+    setAlertMessages(messages)
+    setTimeout(() => {
+      setAlertMessages([])
+    }, 5000)    
+  }
+
   const addContact = (event) => {
     event.preventDefault()
 
@@ -97,18 +105,10 @@ const App = () => {
           setPersons(persons.concat(returnedEntry))
           setNewName('')
           setNewPhone('')
-          setAlertType('success')
-          setAlertMessages([`Added ${contactObject.name}`])
-          setTimeout(() => {
-            setAlertMessages([])
-          }, 5000)
+          handleAlerts('success', [`Added ${contactObject.name}`])
         })
         .catch(error => {
-          setAlertType('error')
-          setAlertMessages(Object.values(error.response.data))
-          setTimeout(() => {
-            setAlertMessages([])
-          }, 5000)
+          handleAlerts('error', Object.values(error.response.data))
         })
     }    
   }
@@ -125,12 +125,8 @@ const App = () => {
           setNewPhone('')
         })
         .catch(error => {
-          setAlertType('error')
-          setAlertMessages([`Information of ${newName} has already been removed from the server`])
+          handleAlerts('error', [`Information of ${newName} has already been removed from the server`])
         })
-        setTimeout(() => {
-          setAlertMessages([])
-        }, 5000)
     } 
   }
   
