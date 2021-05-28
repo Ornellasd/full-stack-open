@@ -118,13 +118,7 @@ const App = () => {
       personService
         .update(entry.id, changedEntry)
         .then(returnedEntry => {
-          // not sure why this doesn't get caught in .catch statement
-          if(returnedEntry === null) {
-            handleAlerts('error', [`Information of ${newName} has already been removed from the server`])
-          /////////////////
-          } else {
-            handlePhonebookEntries(persons.map(person => person.id !== entry.id ? person : returnedEntry))
-          }
+          handlePhonebookEntries(persons.map(person => person.id !== entry.id ? person : returnedEntry))
         })
         .catch(error => {
           handleAlerts('error', Object.values(error.response.data))
