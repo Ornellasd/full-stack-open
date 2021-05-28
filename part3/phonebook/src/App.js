@@ -28,13 +28,7 @@ const Contact = ({ contact, deletePhonebookEntry }) => {
   )
 }
 
-const Alert = ({ message, type }) => {
-  if(type === 'success') {
-    return <div className='alert success'>{message}</div>
-  } else {
-    return <div className='alert error'>{message}</div>
-  }
-}
+const Alert = ({ message, type }) => <div className={"alert " + (type === 'success' ? 'success' : 'error')} >{message}</div>
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
