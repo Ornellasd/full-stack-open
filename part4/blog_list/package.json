@@ -9,13 +9,18 @@
   "name": "blog_list",
   "version": "0.0.1",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^27.0.3"
+  },
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose"
   },
   "author": "David Ornellas",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "jest": {
+    "testEnvironment": "node"
+  }
 }
