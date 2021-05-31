@@ -1,15 +1,14 @@
+const config = require('./utils/config')
 const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
 const mongoose = require('mongoose')
 const blogRouter = require('./controllers/blog')
-require('dotenv').config()
 
 const Blog = require('./models/blog')
 
-const mongoUrl = process.env.MONGODB_URI
-mongoose.connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
   .then(() => {
     console.log('connected to MongoDB')
   })
