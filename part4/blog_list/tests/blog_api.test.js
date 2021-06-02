@@ -48,6 +48,18 @@ test('likes is zero if missing', async () => {
   expect(test.body.likes).toBe(0)  
 })
 
+test('verifies title and url properties exist', async () => {
+  const newBlog = {
+    url: 'www.ornell.as',
+    likes: 420696964
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })

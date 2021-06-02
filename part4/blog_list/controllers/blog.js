@@ -9,10 +9,13 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
-  if(!blog.likes){
+  if(!blog.title && !blog.author) {
+    console.log('both missing')
+    return response.status(400).json({ error: 'title and author missing' })
+  } else if(!blog.likes) {
     blog.likes = 0
   }
-
+  
   const savedBlog = await blog.save()
   response.json(savedBlog)
 })
