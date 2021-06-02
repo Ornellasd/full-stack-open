@@ -35,6 +35,21 @@ test('HTTP post creates post', async () => {
   expect(newLength).toBe(initialLength + 1)
 })
 
+test('likes is zero if missing', async () => {
+  const newBlog = {
+    title: 'Change likes to zero test',
+    author: 'David O.',
+    url: 'www.ornell.as'
+  }
+
+  const test = await api
+    .post('/api/blogs')
+    .send(newBlog)
+  
+  expect(test.body.likes).toBe(0)
+  
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
