@@ -5,6 +5,10 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 
+beforeEach(async () => {
+  await Blog.deleteMany({})
+})
+
 test('all notes are returned', async () => {
   const response = await api.get('/api/blogs')
 
@@ -12,9 +16,19 @@ test('all notes are returned', async () => {
 })
 
 test('identifier is named "id"', async () => {
-  const response = await api.get('/api/blogs')
+
+  const newBlog = {
+    title: 'Post has id',
+    author: 'David O.',
+    url: 'www.ornell.as',
+    likes: 426
+  }
+
+  const test = await api
+    .post('/api/blogs')
+    .send(newBlog)
   
-  expect(response.body[0]._id).toBeDefined()
+  expect(test.body._id).toBeDefined()
 })
 
 test('HTTP post creates post', async () => {
@@ -22,7 +36,7 @@ test('HTTP post creates post', async () => {
     title: 'HTTP Post successfully creates blog post',
     author: 'David O.',
     url: 'www.ornell.as',
-    likes: 420
+    likes: 426
   }
 
   const test = await api
@@ -51,7 +65,7 @@ test('likes is zero if missing', async () => {
 test('verifies title and url properties exist', async () => {
   const newBlog = {
     url: 'www.ornell.as',
-    likes: 420696964
+    likes: 426
   }
 
   await api
