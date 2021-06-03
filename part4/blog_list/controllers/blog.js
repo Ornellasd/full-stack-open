@@ -8,9 +8,6 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
-
-  console.log(blog, 'sheeeeeeeeeeit')
-
   if(!blog.title && !blog.author) {
     return response.status(400).json({ error: 'title and author missing' })
   } else if(!blog.likes) {
@@ -21,14 +18,19 @@ blogRouter.post('/', async (request, response) => {
   response.json(savedBlog)
 })
 
-blogRouter.get('/:id', async (request, response, next) => {
+blogRouter.get('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id)
-  response.json(blog.toJSON())
+  response.json(blog)
 })
 
-blogRouter.delete('/:id', async (request, response, next) => {
+blogRouter.delete('/:id', async (request, response) => {
   await Blog.findByIdAndRemove(request.params.id)
   response.status(204).end()
+})
+
+blogRouter.put('/:id', async (request, response) => {
+  const blog = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
+  response.json(blog)
 })
 
 module.exports = blogRouter
