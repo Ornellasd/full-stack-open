@@ -9,10 +9,10 @@ const Blog = require('../models/blog')
 beforeEach(async () => {
   await Blog.deleteMany({})
 
-  helper.initialBlogs.forEach(async (blog) => {
-    let blogObject = new Blog(blog)
-    await blogObject.save()
-  })
+  const blogObjects = helper.initialBlogs
+    .map(blog => new Blog(blog))
+  const promiseArray = blogObjects.map(blog => blog.save())
+  await Promise.all(promiseArray)
 })
 
 test('all notes are returned', async () => {
@@ -79,6 +79,16 @@ test('verifies title and url properties exist', async () => {
     .send(newBlog)
     .expect(400)
 })
+
+test('test that delete request actually deletes blog post', async () => {
+  const initialPosts = await api.get('/api/blogs')
+
+  await Blog.findOneAndDelete(initialPosts.body[0]._id)
+
+  const updatedPosts = await api.get('/api/blogs')
+  expect(updatedPosts.body).not.toContain(initialPosts.body[0])
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
