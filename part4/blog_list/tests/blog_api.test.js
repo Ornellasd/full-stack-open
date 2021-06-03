@@ -93,12 +93,12 @@ test('a blog can be deleted', async () => {
   expect(blogsAtEnd).toHaveLength(
     helper.initialBlogs.length - 1
   )
-
-  console.log(blogsAtEnd)
 })
+
 test('test that put request updates blog post', async () => {
-  const initialPosts = await api.get('/api/blogs')
-  const targetedElement = initialPosts.body[0]._id
+  const blogsAtStart = await helper.blogsInDb()
+  
+  const targetedElement = blogsAtStart[0]._id
   const updatedBlog = {
      title: 'Lorem ipsum dolor sit amet.',
       author: 'David Ornellas',
@@ -110,9 +110,9 @@ test('test that put request updates blog post', async () => {
     .put(`/api/blogs/${targetedElement}`)
     .send(updatedBlog)
   
-  const updatedPosts = await api.get('/api/blogs')
+  const blogsAtEnd = await helper.blogsInDb()
 
-  expect(updatedPosts.body[0].author).toBe('David Ornellas')
+  expect(blogsAtEnd[0].author).toBe('David Ornellas')
 })
 
 afterAll(() => {
