@@ -80,15 +80,22 @@ test('verifies title and url properties exist', async () => {
     .expect(400)
 })
 
-test('test that delete request actually deletes blog post', async () => {
-  const initialPosts = await api.get('/api/blogs')
+test('a blog can be deleted', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
 
-  await Blog.findOneAndDelete(initialPosts.body[0]._id)
+  await api
+    .delete(`/api/blogs/${blogToDelete._id}`)
+    .expect(204)
 
-  const updatedPosts = await api.get('/api/blogs')
-  expect(updatedPosts.body).not.toContain(initialPosts.body[0])
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(
+    helper.initialBlogs.length - 1
+  )
+
+  console.log(blogsAtEnd)
 })
-
 test('test that put request updates blog post', async () => {
   const initialPosts = await api.get('/api/blogs')
   const targetedElement = initialPosts.body[0]._id
@@ -104,7 +111,7 @@ test('test that put request updates blog post', async () => {
     .send(updatedBlog)
   
   const updatedPosts = await api.get('/api/blogs')
-  
+
   expect(updatedPosts.body[0].author).toBe('David Ornellas')
 })
 
