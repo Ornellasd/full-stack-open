@@ -9,6 +9,8 @@ blogRouter.get('/', async (request, response) => {
 blogRouter.post('/', async (request, response) => {
   const blog = new Blog(request.body)
 
+  console.log(blog, 'sheeeeeeeeeeit')
+
   if(!blog.title && !blog.author) {
     return response.status(400).json({ error: 'title and author missing' })
   } else if(!blog.likes) {
@@ -22,6 +24,11 @@ blogRouter.post('/', async (request, response) => {
 blogRouter.get('/:id', async (request, response, next) => {
   const blog = await Blog.findById(request.params.id)
   response.json(blog.toJSON())
+})
+
+blogRouter.delete('/:id', async (request, response, next) => {
+  await Blog.findByIdAndRemove(request.params.id)
+  response.status(204).end()
 })
 
 module.exports = blogRouter
