@@ -89,6 +89,24 @@ test('test that delete request actually deletes blog post', async () => {
   expect(updatedPosts.body).not.toContain(initialPosts.body[0])
 })
 
+test('test that put request updates blog post', async () => {
+  const initialPosts = await api.get('/api/blogs')
+  const targetedElement = initialPosts.body[0]._id
+  const updatedBlog = {
+     title: 'Lorem ipsum dolor sit amet.',
+      author: 'David Ornellas',
+      url: 'www.ornell.as',
+      likes: 12
+  }
+
+  const test = await api
+    .put(`/api/blogs/${targetedElement}`)
+    .send(updatedBlog)
+  
+  const updatedPosts = await api.get('/api/blogs')
+  
+  expect(updatedPosts.body[0].author).toBe('David Ornellas')
+})
 
 afterAll(() => {
   mongoose.connection.close()
