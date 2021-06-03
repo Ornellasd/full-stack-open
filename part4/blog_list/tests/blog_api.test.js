@@ -16,9 +16,9 @@ beforeEach(async () => {
 })
 
 test('all notes are returned', async () => {
-  const response = await api.get('/api/blogs')
+  const response = await helper.blogsInDb()
 
-  expect(response.body).toHaveLength(response.body.length)
+  expect(response).toHaveLength(helper.initialBlogs.length)
 })
 
 test('identifier is named "id"', async () => {
