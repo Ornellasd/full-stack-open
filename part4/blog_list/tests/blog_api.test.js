@@ -49,9 +49,10 @@ test('HTTP post creates post', async () => {
     .post('/api/blogs')
     .send(newBlog)
   
-  const blogList = await api.get('/api/blogs')
+  const blogsAtEnd = await helper.blogsInDb()
+  const blogToView = JSON.parse(JSON.stringify(blogsAtEnd[2]))
 
-  expect(test.body).toEqual(blogList.body.slice(-1)[0])    
+  expect(blogToView._id).toBe(test.body._id)
 })
 
 test('likes is zero if missing', async () => {
