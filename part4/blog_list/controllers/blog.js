@@ -1,5 +1,6 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({})
@@ -7,12 +8,22 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.post('/', async (request, response) => {
-  const blog = new Blog(request.body)
-  if(!blog.title && !blog.author) {
+  const body = request.body
+  const user = await User.find({})
+
+  if(!body.title && !body.author) {
     return response.status(400).json({ error: 'title and author missing' })
-  } else if(!blog.likes) {
-    blog.likes = 0
+  } else if(!body.likes) {
+    body.likes = 0
   }
+
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+    user: user[0]._id
+  })
   
   const savedBlog = await blog.save()
   response.json(savedBlog)

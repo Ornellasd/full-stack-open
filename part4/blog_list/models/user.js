@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
     minLength: 3
   },
   name: String,
-  passwordHash: String
+  passwordHash: String,
 })
 
 userSchema.plugin(uniqueValidator)
