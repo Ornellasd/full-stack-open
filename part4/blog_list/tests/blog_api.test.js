@@ -116,6 +116,31 @@ test('test that put request updates blog post', async () => {
   expect(blogsAtEnd[0].author).toBe('David Ornellas')
 })
 
+test('username required', async () => {
+  const user = {
+    name: 'Hank Hill',
+    password: 'propane'
+  }
+
+  await api
+    .post('/api/users')
+    .send(user)
+    .expect(400)
+})
+
+test('password cannot be under 3 characters', async () => {
+  const user = {
+    name: 'Hank Hill',
+    password: 'a'
+  }
+
+  await api
+    .post('/api/users')
+    .send(user)
+    .expect(400)
+})
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
