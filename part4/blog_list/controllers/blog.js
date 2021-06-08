@@ -55,13 +55,21 @@ blogRouter.delete('/:id', middleware.userExtractor, async (request, response) =>
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
   } else {
-    return response.status(401).json({ error: `blog not owned by ${request.user.username}`})
+    return response.status(401).json({ error: `blog not owned by ${request.user.username}` })
   }
 })
 
-blogRouter.put('/:id', async (request, response) => {
-  const blog = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
-  response.json(blog)
+blogRouter.put('/:id', middleware.userExtractor, async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+
+  if(!request.token || !request.user) {
+    return response.status(401).json({ error: 'token missing or invalid' })
+  } else if(blog.user.toString() === request.user._id.toString()) {
+    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
+    response.json(updatedBlog)
+  } else {
+    return response.status(401).json({ error: `blog not owned by ${request.user.username}` })
+  }
 })
 
 module.exports = blogRouter
