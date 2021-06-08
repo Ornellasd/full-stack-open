@@ -5,6 +5,16 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
+
+beforeAll(async () => {
+  await User.deleteMany({})
+
+  const user = await api
+    .post('/api/users')
+    .send(helper.initialUser)
+  
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
@@ -21,8 +31,18 @@ test('all notes are returned', async () => {
   expect(response).toHaveLength(helper.initialBlogs.length)
 })
 
-test('identifier is named "id"', async () => {
+test('identifier is named id', async () => {
+  // Log in user before continuing - possibly put this in test helper
+  const user = {
+    username: helper.initialUser.username,
+    password: helper.initialUser.password
+  }
 
+  const login = await api
+    .post('/api/login')
+    .send(user)
+  //
+  
   const newBlog = {
     title: 'Post has id',
     author: 'David O.',
@@ -33,8 +53,9 @@ test('identifier is named "id"', async () => {
   const test = await api
     .post('/api/blogs')
     .send(newBlog)
+    .set({ Authorization: 'bearer ' + login.body.token })
   
-  expect(test.body._id).toBeDefined()
+  expect(test.body.id).toBeDefined()
 })
 
 test('HTTP post creates post', async () => {
