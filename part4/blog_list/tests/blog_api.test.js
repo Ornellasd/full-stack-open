@@ -16,7 +16,6 @@ beforeAll(async () => {
     .post('/api/users')
     .send(helper.initialUser)
   
-  //console.log(user.body)
   const login = await api
     .post('/api/login')
     .send({
@@ -106,20 +105,26 @@ test('verifies title and url properties exist', async () => {
 })
 
 test('a blog can be deleted', async () => {
-  const blogsAtStart = await helper.blogsInDb()
-  const blogToDelete = blogsAtStart[0]
-
+  await api
+    .post('/api/blogs')
+    .send({
+      title: 'Try to delete me',
+      author: 'David O.',
+      url: 'www.ornell.as',
+      likes: 426
+    })
+    .set({ Authorization: 'bearer ' + token })
+    
+  const blogsAtStart = await Blog.find({})
+  
   const test = await api
-    .delete(`/api/blogs/${blogToDelete._id}`)
+    .delete(`/api/blogs/${blogsAtStart[2].id}`)
     .set({ Authorization: 'bearer ' + token }) 
     .expect(204)
-  // post needs to be owned by test user!
-  console.log(test.body, 'test.body?')
-  const blogsAtEnd = await helper.blogsInDb()
-
-  expect(blogsAtEnd).toHaveLength(
-    helper.initialBlogs.length - 1
-  )
+  
+  const blogsAtEnd = await Blog.find({})
+  
+  expect(blogsAtEnd).toHaveLength(blogsAtStart.length - 1)
 })
 
 test('test that put request updates blog post', async () => {
