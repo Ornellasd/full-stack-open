@@ -12,12 +12,13 @@ blogRouter.get('/', async (request, response) => {
 
 blogRouter.post('/', async (request, response) => {
   const body = request.body
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-  if(!request.token || !decodedToken.id) {
+  if(!request.token || !request.user) {
     return response.status(401).json({ error: 'token missing or invalid' })
   }
-  const user = await User.findById(decodedToken.id)
+
+  const user = await User.findById(request.user._id)
+
   if(!body.title && !body.author) {
     return response.status(400).json({ error: 'title and author missing' })
   } else if(!body.likes) {
@@ -31,7 +32,7 @@ blogRouter.post('/', async (request, response) => {
     likes: body.likes,
     user: user._id
   })
-  
+
   const savedBlog = await blog.save()
   user.blogs = user.blogs.concat(savedBlog._id)
   await user.save()
