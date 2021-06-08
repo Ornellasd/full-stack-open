@@ -2,6 +2,7 @@ const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
+const middleware = require('../utils/middleware')
 
 blogRouter.get('/', async (request, response) => {
   const blogs = await Blog
@@ -10,7 +11,7 @@ blogRouter.get('/', async (request, response) => {
   response.json(blogs)
 })
 
-blogRouter.post('/', async (request, response) => {
+blogRouter.post('/', middleware.userExtractor, async (request, response) => {
   const body = request.body
 
   if(!request.token || !request.user) {
@@ -45,21 +46,16 @@ blogRouter.get('/:id', async (request, response) => {
   response.json(blog)
 })
 
-blogRouter.delete('/:id', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+blogRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
 
-  console.log(request.user, 'request.user from controller')
-
-  console.log(decodedToken, 'decodedToken from controller')
-  
-  if(!request.token || !decodedToken.id) {
+  if(!request.token || !request.user) {
     return response.status(401).json({ error: 'token missing or invalid' })
-  } else if(blog.user.toString() === decodedToken.id) {
+  } else if(blog.user.toString() === request.user._id.toString()) {
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
   } else {
-    return response.status(401).json({ error: `blog not owned by ${decodedToken.username}`})
+    return response.status(401).json({ error: `blog not owned by ${request.user.username}`})
   }
 })
 
