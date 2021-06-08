@@ -7,6 +7,8 @@ const api = supertest(app)
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
+let token
+
 beforeAll(async () => {
   await User.deleteMany({})
 
@@ -14,6 +16,15 @@ beforeAll(async () => {
     .post('/api/users')
     .send(helper.initialUser)
   
+  //console.log(user.body)
+  const login = await api
+    .post('/api/login')
+    .send({
+      username: helper.initialUser.username,
+      password: helper.initialUser.password
+    })
+
+  token = login.body.token
 })
 
 beforeEach(async () => {
@@ -32,17 +43,6 @@ test('all notes are returned', async () => {
 })
 
 test('identifier is named id', async () => {
-  // Log in user before continuing - possibly put this in test helper
-  const user = {
-    username: helper.initialUser.username,
-    password: helper.initialUser.password
-  }
-
-  const login = await api
-    .post('/api/login')
-    .send(user)
-  //
-  
   const newBlog = {
     title: 'Post has id',
     author: 'David O.',
@@ -53,7 +53,7 @@ test('identifier is named id', async () => {
   const test = await api
     .post('/api/blogs')
     .send(newBlog)
-    .set({ Authorization: 'bearer ' + login.body.token })
+    .set({ Authorization: 'bearer ' + token })
   
   expect(test.body.id).toBeDefined()
 })
@@ -69,6 +69,7 @@ test('HTTP post creates post', async () => {
   const test = await api
     .post('/api/blogs')
     .send(newBlog)
+    .set({ Authorization: 'bearer ' + token })
   
   const blogsAtEnd = await helper.blogsInDb()
   const blogToView = JSON.parse(JSON.stringify(blogsAtEnd[2]))
@@ -86,6 +87,7 @@ test('likes is zero if missing', async () => {
   const test = await api
     .post('/api/blogs')
     .send(newBlog)
+    .set({ Authorization: 'bearer ' + token })
   
   expect(test.body.likes).toBe(0)  
 })
@@ -99,6 +101,7 @@ test('verifies title and url properties exist', async () => {
   await api
     .post('/api/blogs')
     .send(newBlog)
+    .set({ Authorization: 'bearer ' + token })
     .expect(400)
 })
 
@@ -106,10 +109,12 @@ test('a blog can be deleted', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
 
-  await api
+  const test = await api
     .delete(`/api/blogs/${blogToDelete._id}`)
+    .set({ Authorization: 'bearer ' + token }) 
     .expect(204)
-
+  // post needs to be owned by test user!
+  console.log(test.body, 'test.body?')
   const blogsAtEnd = await helper.blogsInDb()
 
   expect(blogsAtEnd).toHaveLength(
