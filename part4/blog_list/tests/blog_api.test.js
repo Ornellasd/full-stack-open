@@ -128,9 +128,19 @@ test('a blog can be deleted', async () => {
 })
 
 test('test that put request updates blog post', async () => {
+  await api
+    .post('/api/blogs')
+    .send({
+      title: 'Try to update me',
+      author: 'David O.',
+      url: 'www.ornell.as',
+      likes: 426
+    })
+    .set({ Authorization: 'bearer ' + token })
+
   const blogsAtStart = await helper.blogsInDb()
-  
-  const targetedElement = blogsAtStart[0]._id
+  const targetedElement = blogsAtStart[2].id
+
   const updatedBlog = {
      title: 'Lorem ipsum dolor sit amet.',
       author: 'David Ornellas',
@@ -141,10 +151,11 @@ test('test that put request updates blog post', async () => {
   const test = await api
     .put(`/api/blogs/${targetedElement}`)
     .send(updatedBlog)
+    .set({ Authorization: 'bearer ' + token })
   
   const blogsAtEnd = await helper.blogsInDb()
 
-  expect(blogsAtEnd[0].author).toBe('David Ornellas')
+  expect(blogsAtEnd[2].author).toBe('David Ornellas')
 })
 
 test('username required', async () => {
