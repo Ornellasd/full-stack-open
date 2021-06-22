@@ -14,6 +14,4 @@ const store = createStore(
   composeWithDevTools()
 )
 
-console.log(store.getState())
-
 export default store
