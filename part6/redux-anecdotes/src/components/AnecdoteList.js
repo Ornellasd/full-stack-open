@@ -10,9 +10,9 @@ const AnecdoteList = () => {
   const anecdotesToShow = anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter))
   const dispatch = useDispatch()
   
-  const vote = (id, content) => {
-    dispatch(upvote(id))
-    dispatch(setNotification(`you voted "${content}"`))
+  const vote = (anecdote) => {
+    dispatch(upvote(anecdote))
+    dispatch(setNotification(`you voted "${anecdote.content}"`))
     setTimeout(() => {
       dispatch(clearNotification())
     }, 5000)
@@ -29,7 +29,7 @@ const AnecdoteList = () => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
       )}
