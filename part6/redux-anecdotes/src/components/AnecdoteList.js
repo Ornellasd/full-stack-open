@@ -7,9 +7,7 @@ import Filter from '../components/Filter'
 const AnecdoteList = () => {
   const anecdotes = useSelector(state => state.anecdotes)
   const filter = useSelector(state => state.filter)
-
   const anecdotesToShow = anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter))
-
   const dispatch = useDispatch()
   
   const vote = (id, content) => {

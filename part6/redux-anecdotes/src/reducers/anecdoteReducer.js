@@ -1,5 +1,3 @@
-const getId = () => (100000 * Math.random()).toFixed(0)
-
 const order = (a, b) => {
   return b.votes - a.votes
 }
@@ -7,7 +5,7 @@ const order = (a, b) => {
 const anecdoteReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_ANECDOTE':
-      return state.concat(action.data)
+      return [...state, action.data]
     case 'INIT_ANECDOTES':
       return action.data
     case 'UPVOTE': {
@@ -36,11 +34,7 @@ export const upvote = (id) => {
 export const createAnecdote = (content) => {
   return {
     type: 'NEW_ANECDOTE',
-    data: {
-      content,
-      votes: 0,
-      id: getId()
-    }
+    data: content
   }
 }
 
