@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route, Link, useParams, useRouteMatch
 } from 'react-router-dom'
 
 
@@ -9,8 +9,13 @@ const Menu = ({ anecdotes, addNew }) => {
   const padding = {
     paddingRight: 5
   }
+
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match
+    ? anecdotes.find(anecdote => anecdote.id === match.params.id)
+    : null
+
   return (
-    <Router>
       <div>
         <Link style={padding} to="/">anecdotes</Link>
         <Link style={padding} to="/create">create</Link>
@@ -24,22 +29,17 @@ const Menu = ({ anecdotes, addNew }) => {
             <CreateNew addNew={addNew} />
           </Route>
           <Route path="/anecdotes/:id">
-            <Anecdote anecdotes={anecdotes} />
+            <Anecdote anecdote={anecdote} />
           </Route>
           <Route path="/">
             <AnecdoteList anecdotes={anecdotes} />     
           </Route>
         </Switch>
-      </div>
-    </Router>
-    
+      </div>    
   )
 }
 
-const Anecdote = ({ anecdotes }) => {
-  const id = useParams().id
-  const anecdote = anecdotes.find(anecdote => anecdote.id === id)
-
+const Anecdote = ({ anecdote }) => {
   return (
     <div>
       <h2>{anecdote.content}</h2>
