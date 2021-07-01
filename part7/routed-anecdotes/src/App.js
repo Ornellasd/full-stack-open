@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {
-  Switch, Route, Link, useParams, useRouteMatch
+  Switch, Route, Link, useRouteMatch, Redirect
 } from 'react-router-dom'
 
 
@@ -101,6 +101,10 @@ const CreateNew = (props) => {
 
 }
 
+const Notification = ({ message }) => {
+  return <p>{message}</p>
+}
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -119,7 +123,7 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
 
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
@@ -148,12 +152,15 @@ const App = () => {
 
   return (
     <div>
+      <h1>Software anecdotes</h1>
+      <Menu anecdotes={anecdotes} addNew={addNew}/>
+      <Notification message={notification} />
       <Switch>
         <Route path="/about">
           <About />
         </Route>
         <Route path="/create">
-          <CreateNew addNew={addNew} />
+          {!notification ? <CreateNew addNew={addNew} /> : <Redirect to="/" />}
         </Route>
         <Route path="/anecdotes/:id">
           <Anecdote anecdote={anecdote} />
@@ -162,9 +169,6 @@ const App = () => {
           <AnecdoteList anecdotes={anecdotes} />     
         </Route>
       </Switch>
-
-      <h1>Software anecdotes</h1>
-      <Menu anecdotes={anecdotes} addNew={addNew}/>
       <Footer />
     </div>
   )
