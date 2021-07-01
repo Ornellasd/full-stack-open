@@ -101,10 +101,6 @@ const CreateNew = (props) => {
 
 }
 
-const Notification = ({ message }) => {
-  return <p>{message}</p>
-}
-
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -150,11 +146,15 @@ const App = () => {
     ? anecdotes.find(anecdote => anecdote.id === match.params.id)
     : null
 
+  if(notification) {
+    setTimeout(() => setNotification(null), 10000)
+  }
+
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu anecdotes={anecdotes} addNew={addNew}/>
-      <Notification message={notification} />
+      <p>{notification}</p>
       <Switch>
         <Route path="/about">
           <About />
