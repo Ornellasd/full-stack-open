@@ -22,9 +22,6 @@ const App = () => {
 
   const [user, setUser] = useState(null)
 
-  const [alertMessages, setAlertMessages] = useState([])
-  const [alertType, setAlertType] = useState('')
-
   const blogFormRef = useRef()
 
   const sortBlogs = async () => {
@@ -59,7 +56,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(exception) {
-      handleAlerts(['Wrong username or password'], 'error')
+      dispatch(setAlerts(['Wrong username or password'], 'error', 5))
     }
   }
 
@@ -75,23 +72,12 @@ const App = () => {
     try{
       const newBlog = await blogService.create(blogObject)
       sortBlogs()
-      handleAlerts([`${newBlog.title} added`], 'success')
+      dispatch(setAlerts([`${newBlog.title} added`], 'success', 5))
     } catch(e) {
-      handleAlerts(Object.values(e.response.data), 'error')
+      dispatch(setAlerts(Object.values(e.response.data), 'error', 5))
     }
   }
 
-  const handleAlerts = (alertsArr, type) => {
-    dispatch(setAlerts(alertsArr, type))
-
-    setAlertMessages(alertsArr)
-    setAlertType(type)
-    setTimeout(() => {
-      setAlertMessages([])
-    }, 5000)
-  }
-
-  console.log(alerts)
   const blogForm = () => {
     return (
       <div>
@@ -106,8 +92,8 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        {alertMessages.map((alert, index) =>
-          <Alert message={alert} type={alertType} key={index} />
+        {(alerts.content) && alerts.content.map((alert, index) =>
+          <Alert message={alert} type={alerts.type} key={index} />
         )}
         <LoginForm
           username={username}
@@ -128,10 +114,7 @@ const App = () => {
       )}
 
       <h2>blogs</h2>
-      {alertMessages.map((alert, index) =>
-        <Alert message={alert} type={alertType} key={index} />
-      )}
-
+     
       {user.name} logged in <button onClick={handleLogout}>logout</button>
       {blogForm()}
       {blogs.map(blog =>
