@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAlerts } from './reducers/alertReducer'
+import { initializeBlogs } from './reducers/blogReducer' 
+
 import Alert from './components/Alert'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
@@ -11,9 +13,8 @@ import loginService from './services/login'
 
 const App = () => {
   const dispatch = useDispatch()
-  const alerts = useSelector(state => state.alerts)
 
-  const [blogs, setBlogs] = useState([])
+  const alerts = useSelector(state => state.alerts)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -22,12 +23,11 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  const sortBlogs = async () => {
-    const blogs = await blogService.getAll()
-    setBlogs( blogs.sort((a,b) => b.likes - a.likes) )
-  }
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
-  useEffect(sortBlogs, [])
+  const blogs = useSelector(state => state.blogs)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
@@ -69,7 +69,6 @@ const App = () => {
 
     try{
       const newBlog = await blogService.create(blogObject)
-      sortBlogs()
       dispatch(setAlerts([`${newBlog.title} added`], 'success', 5))
     } catch(e) {
       dispatch(setAlerts(Object.values(e.response.data), 'error', 5))
@@ -103,23 +102,22 @@ const App = () => {
       </div>
     )
   }
-
+  console.log(blogs)
   return (
     <div>
       {(alerts.content) && alerts.content.map((alert, index) =>
         <Alert message={alert} type={alerts.type} key={index} />
       )}
-
       <h2>blogs</h2>
      
       {user.name} logged in <button onClick={handleLogout}>logout</button>
       {blogForm()}
+      
       {blogs.map(blog =>
         <Blog
           key={blog.id}
           blog={blog}
           user={user}
-          handleSort={() => sortBlogs()}
         />
       )}
     </div>

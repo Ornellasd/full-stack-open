@@ -11,16 +11,6 @@ const alertReducer = (state = [], action) => {
   }
 }
 
-// export const setAlerts = (content, type) => {
-//   return {
-//     type: 'SET_ALERTS',
-//     data: { 
-//       content,
-//       type
-//     }
-//   }
-// }
-
 export const setAlerts = (content, type, time) => {
   if(timeout) {
     clearTimeout(timeout)
