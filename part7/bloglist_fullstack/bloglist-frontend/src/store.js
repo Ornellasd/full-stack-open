@@ -3,13 +3,12 @@ import thunk from 'redux-thunk'
 
 import alertReducer from './reducers/alertReducer'
 
-// const reducer = combineReducers({
-//   notes: noteReducer,
-//   filter: filterReducer,
-// })
+const reducer = combineReducers({
+  alerts: alertReducer
+})
 
 const store = createStore(
-  alertReducer,
+  reducer,
   applyMiddleware(thunk)
 )
 

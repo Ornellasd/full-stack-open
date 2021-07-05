@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAlerts } from './reducers/alertReducer'
+import Alert from './components/Alert'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
@@ -8,12 +9,9 @@ import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-
-const Alert = ({ message, type }) => <div className={'alert ' + (type === 'success' ? 'success' : 'error')} >{message}</div>
-
 const App = () => {
   const dispatch = useDispatch()
-  const alerts = useSelector(state => state)
+  const alerts = useSelector(state => state.alerts)
 
   const [blogs, setBlogs] = useState([])
 
@@ -105,7 +103,6 @@ const App = () => {
       </div>
     )
   }
-
 
   return (
     <div>
