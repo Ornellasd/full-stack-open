@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog, user, handleSort }) => {
+const Blog = ({ blog, user }) => {
   const [detailsVisible, setDetailsVisible] = useState(false)
   const [likes, setBlogLikes] = useState(blog.likes)
 
@@ -24,7 +24,6 @@ const Blog = ({ blog, user, handleSort }) => {
       .update(blog.id, changedBlog)
       .then(returnedBlog => {
         setBlogLikes(returnedBlog.likes)
-        handleSort()
       })
       .catch(error => {
         console.log(error)
@@ -34,7 +33,6 @@ const Blog = ({ blog, user, handleSort }) => {
   const deleteBlog = async () => {
     if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
       await blogService.deleteBlog(blog.id)
-      await handleSort()
     }
   }
 

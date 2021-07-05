@@ -17,7 +17,7 @@ export const initializeBlogs = () => {
 
     dispatch({
       type: 'INIT_BLOGS',
-      data: blogs,
+      data: blogs.sort((a,b) => b.likes - a.likes),
     })
   }
 }
