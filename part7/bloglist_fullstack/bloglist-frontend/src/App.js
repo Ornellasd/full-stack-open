@@ -82,9 +82,7 @@ const App = () => {
   }
 
   const handleAlerts = (alertsArr, type) => {
-    alertsArr.forEach(alert => {
-      dispatch(setAlerts(alert))
-    })
+    dispatch(setAlerts(alertsArr, type))
 
     setAlertMessages(alertsArr)
     setAlertType(type)
@@ -93,6 +91,7 @@ const App = () => {
     }, 5000)
   }
 
+  console.log(alerts)
   const blogForm = () => {
     return (
       <div>
@@ -121,12 +120,12 @@ const App = () => {
     )
   }
 
+
   return (
     <div>
-      {alerts.map((alert) =>
-        <Alert message={alert.content} type={alertType} />
+      {(alerts.content) && alerts.content.map((alert, index) =>
+        <Alert message={alert} type={alerts.type} key={index} />
       )}
-
 
       <h2>blogs</h2>
       {alertMessages.map((alert, index) =>
