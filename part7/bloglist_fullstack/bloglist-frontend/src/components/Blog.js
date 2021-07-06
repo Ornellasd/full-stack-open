@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
-import { getBlogs } from '../reducers/blogReducer'
+import { getBlogs, upvote } from '../reducers/blogReducer'
 
 const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
@@ -22,16 +22,17 @@ const Blog = ({ blog, user }) => {
   }
 
   const updateLikes = () => {
-    const changedBlog = { ...blog, likes: blog.likes += 1, user: blog.user.id }
+    // const changedBlog = { ...blog, likes: blog.likes += 1, user: blog.user.id }
 
-    blogService
-      .update(blog.id, changedBlog)
-      .then(returnedBlog => {
-        setBlogLikes(returnedBlog.likes)
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    // blogService
+    //   .update(blog.id, changedBlog)
+    //   .then(returnedBlog => {
+    //     setBlogLikes(returnedBlog.likes)
+    //   })
+    //   .catch(error => {
+    //     console.log(error)
+    //   })
+    dispatch(upvote(blog))
   }
 
   const deleteBlog = async () => {
