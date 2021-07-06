@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAlerts } from './reducers/alertReducer'
 import { initializeBlogs } from './reducers/blogReducer' 
+import { createBlog } from './reducers/blogReducer'
 
 import Alert from './components/Alert'
 import Blog from './components/Blog'
@@ -79,7 +80,7 @@ const App = () => {
     return (
       <div>
         <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-          <BlogForm createBlog={addBlog}  />
+          <BlogForm />
         </Togglable>
       </div>
     )
@@ -102,7 +103,7 @@ const App = () => {
       </div>
     )
   }
-  console.log(blogs)
+
   return (
     <div>
       {(alerts.content) && alerts.content.map((alert, index) =>

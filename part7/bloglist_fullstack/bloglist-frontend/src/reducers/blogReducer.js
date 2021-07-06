@@ -1,4 +1,5 @@
 import blogService from '../services/blogs'
+import { setAlerts } from '../reducers/alertReducer'
 
 const blogReducer = (state = [], action) => {
   switch(action.type) {
@@ -6,8 +7,25 @@ const blogReducer = (state = [], action) => {
       return [...state, action.data]
     case 'INIT_BLOGS':
       return action.data
+    case 'UPVOTE':
+      return state
     default:
       return state
+  }
+}
+
+export const createBlog = content => {
+  return async dispatch => {
+    try {
+      const newBlog = await blogService.create(content)
+      dispatch({
+        type: 'NEW_BLOG',
+        data: newBlog
+      })
+      dispatch(setAlerts([`${newBlog.title} added`], 'success', 5))
+    } catch(e) {
+      dispatch(setAlerts(Object.values(e.response.data), 'error', 5))
+    }
   }
 }
 

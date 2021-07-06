@@ -1,62 +1,38 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
 
-const BlogForm = ({ createBlog }) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+const BlogForm = () => {
+  const dispatch = useDispatch()
 
-  const addBlog = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault()
-
-    createBlog({
-      title,
-      author,
-      url
-    })
-
-    setTitle('')
-    setAuthor('')
-    setUrl('')
+  
+    const content = {
+      title: event.target.title.value,
+      author: event.target.author.value,
+      url: event.target.url.value
+    }
+    
+    dispatch(createBlog(content))
   }
 
   return (
-    <div>
-      <h2>create new</h2>
-
-      <form onSubmit={addBlog}>
-        <div>
-          title:
-          <input
-            id="title"
-            type="text"
-            value={title}
-            name="Title"
-            onChange={({ target }) => setTitle(target.value)}
-          />
-        </div>
-        <div>
-          author:
-          <input
-            id="author"
-            type="text"
-            value={author}
-            name="Author"
-            onChange={({ target }) => setAuthor(target.value)}
-          />
-        </div>
-        <div>
-          url:
-          <input
-            id="url"
-            type="text"
-            value={url}
-            name="URL"
-            onChange={({ target }) => setUrl(target.value)}
-          />
-        </div>
-        <button id="blog-submit" type="submit">create</button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <div>
+        title:
+        <input name="title" />
+      </div>
+      <div>
+        author:
+        <input name="author" />
+      </div>
+      <div>
+        url:
+        <input name="url" />
+      </div>
+      <button id="blog-submit" type="submit">create</button>
+    </form>
   )
 }
 
