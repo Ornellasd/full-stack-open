@@ -5,8 +5,8 @@ const blogReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_BLOG':
       return [...state, action.data]
-    case 'INIT_BLOGS':
-      return action.data
+    case 'SET_BLOGS':
+      return action.data.sort((a,b) => b.likes - a.likes)
     case 'UPVOTE':
       return state
     default:
@@ -29,13 +29,13 @@ export const createBlog = content => {
   }
 }
 
-export const initializeBlogs = () => {
+export const getBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
 
     dispatch({
-      type: 'INIT_BLOGS',
-      data: blogs.sort((a,b) => b.likes - a.likes),
+      type: 'SET_BLOGS',
+      data: blogs,
     })
   }
 }

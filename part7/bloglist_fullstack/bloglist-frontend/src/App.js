@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAlerts } from './reducers/alertReducer'
-import { initializeBlogs } from './reducers/blogReducer' 
+import { getBlogs } from './reducers/blogReducer' 
 
 import Alert from './components/Alert'
 import Blog from './components/Blog'
@@ -21,7 +21,7 @@ const App = () => {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    dispatch(initializeBlogs())
+    dispatch(getBlogs())
   }, [dispatch])
 
   const blogs = useSelector(state => state.blogs)

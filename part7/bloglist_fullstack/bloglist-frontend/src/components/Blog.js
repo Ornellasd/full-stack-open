@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import blogService from '../services/blogs'
+import { getBlogs } from '../reducers/blogReducer'
 
 const Blog = ({ blog, user }) => {
+  const dispatch = useDispatch()
+
   const [detailsVisible, setDetailsVisible] = useState(false)
   const [likes, setBlogLikes] = useState(blog.likes)
 
@@ -33,6 +37,7 @@ const Blog = ({ blog, user }) => {
   const deleteBlog = async () => {
     if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
       await blogService.deleteBlog(blog.id)
+      dispatch(getBlogs())
     }
   }
 
