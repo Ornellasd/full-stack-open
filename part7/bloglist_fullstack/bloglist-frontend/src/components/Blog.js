@@ -7,7 +7,6 @@ const Blog = ({ blog, user }) => {
   const dispatch = useDispatch()
 
   const [detailsVisible, setDetailsVisible] = useState(false)
-  const [likes, setBlogLikes] = useState(blog.likes)
 
   const blogStyle = {
     paddingTop: 10,
@@ -19,20 +18,6 @@ const Blog = ({ blog, user }) => {
 
   const toggleVisibility = () => {
     setDetailsVisible(!detailsVisible)
-  }
-
-  const updateLikes = () => {
-    // const changedBlog = { ...blog, likes: blog.likes += 1, user: blog.user.id }
-
-    // blogService
-    //   .update(blog.id, changedBlog)
-    //   .then(returnedBlog => {
-    //     setBlogLikes(returnedBlog.likes)
-    //   })
-    //   .catch(error => {
-    //     console.log(error)
-    //   })
-    dispatch(upvote(blog))
   }
 
   const deleteBlog = async () => {
@@ -54,7 +39,7 @@ const Blog = ({ blog, user }) => {
         <div style={blogStyle} className="expanded">
           <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>
           <p>{blog.url}</p>
-          <p>{likes} <button className="like-button" onClick={() => updateLikes()}>like</button></p>
+          <p>{blog.likes} <button className="like-button" onClick={() => dispatch(upvote(blog))}>like</button></p>
           <p>{blog.author}</p>
           {(user && user.username === blog.user.username) &&
             <button className="remove-button" onClick={() => deleteBlog()}>remove</button>
