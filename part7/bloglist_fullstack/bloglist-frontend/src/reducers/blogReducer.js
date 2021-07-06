@@ -23,6 +23,7 @@ export const createBlog = content => {
         data: newBlog
       })
       dispatch(setAlerts([`${newBlog.title} added`], 'success', 5))
+      dispatch(getBlogs())
     } catch(e) {
       dispatch(setAlerts(Object.values(e.response.data), 'error', 5))
     }
