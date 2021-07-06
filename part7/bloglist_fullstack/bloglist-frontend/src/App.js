@@ -1,14 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAlerts } from './reducers/alertReducer'
 import { initializeBlogs } from './reducers/blogReducer' 
-import { createBlog } from './reducers/blogReducer'
 
 import Alert from './components/Alert'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -21,8 +19,6 @@ const App = () => {
   const [password, setPassword] = useState('')
 
   const [user, setUser] = useState(null)
-
-  const blogFormRef = useRef()
 
   useEffect(() => {
     dispatch(initializeBlogs())
@@ -65,27 +61,6 @@ const App = () => {
     setUser(null)
   }
 
-  const addBlog = async (blogObject) => {
-    blogFormRef.current.toggleVisibility()
-
-    try{
-      const newBlog = await blogService.create(blogObject)
-      dispatch(setAlerts([`${newBlog.title} added`], 'success', 5))
-    } catch(e) {
-      dispatch(setAlerts(Object.values(e.response.data), 'error', 5))
-    }
-  }
-
-  const blogForm = () => {
-    return (
-      <div>
-        <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-          <BlogForm />
-        </Togglable>
-      </div>
-    )
-  }
-
   if(user === null) {
     return (
       <div>
@@ -112,7 +87,7 @@ const App = () => {
       <h2>blogs</h2>
      
       {user.name} logged in <button onClick={handleLogout}>logout</button>
-      {blogForm()}
+      <BlogForm />
       
       {blogs.map(blog =>
         <Blog

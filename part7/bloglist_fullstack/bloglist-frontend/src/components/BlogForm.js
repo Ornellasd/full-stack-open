@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 
+import Togglable from '../components/Togglable'
+
 const BlogForm = () => {
   const dispatch = useDispatch()
 
@@ -13,26 +15,28 @@ const BlogForm = () => {
       author: event.target.author.value,
       url: event.target.url.value
     }
-    
+
     dispatch(createBlog(content))
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        title:
-        <input name="title" />
-      </div>
-      <div>
-        author:
-        <input name="author" />
-      </div>
-      <div>
-        url:
-        <input name="url" />
-      </div>
-      <button id="blog-submit" type="submit">create</button>
-    </form>
+    <Togglable buttonLabel="create new blog yee">
+      <form onSubmit={handleSubmit}>
+        <div>
+          title:
+          <input name="title" />
+        </div>
+        <div>
+          author:
+          <input name="author" />
+        </div>
+        <div>
+          url:
+          <input name="url" />
+        </div>
+        <button id="blog-submit" type="submit">create</button>
+      </form>
+    </Togglable>
   )
 }
 
