@@ -1,44 +1,59 @@
-//import loginService from '../services/login'
 import loginService from '../services/login'
+import blogService from '../services/blogs'
 
+import { setAlerts } from './alertReducer'
 
-const loggedInUserJSON = JSON.parse(
-  window.localStorage.getItem('loggedInBloglistUser'),
-)
+const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
 
-const initialState = loggedInUserJSON ? loggedInUserJSON : null
+const initialState = loggedUserJSON ? loggedUserJSON : null
 
-const loginReducer = (state = initialState, action) => {
-  console.log('state now: ', state)
-  console.log('action', action)
-
-  switch (action.type) {
+const userReducer = (state = initialState, action) => {
+  switch(action.type) {
     case 'LOGIN':
       return action.data
-    case 'LOGOUT': {
+    case 'LOGOUT':
       return null
-    }
     default:
       return state
   }
 }
 
-export const login = (username, password) => {
-  return async (dispatch) => {
-    const user = await loginService.login({ username, password })
-    console.log({ user })
-    console.log('called')
-    dispatch({
-      type: 'LOGIN',
-      data: user,
-    })
+export const login = (credentials) => {
+  return async dispatch => {
+    try {
+      const user = await loginService.login(credentials)
+
+      blogService.setToken(user.token)
+      
+      dispatch({
+        type: 'LOGIN',
+        data: user
+      })
+
+    } catch(e) {
+      dispatch(setAlerts(['Wrong username or password'], 'error', 5))
+    }
   }
 }
 
-export const logout = () => {
-  return {
-    type: 'LOGOUT',
-  }
-}
+export default userReducer
 
-export default loginReducer
+  // const handleLogin = async (event) => {
+  //   event.preventDefault()
+  //   try {
+  //     const user = await loginService.login({
+  //       username, password
+  //     })
+
+  //     window.localStorage.setItem(
+  //       'loggedBloglistUser', JSON.stringify(user)
+  //     )
+
+  //     blogService.setToken(user.token)
+  //     setUser(user)
+  //     setUsername('')
+  //     setPassword('')
+  //   } catch(exception) {
+  //     dispatch(setAlerts(['Wrong username or password'], 'error', 5))
+  //   }
+  // }

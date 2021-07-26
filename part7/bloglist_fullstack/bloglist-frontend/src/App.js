@@ -21,52 +21,35 @@ const App = () => {
   // const [username, setUsername] = useState('')
   // const [password, setPassword] = useState('')
 
-  const [user, setUser] = useState(null)
+  //const [user, setUser] = useState(null)
 
   useEffect(() => {
     dispatch(getBlogs())
   }, [dispatch])
 
   const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.users)
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
       blogService.setToken(user.token)
+      console.log('useEffect login working!')
     }
   }, [])
 
-  // const handleLogin = async (event) => {
+
+
+  // const handleLogin = (event) => {
   //   event.preventDefault()
-  //   try {
-  //     const user = await loginService.login({
-  //       username, password
-  //     })
-
-  //     window.localStorage.setItem(
-  //       'loggedBloglistUser', JSON.stringify(user)
-  //     )
-
-  //     blogService.setToken(user.token)
-  //     setUser(user)
-  //     setUsername('')
-  //     setPassword('')
-  //   } catch(exception) {
-  //     dispatch(setAlerts(['Wrong username or password'], 'error', 5))
-  //   }
+  //   dispatch(login())
   // }
-
-  const handleLogin = (event) => {
-    event.preventDefault()
-    dispatch(login())
-  }
 
   const handleLogout = (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBloglistUser')
-    setUser(null)
+    //setUser(null)
   }
 
   // if(user === null) {
@@ -89,7 +72,7 @@ const App = () => {
 
   if(user === null) {
     return (
-      <Login />
+      <Login alerts={alerts} />
     )
   }
 
