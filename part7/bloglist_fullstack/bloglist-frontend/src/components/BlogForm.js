@@ -12,7 +12,7 @@ const BlogForm = () => {
     dispatch(getBlogs())
   }, [dispatch])
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault()
   
     const content = {

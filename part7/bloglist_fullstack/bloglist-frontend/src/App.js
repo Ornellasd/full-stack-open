@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+
 import { setAlerts } from './reducers/alertReducer'
 import { getBlogs } from './reducers/blogReducer' 
+import { login } from './reducers/userReducer'
 
 import Alert from './components/Alert'
 import Blog from './components/Blog'
-import LoginForm from './components/LoginForm'
+// import LoginForm from './components/LoginForm'
+import Login from './components/Login'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -15,8 +18,8 @@ const App = () => {
 
   const alerts = useSelector(state => state.alerts)
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  // const [username, setUsername] = useState('')
+  // const [password, setPassword] = useState('')
 
   const [user, setUser] = useState(null)
 
@@ -35,24 +38,29 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
+  // const handleLogin = async (event) => {
+  //   event.preventDefault()
+  //   try {
+  //     const user = await loginService.login({
+  //       username, password
+  //     })
+
+  //     window.localStorage.setItem(
+  //       'loggedBloglistUser', JSON.stringify(user)
+  //     )
+
+  //     blogService.setToken(user.token)
+  //     setUser(user)
+  //     setUsername('')
+  //     setPassword('')
+  //   } catch(exception) {
+  //     dispatch(setAlerts(['Wrong username or password'], 'error', 5))
+  //   }
+  // }
+
+  const handleLogin = (event) => {
     event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password
-      })
-
-      window.localStorage.setItem(
-        'loggedBloglistUser', JSON.stringify(user)
-      )
-
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch(exception) {
-      dispatch(setAlerts(['Wrong username or password'], 'error', 5))
-    }
+    dispatch(login())
   }
 
   const handleLogout = (event) => {
@@ -61,21 +69,27 @@ const App = () => {
     setUser(null)
   }
 
+  // if(user === null) {
+  //   return (
+  //     <div>
+  //       <h2>Log in to application</h2>
+  //       {(alerts.content) && alerts.content.map((alert, index) =>
+  //         <Alert message={alert} type={alerts.type} key={index} />
+  //       )}
+  //       <LoginForm
+  //         username={username}
+  //         password={password}
+  //         handleUsernameChange={({ target }) => setUsername(target.value)}
+  //         handlePasswordChange={({ target }) => setPassword(target.value)}
+  //         handleLogin={handleLogin}
+  //       />
+  //     </div>
+  //   )
+  // }
+
   if(user === null) {
     return (
-      <div>
-        <h2>Log in to application</h2>
-        {(alerts.content) && alerts.content.map((alert, index) =>
-          <Alert message={alert} type={alerts.type} key={index} />
-        )}
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleLogin={handleLogin}
-        />
-      </div>
+      <Login />
     )
   }
 
