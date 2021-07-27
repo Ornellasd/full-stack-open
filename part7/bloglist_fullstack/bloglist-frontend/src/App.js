@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { getBlogs } from './reducers/blogReducer' 
+import { initializeUser } from './reducers/userReducer'
 
 import blogService from './services/blogs'
 
@@ -27,6 +28,7 @@ const App = () => {
     if(loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       blogService.setToken(user.token)
+      dispatch(initializeUser(user))
     }
   }, [])
 

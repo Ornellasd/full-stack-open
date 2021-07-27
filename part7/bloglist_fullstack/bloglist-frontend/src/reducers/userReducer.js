@@ -13,6 +13,8 @@ const userReducer = (state = initialState, action) => {
       return action.data
     case 'LOGOUT':
       return null
+    case 'INITIALIZE':
+      return action.data
     default:
       return state
   }
@@ -46,6 +48,13 @@ export const logout = () => {
     dispatch({
       type: 'LOGOUT'
     })
+  }
+}
+
+export const initializeUser = (user) => {
+  return {
+    type: 'INITIALIZE',
+    data: user
   }
 }
 
