@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
+import {
+  BrowserRouter as Router,
+  Switch, Route, Link
+} from 'react-router-dom'
+
 import { getBlogs } from './reducers/blogReducer' 
 import { initializeUser } from './reducers/userReducer'
 
@@ -32,10 +37,25 @@ const App = () => {
   }, [])
 
   return (
-    user === null ?
-      <Login alerts={alerts} /> :
-      <BlogList alerts={alerts} user={user} blogs={blogs} />
+    <Router>
+      <Switch>
+        <Route path="/users">
+          <p>users hieperdepiep!</p>
+        </Route>
+        <Route path="/">
+          {user == null ?
+            <Login alerts={alerts} /> :
+            <BlogList alerts={alerts} user={user} blogs={blogs} />
+          }
+        </Route>
+      </Switch>
+    </Router>
   )
+  // return (
+  //   user === null ?
+  //     <Login alerts={alerts} /> :
+  //     <BlogList alerts={alerts} user={user} blogs={blogs} />
+  // )
 }
 
 export default App
