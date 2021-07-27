@@ -19,7 +19,7 @@ const App = () => {
   // get blogs from backend
   useEffect(() => {
     dispatch(getBlogs())
-  }, [dispatch])
+  }, [])
 
   // check to see if user is logged in
   useEffect(() => {
@@ -36,7 +36,6 @@ const App = () => {
       <Login alerts={alerts} /> :
       <BlogList alerts={alerts} user={user} blogs={blogs} />
   )
-  
 }
 
 export default App
