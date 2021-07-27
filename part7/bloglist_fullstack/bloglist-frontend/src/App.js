@@ -24,9 +24,7 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.users)
 
-  console.log(user, 'USER!')
-
-  // check to see if useer is logged in
+  // check to see if user is logged in
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if(loggedUserJSON) {

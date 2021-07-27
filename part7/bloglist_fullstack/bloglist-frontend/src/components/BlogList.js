@@ -5,9 +5,7 @@ const BlogList = ({ alerts, user }) => {
   const dispatch = useDispatch()
 
   const handleLogout = () => {
-    dispatch(logout)
-    window.localStorage.removeItem('loggedBloglistUser')
-
+    dispatch(logout())
   }
 
   return (
