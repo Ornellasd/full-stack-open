@@ -1,7 +1,11 @@
 import { useDispatch } from 'react-redux'
+
 import { logout } from '../reducers/userReducer'
 
-const BlogList = ({ alerts, user }) => {
+import BlogForm from '../components/BlogForm'
+import Blog from '../components/Blog'
+
+const BlogList = ({ alerts, user, blogs }) => {
   const dispatch = useDispatch()
 
   const handleLogout = () => {
@@ -12,6 +16,15 @@ const BlogList = ({ alerts, user }) => {
     <div>
       <h2>blogs</h2>
       {user.name} logged in <button onClick={handleLogout}>logout</button>
+      <BlogForm />
+            
+      {blogs.map(blog =>
+        <Blog
+          key={blog.id}
+          blog={blog}
+          user={user}
+        />
+      )}
     </div>
   )
 }

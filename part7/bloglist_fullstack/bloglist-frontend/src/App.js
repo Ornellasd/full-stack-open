@@ -5,11 +5,8 @@ import { getBlogs } from './reducers/blogReducer'
 
 import blogService from './services/blogs'
 
-import Alert from './components/Alert'
 import BlogList from './components/BlogList'
-import Blog from './components/Blog'
 import Login from './components/Login'
-import BlogForm from './components/BlogForm'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -33,12 +30,6 @@ const App = () => {
     }
   }, [])
 
-  const handleLogout = (event) => {
-    event.preventDefault()
-    window.localStorage.removeItem('loggedBloglistUser')
-    //setUser(null)
-  }
-
   if(user === null) {
     return (
       <Login alerts={alerts} />
@@ -46,27 +37,8 @@ const App = () => {
   }
 
   return (
-    <BlogList alerts={alerts} user={user} />
+    <BlogList alerts={alerts} user={user} blogs={blogs} />
   )
-  // return (
-  //   <div>
-  //     {(alerts.content) && alerts.content.map((alert, index) =>
-  //       <Alert message={alert} type={alerts.type} key={index} />
-  //     )}
-  //     <h2>blogs</h2>
-     
-  //     {user.name} logged in <button onClick={handleLogout}>logout</button>
-  //     <BlogForm />
-      
-  //     {blogs.map(blog =>
-  //       <Blog
-  //         key={blog.id}
-  //         blog={blog}
-  //         user={user}
-  //       />
-  //     )}
-  //   </div>
-  // )
 }
 
 export default App
