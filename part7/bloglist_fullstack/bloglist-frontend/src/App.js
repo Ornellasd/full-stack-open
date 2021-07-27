@@ -13,14 +13,13 @@ const App = () => {
   const dispatch = useDispatch()
 
   const alerts = useSelector(state => state.alerts)
-
+  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.users)
+  
   // get blogs from backend
   useEffect(() => {
     dispatch(getBlogs())
   }, [dispatch])
-
-  const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.users)
 
   // check to see if user is logged in
   useEffect(() => {
