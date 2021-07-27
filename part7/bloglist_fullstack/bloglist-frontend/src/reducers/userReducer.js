@@ -24,7 +24,7 @@ export const login = (credentials) => {
       const user = await loginService.login(credentials)
 
       blogService.setToken(user.token)
-      
+
       dispatch({
         type: 'LOGIN',
         data: user
@@ -33,6 +33,12 @@ export const login = (credentials) => {
     } catch(e) {
       dispatch(setAlerts(['Wrong username or password'], 'error', 5))
     }
+  }
+}
+
+export const logout = () => {
+  return {
+    type: 'LOGOUT',
   }
 }
 
