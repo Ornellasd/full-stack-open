@@ -31,15 +31,12 @@ const App = () => {
     }
   }, [])
 
-  if(user === null) {
-    return (
-      <Login alerts={alerts} />
-    )
-  }
-
   return (
-    <BlogList alerts={alerts} user={user} blogs={blogs} />
+    user === null ?
+      <Login alerts={alerts} /> :
+      <BlogList alerts={alerts} user={user} blogs={blogs} />
   )
+  
 }
 
 export default App

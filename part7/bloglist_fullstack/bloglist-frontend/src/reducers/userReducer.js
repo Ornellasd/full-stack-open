@@ -59,23 +59,3 @@ export const initializeUser = (user) => {
 }
 
 export default userReducer
-
-  // const handleLogin = async (event) => {
-  //   event.preventDefault()
-  //   try {
-  //     const user = await loginService.login({
-  //       username, password
-  //     })
-
-  //     window.localStorage.setItem(
-  //       'loggedBloglistUser', JSON.stringify(user)
-  //     )
-
-  //     blogService.setToken(user.token)
-  //     setUser(user)
-  //     setUsername('')
-  //     setPassword('')
-  //   } catch(exception) {
-  //     dispatch(setAlerts(['Wrong username or password'], 'error', 5))
-  //   }
-  // }
