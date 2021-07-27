@@ -8,9 +8,9 @@ import Togglable from '../components/Togglable'
 const BlogForm = () => {
   const dispatch = useDispatch()
   
-  useEffect(() => {
-    dispatch(getBlogs())
-  }, [dispatch])
+  // useEffect(() => {
+  //   dispatch(getBlogs())
+  // }, [dispatch])
 
   const handleSubmit = event => {
     event.preventDefault()
@@ -30,6 +30,7 @@ const BlogForm = () => {
 
   return (
     <Togglable buttonLabel="create new blog">
+      <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
           title:

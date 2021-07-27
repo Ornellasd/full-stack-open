@@ -4,11 +4,6 @@ import blogService from '../services/blogs'
 import { getBlogs, upvote } from '../reducers/blogReducer'
 
 const Blog = ({ blog, user }) => {
-  if(user.username !== blog.user.username) {
-    console.log(user, 'user')
-    console.log(blog, 'blog')
-  }
-
   const dispatch = useDispatch()
 
   const [detailsVisible, setDetailsVisible] = useState(false)
