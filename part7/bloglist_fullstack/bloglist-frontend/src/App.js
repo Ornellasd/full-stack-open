@@ -7,19 +7,22 @@ import {
 } from 'react-router-dom'
 
 import { getBlogs } from './reducers/blogReducer' 
-import { initializeUser } from './reducers/userReducer'
+import { initializeUser, logout } from './reducers/loginReducer'
 
 import blogService from './services/blogs'
+import usersService from './services/users'
 
 import BlogList from './components/BlogList'
 import Login from './components/Login'
+import Users from './components/Users'
+import Alerts from './components/Alerts'
 
 const App = () => {
   const dispatch = useDispatch()
 
   const alerts = useSelector(state => state.alerts)
   const blogs = useSelector(state => state.blogs)
-  const user = useSelector(state => state.users)
+  const user = useSelector(state => state.login)
   
   // get blogs from backend
   useEffect(() => {
@@ -36,26 +39,36 @@ const App = () => {
     }
   }, [])
 
+  const handleLogout = () => {
+    dispatch(logout())
+  }
+
+  console.log(user)
   return (
     <Router>
       <Switch>
         <Route path="/users">
-          <p>users hieperdepiep!</p>
+          <div>
+            <h2>blogs</h2>
+            <Alerts alerts={alerts} />
+            <Users />
+          </div>
         </Route>
         <Route path="/">
-          {user == null ?
+          {user === null ?
             <Login alerts={alerts} /> :
-            <BlogList alerts={alerts} user={user} blogs={blogs} />
+            <div>
+              <h2>blogs</h2>
+              <Alerts alerts={alerts} />
+              {user.name} logged in <button onClick={handleLogout}>logout</button>
+              <BlogList user={user} blogs={blogs} />
+            </div>
           }
         </Route>
       </Switch>
+
     </Router>
   )
-  // return (
-  //   user === null ?
-  //     <Login alerts={alerts} /> :
-  //     <BlogList alerts={alerts} user={user} blogs={blogs} />
-  // )
 }
 
 export default App

@@ -3,12 +3,12 @@ import thunk from 'redux-thunk'
 
 import alertReducer from './reducers/alertReducer'
 import blogReducer from './reducers/blogReducer'
-import userReducer from './reducers/userReducer'
+import loginReducer from './reducers/loginReducer'
 
 const reducer = combineReducers({
   alerts: alertReducer,
   blogs: blogReducer,
-  users: userReducer
+  login: loginReducer
 })
 
 const store = createStore(

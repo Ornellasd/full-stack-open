@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 
 import Alerts from './Alerts'
 
-import { login } from '../reducers/userReducer'
+import { login } from '../reducers/loginReducer'
 
 const Login = ({ alerts }) => {
   const dispatch = useDispatch()
@@ -43,7 +43,6 @@ const Login = ({ alerts }) => {
         <button id="login-button" type="submit">login</button>
       </form>
     </div>
-
   )
 }
 
