@@ -11,6 +11,7 @@ const Users = ({ loggedInUser }) => {
   }, [])
   
   const users = useSelector(state => state.users)
+  console.log(users)
 
   if(loggedInUser !== null) {
     return (
