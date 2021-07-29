@@ -14,21 +14,29 @@ const Blog = ({ loggedInUser }) => {
     return null
   }
   
+  const handleUpvote = () => {
+    const upvotedBlog = {...blog, likes: blog.likes += 1, user: blog.user.id}
+    dispatch(upvote(upvotedBlog))
+  }
+
   return (
     <div>
       <h2>{blog.title}</h2>
       <a href={blog.url}>{blog.url}</a>
-      <p>{blog.likes} <button className="like-button" onClick={() => dispatch(upvote(blog))}>like</button></p>
+      <p>{blog.likes} <button className="like-button" onClick={() => handleUpvote()}>like</button></p>
       <p>added by {blog.user.name}</p>
+      <h3>comments</h3>
+      <span>
+        <input />
+        <button>add comment</button>
+      </span>
+      
       {blog.comments.length > 0 &&
-        <div>
-          <h3>comments</h3>
-          <ul>
-            {blog.comments.map(comment =>
-              <li>{comment.text}</li>
-            )}
-          </ul>
-        </div>
+        <ul>
+          {blog.comments.map(comment =>
+            <li>{comment.text}</li>
+          )}
+        </ul>
       }
     </div>
   )

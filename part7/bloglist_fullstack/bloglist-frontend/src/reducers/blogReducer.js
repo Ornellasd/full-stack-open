@@ -15,11 +15,7 @@ const blogReducer = (state = [], action) => {
     case 'UPVOTE': {
       const id = action.data.id
       const blogToChange = state.find(b => b.id === id)
-      const upvotedBlog = {
-        ...blogToChange,
-        likes: blogToChange.likes +=1
-      }
-      return state.map(blog => blog.id !== id ? blog: upvotedBlog).sort(order)
+      return state.map(blog => blog.id !== id ? blog: blogToChange).sort(order)
     }
     default:
       return state
@@ -52,12 +48,12 @@ export const getBlogs = () => {
   }
 }
 
-export const upvote = blog => {
+export const upvote = upvotedBlog => {
   return async dispatch => {
-    await blogService.update(blog)
+    await blogService.update(upvotedBlog)
     dispatch({
       type: 'UPVOTE',
-      data: { id: blog.id }
+      data: { id: upvotedBlog.id }
     })
   }
 }
