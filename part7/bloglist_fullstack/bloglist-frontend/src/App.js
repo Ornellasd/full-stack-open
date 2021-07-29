@@ -16,7 +16,8 @@ import Blog from './components/Blog'
 import Login from './components/Login'
 import Users from './components/Users'
 import User from './components/User'
-import Header from './components/Header'
+import Navbar from './components/Navbar'
+import Alerts from './components/Alerts'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -42,8 +43,10 @@ const App = () => {
 
   return (
     <div>
-      <Header alerts={alerts} user={loggedInUser} />
       <Router>
+        <Navbar user={loggedInUser} />
+        <Alerts alerts={alerts} />
+        {loggedInUser ? <h2>blog app</h2> : null}
         <Switch>
           <Route path="/users/:id">
             <User />
@@ -55,7 +58,7 @@ const App = () => {
             <Blog loggedInUser={loggedInUser} />
           </Route>
           <Route path="/">
-            {loggedInUser === null ?
+            {!loggedInUser ?
               <Login alerts={alerts} /> :
               <BlogList user={loggedInUser} blogs={blogs} />
             }
