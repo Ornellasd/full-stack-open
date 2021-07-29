@@ -19,6 +19,7 @@ const blogReducer = (state = [], action) => {
     }
     case 'ADD_COMMENT':
       console.log(action)
+      //return state.map(blog => blog.id === action.data.id)
     default:
       return state
   }
@@ -62,9 +63,10 @@ export const upvote = upvotedBlog => {
 
 export const addComment = (comment, id) => {
   return async dispatch => {
-    await blogService.addComment(comment, id)
+    const commentedBlog = await blogService.addComment(comment, id)
     dispatch({
       type: 'ADD_COMMENT',
+      data: commentedBlog
     })
   }
 }
