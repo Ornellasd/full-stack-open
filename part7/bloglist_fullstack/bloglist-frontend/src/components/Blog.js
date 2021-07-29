@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 
-import { upvote } from '../reducers/blogReducer'
+import { upvote, addComment } from '../reducers/blogReducer'
 
 const Blog = ({ loggedInUser }) => {
   const id = useParams().id
@@ -19,6 +19,16 @@ const Blog = ({ loggedInUser }) => {
     dispatch(upvote(upvotedBlog))
   }
 
+  const handleComment = (event) => {
+    event.preventDefault()
+    const comment = {
+      text: event.target.comment.value,
+    }
+
+    dispatch(addComment(comment, blog.id))
+    event.target.comment.value = ''
+  }
+
   return (
     <div>
       <h2>{blog.title}</h2>
@@ -27,8 +37,10 @@ const Blog = ({ loggedInUser }) => {
       <p>added by {blog.user.name}</p>
       <h3>comments</h3>
       <span>
-        <input />
-        <button>add comment</button>
+        <form onSubmit={handleComment}>
+          <input type="text" name="comment" />
+          <button>add comment</button>
+        </form>
       </span>
       
       {blog.comments.length > 0 &&
