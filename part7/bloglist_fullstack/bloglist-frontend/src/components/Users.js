@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import { getUsers } from '../reducers/usersReducer'
 
@@ -8,32 +9,33 @@ const Users = ({ loggedInUser }) => {
 
   useEffect(() => {
     dispatch(getUsers())
-  }, [])
+  }, [dispatch])
   
   const users = useSelector(state => state.users)
-  console.log(users)
 
-  if(loggedInUser !== null) {
-    return (
-      <div>
-        <h2>Users</h2>
-        <table>
-          <tr>
-            <th></th>
-            <th>blogs created</th>
-          </tr>
-          {users.map(user =>
-            <tr>
-              <td>{user.name}</td>
-              <td>{user.blogs.length}</td>
-            </tr>
-          )}
-        </table>
-      </div>
-    )
-  } else {
+  if(!loggedInUser) {
     return null
   }
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <table>
+        <tr>
+          <th></th>
+          <th>blogs created</th>
+        </tr>
+        {users.map(user =>
+          <tr>
+            <td>
+              <Link to={`/users/${user.id}`}>{user.name}</Link>
+            </td>
+            <td>{user.blogs.length}</td>
+          </tr>
+        )}
+      </table>
+    </div>
+  )
 }
 
 export default Users

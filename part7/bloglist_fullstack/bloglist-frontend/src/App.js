@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route
 } from 'react-router-dom'
 
 import { getBlogs } from './reducers/blogReducer' 
