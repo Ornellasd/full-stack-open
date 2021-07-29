@@ -5,7 +5,11 @@ const commentSchema = new mongoose.Schema({
     type: String,
     required: true,
     minLength: 3
-  }
+  },
+  blog: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Blog'
+  },
 })
 
 commentSchema.set('toJSON', {

@@ -15,6 +15,7 @@ const Blog = ({ loggedInUser }) => {
   }
 
   console.log(blog)
+  
   return (
     <div>
       <h2>{blog.title}</h2>
