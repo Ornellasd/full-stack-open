@@ -8,18 +8,18 @@ const Header = ({ user }) => {
   const dispatch = useDispatch()
   const alerts = useSelector(state => state.alerts)
 
-  if(user !== null) {
-    return (
-      <div>
-        <h2>blogs</h2>
-        <p>{user.name} logged in</p>
-        <button onClick={() => dispatch(logout())}>logout</button>
-        <Alerts alerts={alerts} />
-      </div>
-    )
-  } else {
+  if(!user) {
     return null
   }
-}
+
+  return (
+    <div>
+      <h2>blogs</h2>
+      <p>{user.name} logged in</p>
+      <button onClick={() => dispatch(logout())}>logout</button>
+      <Alerts alerts={alerts} />
+    </div>
+    )
+  }
 
 export default Header

@@ -1,55 +1,28 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import blogService from '../services/blogs'
-import { getBlogs, upvote } from '../reducers/blogReducer'
+import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router'
 
-const Blog = ({ blog, user }) => {
+import { upvote } from '../reducers/blogReducer'
+
+const Blog = ({ loggedInUser }) => {
+  const id = useParams().id
   const dispatch = useDispatch()
+  
+  const blogs = useSelector(state => state.blogs)
+  const blog = blogs.find(b => b.id === id) 
 
-  const [detailsVisible, setDetailsVisible] = useState(false)
-
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
+  if(!loggedInUser || !blog ) {
+    return null
   }
 
-  const toggleVisibility = () => {
-    setDetailsVisible(!detailsVisible)
-  }
-
-  const deleteBlog = async () => {
-    if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
-      await blogService.deleteBlog(blog.id)
-      dispatch(getBlogs())
-    }
-  }
-
-  const showDetails = () => {
-    if(!detailsVisible) {
-      return (
-        <div style={blogStyle} className="unexpanded">
-          {blog.title} {blog.author} <button className="view-button" onClick={toggleVisibility}>view</button>
-        </div>
-      )
-    } else {
-      return (
-        <div style={blogStyle} className="expanded">
-          <p>{blog.title} <button onClick={toggleVisibility}>hide</button></p>
-          <p>{blog.url}</p>
-          <p>{blog.likes} <button className="like-button" onClick={() => dispatch(upvote(blog))}>like</button></p>
-          <p>{blog.author}</p>
-          {(user && user.username === blog.user.username) &&
-            <button className="remove-button" onClick={() => deleteBlog()}>remove</button>
-          }
-        </div>
-      )
-    }
-  }
-
-  return showDetails()
+  console.log(blog)
+  return (
+    <div>
+      <h2>{blog.title}</h2>
+      <a href={blog.url}>{blog.url}</a>
+      <p>{blog.likes} <button className="like-button" onClick={() => dispatch(upvote(blog))}>like</button></p>
+      <p>added by {blog.user.name}</p>
+    </div>
+  )
 }
 
 export default Blog

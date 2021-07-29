@@ -12,6 +12,7 @@ import { initializeUser } from './reducers/loginReducer'
 import blogService from './services/blogs'
 
 import BlogList from './components/BlogList'
+import Blog from './components/Blog'
 import Login from './components/Login'
 import Users from './components/Users'
 import User from './components/User'
@@ -27,7 +28,7 @@ const App = () => {
   // get blogs from backend
   useEffect(() => {
     dispatch(getBlogs())
-  }, [])
+  }, [dispatch])
 
   // check to see if user is logged in
   useEffect(() => {
@@ -49,6 +50,9 @@ const App = () => {
           </Route>
           <Route path="/users">
             <Users loggedInUser={loggedInUser} />
+          </Route>
+          <Route path="/blogs/:id">
+            <Blog loggedInUser={loggedInUser} />
           </Route>
           <Route path="/">
             {loggedInUser === null ?
