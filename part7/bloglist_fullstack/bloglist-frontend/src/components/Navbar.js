@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import { logout } from '../reducers/loginReducer'
@@ -21,8 +21,8 @@ const Navbar = ({ user }) => {
 
   return (
     <div style={divStyle}>
-      <Link style={padding}>blogs</Link>
-      <Link style={padding}>users</Link>
+      <Link to="/blogs" style={padding}>blogs</Link>
+      <Link to="/users" style={padding}>users</Link>
       <span style={padding}>{user.name} logged in</span>
       <button onClick={() => dispatch(logout())}>logout</button>
     </div>
