@@ -26,51 +26,44 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
   const loggedInUser = useSelector(state => state.login)
   
-  // get blogs from backend
   useEffect(() => {
     dispatch(getBlogs())
   }, [dispatch])
 
-  // // check to see if user is logged in
-  // useEffect(() => {
-  //   const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
-  //   if(loggedUserJSON) {
-  //     const user = JSON.parse(loggedUserJSON)
-  //     blogService.setToken(user.token)
-  //     dispatch(initializeUser(user))
-  //   }
-  // }, [dispatch])
-
-  // initialize user
   useEffect(() => {
-    dispatch(initializeUser())
+    if(window.localStorage.getItem('loggedBloglistUser') && window.localStorage.getItem('loggedBloglistUser') !== null) {
+      const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
+      const user = JSON.parse(loggedUserJSON)
+      blogService.setToken(user.token)
+      dispatch(initializeUser(user))
+    } else {
+      dispatch(initializeUser(null))
+    }
   }, [dispatch])
 
   return (
-    <div>
-      <Router>
-        <Navbar user={loggedInUser} />
-        <Alerts alerts={alerts} />
-        {loggedInUser && <h2>blog app</h2>}
-        <Switch>
-          <Route path="/users/:id">
-            <User />
-          </Route>
-          <Route path="/users">
-            <Users loggedInUser={loggedInUser} />
-          </Route>
-          <Route path="/blogs/:id">
-            <Blog loggedInUser={loggedInUser} blogs={blogs} />
-          </Route>
-          <Route path="/">
-            {!loggedInUser ?
-              <Login alerts={alerts} /> :
-              <BlogList user={loggedInUser} blogs={blogs} />
-            }
-          </Route>
-        </Switch>
-      </Router>
-    </div>
+    <Router>
+      <Navbar user={loggedInUser} />
+      <Alerts alerts={alerts} />
+      {loggedInUser && <h2>blog app</h2>}
+      <Switch>
+        <Route path="/users/:id">
+          <User />
+        </Route>
+        <Route path="/users">
+          <Users loggedInUser={loggedInUser} />
+        </Route>
+        <Route path="/blogs/:id">
+          <Blog loggedInUser={loggedInUser} blogs={blogs} />
+        </Route>
+        <Route path="/">
+          {!loggedInUser ?
+            <Login alerts={alerts} /> :
+            <BlogList user={loggedInUser} blogs={blogs} />
+          }
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
