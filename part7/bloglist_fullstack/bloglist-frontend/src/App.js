@@ -31,14 +31,19 @@ const App = () => {
     dispatch(getBlogs())
   }, [dispatch])
 
-  // check to see if user is logged in
+  // // check to see if user is logged in
+  // useEffect(() => {
+  //   const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
+  //   if(loggedUserJSON) {
+  //     const user = JSON.parse(loggedUserJSON)
+  //     blogService.setToken(user.token)
+  //     dispatch(initializeUser(user))
+  //   }
+  // }, [dispatch])
+
+  // initialize user
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
-    if(loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      blogService.setToken(user.token)
-      dispatch(initializeUser(user))
-    }
+    dispatch(initializeUser())
   }, [dispatch])
 
   return (
