@@ -18,8 +18,10 @@ const blogReducer = (state = [], action) => {
       return state.map(blog => blog.id !== id ? blog: blogToChange).sort(order)
     }
     case 'ADD_COMMENT':
-      console.log(action.data)
-
+      const id = action.data.id
+      const blogToChange = state.find(b => b.id === id)
+      const commentedBlog = { ...blogToChange, comments: action.data.comments}
+      return state.map(blog => blog.id !== id ? blog : commentedBlog)
     default:
       return state
   }
@@ -62,7 +64,6 @@ export const upvote = upvotedBlog => {
 }
 
 export const addComment = commentedBlog => {
-  console.log(commentedBlog.id, 'from action')
   return async dispatch => {
     await blogService.addComment(commentedBlog)
     dispatch({
