@@ -1,8 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 
-import Alerts from './Alerts'
-
 import { login } from '../reducers/loginReducer'
 
 const Login = ({ alerts }) => {
@@ -22,7 +20,6 @@ const Login = ({ alerts }) => {
   return (
     <div>
       <h2>Log in to application</h2>
-      <Alerts alerts={alerts} />
       <form onSubmit={handleSubmit}>
         <div>
           username
