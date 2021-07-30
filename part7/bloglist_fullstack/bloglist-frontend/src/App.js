@@ -46,7 +46,7 @@ const App = () => {
       <Router>
         <Navbar user={loggedInUser} />
         <Alerts alerts={alerts} />
-        {loggedInUser ? <h2>blog app</h2> : null}
+        {loggedInUser && <h2>blog app</h2>}
         <Switch>
           <Route path="/users/:id">
             <User />

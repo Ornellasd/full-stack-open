@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 
-import { upvote, addComment } from '../reducers/blogReducer'
+import { upvote, addComment, deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ loggedInUser, blogs }) => {
   const id = useParams().id
@@ -30,12 +30,21 @@ const Blog = ({ loggedInUser, blogs }) => {
     event.target.comment.value = ''
   }
 
+  const handleDelete = () => {
+    if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
+      dispatch(deleteBlog(blog))
+    }
+  }
+
   return (
     <div>
       <h2>{blog.title}</h2>
       <a href={blog.url}>{blog.url}</a>
       <p>{blog.likes} <button className="like-button" onClick={() => handleUpvote()}>like</button></p>
       <p>added by {blog.user.name}</p>
+      {(loggedInUser && loggedInUser.username === blog.user.username) &&
+        <button className="remove-button" onClick={handleDelete}>remove</button>
+      }
       <h3>comments</h3>
       <span>
         <form onSubmit={handleComment}>

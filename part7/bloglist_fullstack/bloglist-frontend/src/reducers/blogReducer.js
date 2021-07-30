@@ -10,6 +10,8 @@ const blogReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_BLOG':
       return [...state, action.data]
+    case 'DELETE_BLOG':
+      return state.filter(b => b.id !== action.data)
     case 'SET_BLOGS':
       return action.data.sort(order)
     case 'UPVOTE': {
@@ -39,6 +41,17 @@ export const createBlog = content => {
     } catch(e) {
       dispatch(setAlerts(Object.values(e.response.data), 'error', 5))
     }
+  }
+}
+
+export const deleteBlog = (blog) => {
+  return async dispatch => {
+    await blogService.deleteBlog(blog.id)
+    dispatch({
+      type: 'DELETE_BLOG',
+      data: blog.id
+    })
+    dispatch(setAlerts([`${blog.title} deleted`], 'success', 5))
   }
 }
 
