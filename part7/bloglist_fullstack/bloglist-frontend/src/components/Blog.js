@@ -1,17 +1,11 @@
-import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 
-import { upvote, addComment, getBlogs } from '../reducers/blogReducer'
-
+import { upvote, addComment } from '../reducers/blogReducer'
 
 const Blog = ({ loggedInUser, blogs }) => {
   const id = useParams().id
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(getBlogs())
-  }, [dispatch])
 
   const blog = blogs.find(b => b.id === id)
 

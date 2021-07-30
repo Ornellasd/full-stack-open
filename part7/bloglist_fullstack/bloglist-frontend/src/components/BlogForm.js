@@ -1,16 +1,10 @@
-import React, { useEffect } from 'react'
-
 import { useDispatch } from 'react-redux'
-import { getBlogs, createBlog } from '../reducers/blogReducer'
+import { createBlog } from '../reducers/blogReducer'
 
 import Togglable from '../components/Togglable'
 
 const BlogForm = () => {
   const dispatch = useDispatch()
-  
-  useEffect(() => {
-    dispatch(getBlogs())
-  }, [dispatch])
 
   const handleSubmit = event => {
     event.preventDefault()
