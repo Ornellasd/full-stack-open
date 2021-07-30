@@ -55,7 +55,7 @@ const App = () => {
             <Users loggedInUser={loggedInUser} />
           </Route>
           <Route path="/blogs/:id">
-            <Blog loggedInUser={loggedInUser} />
+            <Blog loggedInUser={loggedInUser} blogs={blogs} />
           </Route>
           <Route path="/">
             {!loggedInUser ?

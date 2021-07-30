@@ -1,14 +1,19 @@
+import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 
-import { upvote, addComment } from '../reducers/blogReducer'
+import { upvote, addComment, getBlogs } from '../reducers/blogReducer'
 
-const Blog = ({ loggedInUser }) => {
+
+const Blog = ({ loggedInUser, blogs }) => {
   const id = useParams().id
   const dispatch = useDispatch()
-  
-  const blogs = useSelector(state => state.blogs)
-  const blog = blogs.find(b => b.id === id) 
+
+  useEffect(() => {
+    dispatch(getBlogs())
+  }, [dispatch])
+
+  const blog = blogs.find(b => b.id === id)
 
   if(!loggedInUser || !blog ) {
     return null
@@ -25,7 +30,9 @@ const Blog = ({ loggedInUser }) => {
       text: event.target.comment.value,
     }
 
-    dispatch(addComment(comment, blog.id))
+    const commentedBlog = {...blog, comments: blog.comments.concat(comment)}
+    
+    dispatch(addComment(commentedBlog))
     event.target.comment.value = ''
   }
 

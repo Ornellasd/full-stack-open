@@ -65,26 +65,9 @@ blogRouter.put('/:id', async (request, response) => {
   response.json(updatedBlog)
 })
 
-
-blogRouter.get('/:id/comments', async (request, response) => {
-  const comments = await Comment
-    .find({})
-
-  response.json(comments)
-})
-
 blogRouter.post('/:id/comments', async(request, response) => {
-  const body = request.body
-  const blog = await Blog.findById(request.params.id)
-  
-  const comment = new Comment({
-    text: body.text,
-    blog: blog._id
-  })
-
-  const savedComment = await comment.save()
-  blog.comments = blog.comments.concat(savedComment._id)
-  const commentedBlog = await blog.save()
+  console.log(request.body)
+  const commentedBlog = await Blog.findByIdAndUpdate(request.params.id, { comments: request.body.comments }, { new: true })
   response.json(commentedBlog)
 })
 

@@ -8,9 +8,9 @@ import Togglable from '../components/Togglable'
 const BlogForm = () => {
   const dispatch = useDispatch()
   
-  // useEffect(() => {
-  //   dispatch(getBlogs())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(getBlogs())
+  }, [dispatch])
 
   const handleSubmit = event => {
     event.preventDefault()
