@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 
 import { setAlerts } from './alertReducer'
 
-const userReducer = (state = null, action) => {
+const loginReducer = (state = null, action) => {
   switch(action.type) {
     case 'SET_USER':
       return action.data
@@ -19,11 +19,11 @@ export const login = (credentials) => {
     try {
       const user = await loginService.login(credentials)
 
-      window.localStorage.setItem(
-        'loggedBloglistUser', JSON.stringify(user)
-      )
-
       blogService.setToken(user.token)
+
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
 
       dispatch({
         type: 'SET_USER',
@@ -38,7 +38,7 @@ export const login = (credentials) => {
 
 export const logout = () => {
   return async dispatch => {
-    window.localStorage.removeItem('loggedBloglistUser')
+    window.localStorage.removeItem('loggedBlogappUser')
     dispatch({
       type: 'LOGOUT'
     })
@@ -52,4 +52,4 @@ export const initializeUser = (user) => {
   }
 }
 
-export default userReducer
+export default loginReducer
