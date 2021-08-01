@@ -2,6 +2,11 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
+import {
+  TextField,
+  Button
+} from '@material-ui/core'
+
 import { login } from '../reducers/loginReducer'
 
 const Login = ({ alerts }) => {
@@ -25,22 +30,14 @@ const Login = ({ alerts }) => {
       <h2>Log in to application</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          username
-          <input 
-            id="username"
-            type="text"
-            name="username"
-          />
+          <TextField label="username" name="username" />
         </div>
         <div>
-          password
-          <input 
-            id="passsword"
-            type="password"
-            name="password"
-          />
+          <TextField label="password" type="password" name="password" />
         </div>
-        <button id="login-button" type="submit">login</button>
+        <div>
+          <Button variant="contained" color="primary" type="submit">login</Button>
+        </div>
       </form>
     </div>
   )

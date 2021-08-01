@@ -8,6 +8,8 @@ import {
   Redirect
 } from 'react-router-dom'
 
+import Container from '@material-ui/core/Container'
+
 import { getBlogs } from './reducers/blogReducer' 
 import { initializeUser } from './reducers/loginReducer'
 
@@ -42,34 +44,36 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <Router>
-      {loggedInUser ?
-        <div>
-          <Navbar user={loggedInUser} />
-          <Alerts alerts={alerts} />
-          <h2>blog app</h2>
-        </div>
-        : <Alerts alerts={alerts} />
-      }
+    <Container>
+      <Router>
+        {loggedInUser ?
+          <div>
+            <Navbar user={loggedInUser} />
+            <Alerts alerts={alerts} />
+            <h2>blog app</h2>
+          </div>
+          : <Alerts alerts={alerts} />
+        }
 
-      <Switch>
-        <Route path="/users/:id">
-          {loggedInUser ? <User /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/users">
-          {loggedInUser ? <Users /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/blogs/:id">
-          {loggedInUser ? <Blog loggedInUser={loggedInUser} blogs={blogs} /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/blogs">
-          {loggedInUser ? <BlogList blogs={blogs} /> : <Redirect to="/login" />}
-        </Route>
-        <Route path="/">
-          {loggedInUser ? <Redirect to="/blogs" /> : <Login />}
-        </Route>
-      </Switch>
-    </Router>
+        <Switch>
+          <Route path="/users/:id">
+            {loggedInUser ? <User /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/users">
+            {loggedInUser ? <Users /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/blogs/:id">
+            {loggedInUser ? <Blog loggedInUser={loggedInUser} blogs={blogs} /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/blogs">
+            {loggedInUser ? <BlogList blogs={blogs} /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/">
+            {loggedInUser ? <Redirect to="/blogs" /> : <Login />}
+          </Route>
+        </Switch>
+      </Router>
+    </Container>
   )
 }
 
