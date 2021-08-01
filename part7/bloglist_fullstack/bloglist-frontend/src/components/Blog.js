@@ -1,11 +1,13 @@
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
+import { useHistory } from 'react-router-dom'
 
 import { upvote, addComment, deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ loggedInUser, blogs }) => {
   const id = useParams().id
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const blog = blogs.find(b => b.id === id)
 
@@ -33,7 +35,8 @@ const Blog = ({ loggedInUser, blogs }) => {
   const handleDelete = () => {
     if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
       dispatch(deleteBlog(blog))
-    }
+      history.push('/')
+    } 
   }
 
   return (

@@ -1,10 +1,12 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 
 import { login } from '../reducers/loginReducer'
 
 const Login = ({ alerts }) => {
   const dispatch = useDispatch()
+  const history = useHistory()
   
   const handleSubmit = event => {
     event.preventDefault()
@@ -15,6 +17,7 @@ const Login = ({ alerts }) => {
     }
 
     dispatch(login(userCredentials))
+    history.push('/')
   }
 
   return (
