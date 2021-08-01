@@ -52,7 +52,7 @@ const App = () => {
             <Alerts alerts={alerts} />
             <h2>blog app</h2>
           </div>
-          : <Alerts alerts={alerts} />
+          : null
         }
 
         <Switch>
@@ -69,7 +69,7 @@ const App = () => {
             {loggedInUser ? <BlogList blogs={blogs} /> : <Redirect to="/login" />}
           </Route>
           <Route path="/">
-            {loggedInUser ? <Redirect to="/blogs" /> : <Login />}
+            {loggedInUser ? <Redirect to="/blogs" /> : <Login alerts={alerts} />}
           </Route>
         </Switch>
       </Router>
