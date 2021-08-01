@@ -10,10 +10,6 @@ const Blog = ({ loggedInUser, blogs }) => {
   const history = useHistory()
 
   const blog = blogs.find(b => b.id === id)
-
-  if(!loggedInUser || !blog ) {
-    return null
-  }
   
   const handleUpvote = () => {
     const upvotedBlog = {...blog, likes: blog.likes += 1, user: blog.user.id}

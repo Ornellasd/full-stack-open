@@ -54,16 +54,16 @@ const App = () => {
 
       <Switch>
         <Route path="/users/:id">
-          {loggedInUser ? <Users loggedInUser={loggedInUser} /> : <Redirect to="/login" />}
+          {loggedInUser ? <User /> : <Redirect to="/login" />}
         </Route>
         <Route path="/users">
-          {loggedInUser ? <Users loggedInUser={loggedInUser} /> : <Redirect to="/login" />}
+          {loggedInUser ? <Users /> : <Redirect to="/login" />}
         </Route>
         <Route path="/blogs/:id">
           {loggedInUser ? <Blog loggedInUser={loggedInUser} blogs={blogs} /> : <Redirect to="/login" />}
         </Route>
         <Route path="/blogs">
-          {loggedInUser ? <BlogList user={loggedInUser} blogs={blogs} /> : <Redirect to="/login" />}
+          {loggedInUser ? <BlogList blogs={blogs} /> : <Redirect to="/login" />}
         </Route>
         <Route path="/">
           {loggedInUser ? <Redirect to="/blogs" /> : <Login />}

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { getUsers } from '../reducers/usersReducer'
 
-const Users = ({ loggedInUser }) => {
+const Users = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -12,10 +12,6 @@ const Users = ({ loggedInUser }) => {
   }, [dispatch])
   
   const users = useSelector(state => state.users)
-
-  if(!loggedInUser) {
-    return null
-  }
 
   return (
     <div>

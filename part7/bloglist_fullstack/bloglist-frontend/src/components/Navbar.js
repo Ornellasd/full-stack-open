@@ -6,10 +6,6 @@ import { logout } from '../reducers/loginReducer'
 const Navbar = ({ user }) => {
   const dispatch = useDispatch()
 
-  if(!user) {
-    return null
-  }
-
   const padding = {
     padding: 3
   }

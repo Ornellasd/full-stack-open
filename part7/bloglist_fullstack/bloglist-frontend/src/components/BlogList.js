@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 import BlogForm from '../components/BlogForm'
 
-const BlogList = ({ user, blogs }) => {
+const BlogList = ({ blogs }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
