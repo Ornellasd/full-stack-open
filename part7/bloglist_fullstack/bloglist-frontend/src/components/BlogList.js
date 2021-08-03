@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 
-import { Divider, List, ListItem, makeStyles } from '@material-ui/core'
+import { Divider, Fab, List, ListItem, makeStyles } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 
 import BlogForm from '../components/BlogForm'
 
@@ -11,6 +12,14 @@ const useStyles = makeStyles((theme) => ({
   },
   article: {
     lineHeight: 1.35
+  },
+  addButton: {
+    margin: 0,
+    top: 'auto',
+    right: 20,
+    bottom: 20,
+    left: 'auto',
+    position: 'fixed'
   }
 }))
 
@@ -33,6 +42,9 @@ const BlogList = ({ blogs }) => {
           <Divider />
         </List>
       )}
+      <Fab size="medium" color="primary" className={classes.addButton}>
+        <AddIcon />
+      </Fab>
     </div>
   )
 }
