@@ -73,11 +73,11 @@ const Login = ({ alerts }) => {
             autoFocus
           />
           <TextField 
-            label="password" 
+            label="Password" 
             type="password" 
             name="password"
             variant="outlined"
-            margin="norma"
+            margin="normal"
             required
             fullWidth
             autoFocus 

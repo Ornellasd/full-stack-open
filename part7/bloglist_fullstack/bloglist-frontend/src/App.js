@@ -50,7 +50,6 @@ const App = () => {
           <div>
             <Navbar user={loggedInUser} />
             <Alerts alerts={alerts} />
-            <h2>blog app</h2>
           </div>
           : null
         }

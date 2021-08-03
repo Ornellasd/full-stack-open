@@ -1,26 +1,45 @@
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { AppBar, Button, Toolbar, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+
 import { logout } from '../reducers/loginReducer'
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  title: {
+    marginRight: theme.spacing(5),
+  },
+  navbar : {
+    backgroundColor : '#689f38'
+  },
+  navLinks: {
+    flexGrow: 1
+  }
+}))
 
 const Navbar = ({ user }) => {
   const dispatch = useDispatch()
-
-  const padding = {
-    padding: 3
-  }
-
-  const divStyle = {
-    padding: 5,
-    backgroundColor: '#d2d2d2'
-  }
+  const classes = useStyles()
 
   return (
-    <div style={divStyle}>
-      <Link to="/blogs" style={padding}>blogs</Link>
-      <Link to="/users" style={padding}>users</Link>
-      <span style={padding}>{user.name} logged in</span>
-      <button onClick={() => dispatch(logout())}>logout</button>
+    <div className={classes.root}>
+      <AppBar className={classes.navbar}>
+        <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            Blog App
+          </Typography>
+          <div className={classes.navLinks}>
+            <Button color="inherit" component={Link} to="/blogs">Blogs</Button>
+            <Button color="inherit" component={Link} to="/users">Users</Button>
+          </div>
+          <Button color="inherit" onClick={() => dispatch(logout())}>Logout</Button>
+        </Toolbar>
+      </AppBar>
+      <Toolbar />
     </div>
   )
 }
