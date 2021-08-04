@@ -1,7 +1,15 @@
+import { forwardRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 
-import { Button, Dialog, DialogContent, DialogTitle, DialogActions, Divider, Fab, List, ListItem, makeStyles, TextField } from '@material-ui/core'
+import { 
+  Button,
+  Dialog, 
+  DialogContent, 
+  DialogTitle, 
+  DialogActions,
+  TextField 
+} from '@material-ui/core'
 
 const BlogForm = ({ dialogOpen, handleDialogClose }) => {
   const dispatch = useDispatch()
@@ -24,8 +32,11 @@ const BlogForm = ({ dialogOpen, handleDialogClose }) => {
   }
 
   return (
-    <Dialog open={dialogOpen} onClose={handleDialogClose}>
-      <DialogTitle>Create New</DialogTitle>
+    <Dialog
+      open={dialogOpen}
+      onClose={handleDialogClose}
+    >
+      <DialogTitle>Create New Blog</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>
           <TextField
