@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom'
 
 import { login } from '../reducers/loginReducer'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Login = ({ alerts }) => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const classes = useStyles()
   
   const handleSubmit = event => {
     event.preventDefault()
@@ -49,8 +50,6 @@ const Login = ({ alerts }) => {
     dispatch(login(userCredentials))
     history.push('/')
   }
-
-  const classes = useStyles()
 
   return (
     <Container component="main" maxWidth="xs">
