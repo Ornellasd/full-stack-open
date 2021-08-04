@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { Divider, Fab, List, ListItem, makeStyles } from '@material-ui/core'
+import {  Divider, Fab, List, ListItem, makeStyles } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 
 import BlogForm from '../components/BlogForm'
@@ -23,11 +24,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+
 const BlogList = ({ blogs }) => {
   const classes = useStyles()
 
+  const [dialogOpen, setDialogOpen] = useState(false)
+
+  const handleDialogOpen = () => {
+    setDialogOpen(true)
+  }
+
+  const handleDialogClose = () => {
+    setDialogOpen(false)
+  }
+
   return (
     <div>
+      <BlogForm dialogOpen={dialogOpen} handleDialogClose={handleDialogClose} />
       {blogs.map(blog =>
         <List>
           <Link to={`/blogs/${blog.id}`} className={classes.link}>
@@ -42,7 +55,7 @@ const BlogList = ({ blogs }) => {
           <Divider />
         </List>
       )}
-      <Fab size="medium" color="primary" className={classes.addButton}>
+      <Fab size="medium" color="primary" className={classes.addButton} onClick={handleDialogOpen}>
         <AddIcon />
       </Fab>
     </div>
