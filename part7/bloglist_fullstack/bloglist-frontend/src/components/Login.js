@@ -52,48 +52,45 @@ const Login = ({ alerts }) => {
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Log in to application
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit}>
-          <TextField 
-            label="Username"
-            name="username"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            autoFocus
-          />
-          <TextField 
-            label="Password" 
-            type="password" 
-            name="password"
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            autoFocus 
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Log In
-          </Button>
-        </form>
-        {alerts && <Alerts alerts={alerts} />}
-      </div>
-    </Container>
+    <div className={classes.paper}>
+      <Avatar className={classes.avatar}>
+        <LockOutlinedIcon />
+      </Avatar>
+      <Typography component="h1" variant="h5">
+        Log in to application
+      </Typography>
+      <form className={classes.form} onSubmit={handleSubmit}>
+        <TextField 
+          label="Username"
+          name="username"
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          autoFocus
+        />
+        <TextField 
+          label="Password" 
+          type="password" 
+          name="password"
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          autoFocus 
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Log In
+        </Button>
+      </form>
+      {alerts && <Alerts alerts={alerts} />}
+    </div>
   )
 }
 

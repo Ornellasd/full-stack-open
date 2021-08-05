@@ -17,10 +17,6 @@ import {
 import { getUsers } from '../reducers/usersReducer'
 
 const useStyles = makeStyles(theme => ({
-  tableContainer: {
-    maxWidth: 750,
-    margin: 'auto'
-  },
   tableHeading: {
     backgroundColor: '#efefef',
     color: theme.palette.common.black
@@ -45,7 +41,7 @@ const Users = () => {
       <Typography align="center" component="h1" variant="h5">
         Users
       </Typography>
-      <TableContainer className={classes.tableContainer} component={Paper}>
+      <TableContainer component={Paper}>
         <Table>
           <TableHead>
             <TableRow>

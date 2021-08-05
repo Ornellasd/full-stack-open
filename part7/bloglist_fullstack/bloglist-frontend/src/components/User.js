@@ -25,11 +25,9 @@ const User = () => {
         {user.blogs.map(blog =>
           <Link className={classes.post} to={`/blogs/${blog.id}`}>
             <ListItem button>
-              <article style={{ lineHeight: 1.35 }}>
-                <Typography variant="h6">
-                  {blog.title}
-                </Typography>
-              </article>
+              <Typography variant="h6">
+                {blog.title}
+              </Typography>
             </ListItem>
             <Divider />
           </Link>

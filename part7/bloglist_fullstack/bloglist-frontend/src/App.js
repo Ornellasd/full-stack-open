@@ -8,7 +8,10 @@ import {
   Redirect
 } from 'react-router-dom'
 
-import Container from '@material-ui/core/Container'
+import {
+  Container,
+  CssBaseline
+} from '@material-ui/core'
 
 import { getBlogs } from './reducers/blogReducer' 
 import { initializeUser } from './reducers/loginReducer'
@@ -44,7 +47,8 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <Container>
+    <Container component="main" maxWidth="sm">
+      <CssBaseline />
       <Router>
         {loggedInUser &&
           <div>
