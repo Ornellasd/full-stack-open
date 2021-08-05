@@ -1,21 +1,36 @@
+import { Divider, List, ListItem, makeStyles, Typography } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
+
+const useStyles = makeStyles(theme => ({
+  post: {
+    textDecoration: 'none',
+    color: 'black'
+  }
+}))
 
 const User = () => {
   const id = useParams().id
-
   const users = useSelector(state => state.users)
   const user = users.find(u => u.id === id) 
+  const classes = useStyles()
 
   return (
     <div>
-      <h2>{user.name}</h2>
-      <h3>added blogs</h3>
-      <ul>
+      <Typography align="center" component="h1" variant="h5">
+        blogs added by {user.name}
+      </Typography>
+      <List>
         {user.blogs.map(blog =>
-          <li>{blog.title}</li>
+          <Link className={classes.post} to={`/blogs/${blog.id}`}>
+            <ListItem button>
+              {blog.title}
+            </ListItem>
+            <Divider />
+          </Link>
         )}
-      </ul>
+      </List>
     </div>
   )
 }

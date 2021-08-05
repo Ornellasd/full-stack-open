@@ -49,8 +49,8 @@ const BlogList = ({ blogs }) => {
   return (
     <div>
       <BlogForm dialogOpen={dialogOpen} handleDialogClose={handleDialogClose} />
-      {blogs.map(blog =>
-        <List>
+      <List>
+        {blogs.map(blog =>
           <Link to={`/blogs/${blog.id}`} className={classes.link}>
             <ListItem button>
               <article className={classes.article}>
@@ -59,10 +59,10 @@ const BlogList = ({ blogs }) => {
                 </Typography>
               </article>
             </ListItem>
+            <Divider />
           </Link>
-          <Divider />
-        </List>
-      )}
+        )}
+      </List>
       <Fab size="medium" color="primary" className={classes.addButton} onClick={handleDialogOpen}>
         <AddIcon />
       </Fab>
