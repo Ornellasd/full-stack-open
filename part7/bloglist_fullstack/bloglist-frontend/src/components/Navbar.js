@@ -9,6 +9,7 @@ import { logout } from '../reducers/loginReducer'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    paddingBottom: 20
   },
   title: {
     marginRight: theme.spacing(5),

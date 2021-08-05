@@ -47,7 +47,7 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <Container component="main" maxWidth="sm">
+    <Container component="main" maxWidth="md">
       <CssBaseline />
       <Router>
         {loggedInUser &&
