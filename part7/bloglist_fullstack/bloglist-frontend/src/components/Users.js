@@ -42,14 +42,14 @@ const Users = () => {
 
   return (
     <div>
-      <Typography align="center" component="h1" variant="h6">
+      <Typography align="center" component="h1" variant="h5">
         Users
       </Typography>
       <TableContainer className={classes.tableContainer} component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell className={classes.tableHeading}>User</TableCell>
+              <TableCell className={classes.tableHeading}>Username</TableCell>
               <TableCell className={classes.tableHeading} align="right">Blogs Created</TableCell>
             </TableRow>
           </TableHead>

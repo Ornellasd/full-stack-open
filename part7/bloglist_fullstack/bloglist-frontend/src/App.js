@@ -46,12 +46,11 @@ const App = () => {
   return (
     <Container>
       <Router>
-        {loggedInUser ?
+        {loggedInUser &&
           <div>
             <Navbar user={loggedInUser} />
             <Alerts alerts={alerts} />
           </div>
-          : null
         }
 
         <Switch>

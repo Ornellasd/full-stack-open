@@ -54,7 +54,7 @@ const BlogList = ({ blogs }) => {
           <Link to={`/blogs/${blog.id}`} className={classes.link}>
             <ListItem button>
               <article className={classes.article}>
-                <Typography variant="h5">
+                <Typography variant="h6">
                   {blog.title}
                 </Typography>
               </article>
