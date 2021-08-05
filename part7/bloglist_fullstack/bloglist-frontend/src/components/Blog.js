@@ -1,6 +1,21 @@
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+  List, 
+  ListItem,
+  TextField,
+  Typography
+} from '@material-ui/core'
+
+import ThumbUpIcon from '@material-ui/icons/ThumbUp'
 
 import { upvote, addComment, deleteBlog } from '../reducers/blogReducer'
 
@@ -35,31 +50,53 @@ const Blog = ({ loggedInUser, blogs }) => {
     } 
   }
 
-  return (
-    <div>
-      <h2>{blog.title}</h2>
-      <a href={blog.url}>{blog.url}</a>
-      <p>{blog.likes} <button className="like-button" onClick={() => handleUpvote()}>like</button></p>
-      <p>added by {blog.user.name}</p>
-      {(loggedInUser && loggedInUser.username === blog.user.username) &&
-        <button className="remove-button" onClick={handleDelete}>remove</button>
-      }
-      <h3>comments</h3>
-      <span>
-        <form onSubmit={handleComment}>
-          <input type="text" name="comment" />
-          <button>add comment</button>
-        </form>
-      </span>
+  // return (
+  //   <div>
+  //     <h2>{blog.title}</h2>
+  //     <a href={blog.url}>{blog.url}</a>
+  //     <p>{blog.likes} <button className="like-button" onClick={() => handleUpvote()}>like</button></p>
+  //     <p>added by {blog.user.name}</p>
+  //     {(loggedInUser && loggedInUser.username === blog.user.username) &&
+  //       <button className="remove-button" onClick={handleDelete}>remove</button>
+  //     }
+  //     <h3>comments</h3>
+  //     <span>
+  //       <form onSubmit={handleComment}>
+  //         <input type="text" name="comment" />
+  //         <button>add comment</button>
+  //       </form>
+  //     </span>
       
-      {blog.comments.length > 0 &&
-        <ul>
-          {blog.comments.map(comment =>
-            <li>{comment.text}</li>
-          )}
-        </ul>
-      }
-    </div>
+  //     {blog.comments.length > 0 &&
+  //       <ul>
+  //         {blog.comments.map(comment =>
+  //           <li>{comment.text}</li>
+  //         )}
+  //       </ul>
+  //     }
+  //   </div>
+  // )
+
+  return (
+    <Card variant="outlined">
+      <CardContent>
+        <Typography variant="h5">
+          {blog.title}
+        </Typography>
+        <Typography color="textSecondary" style={{ marginBottom: 12 }}>
+          added by {blog.user.name}
+        </Typography>
+        <Typography component={Link} to={blog.url}>
+          {blog.url}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <IconButton onClick={() => handleUpvote()}>
+          <ThumbUpIcon />
+        </IconButton>
+        <Typography>{blog.likes} likes</Typography>
+      </CardActions>
+    </Card>
   )
 }
 
