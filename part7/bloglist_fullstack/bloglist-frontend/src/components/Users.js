@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 import {
+  makeStyles,
   Paper,
   Table,
   TableBody,
@@ -15,8 +16,23 @@ import {
 
 import { getUsers } from '../reducers/usersReducer'
 
+const useStyles = makeStyles(theme => ({
+  tableContainer: {
+    maxWidth: 750,
+    margin: 'auto'
+  },
+  tableHeading: {
+    backgroundColor: '#efefef',
+    color: theme.palette.common.black
+  },
+  userRow: {
+    textDecoration: 'none'
+  }
+}))
+
 const Users = () => {
   const dispatch = useDispatch()
+  const classes = useStyles()
 
   useEffect(() => {
     dispatch(getUsers())
@@ -29,17 +45,17 @@ const Users = () => {
       <Typography align="center" component="h1" variant="h6">
         Users
       </Typography>
-      <TableContainer component={Paper} style={{ maxWidth: 750, margin: 'auto' }}>
+      <TableContainer className={classes.tableContainer} component={Paper}>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>User</TableCell>
-              <TableCell align="right">Blogs Created</TableCell>
+              <TableCell className={classes.tableHeading}>User</TableCell>
+              <TableCell className={classes.tableHeading} align="right">Blogs Created</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {users.map(user =>
-              <TableRow component={Link} to={`/users/${user.id}`} style={{ textDecoration: 'none'}} hover>
+              <TableRow className={classes.userRow} component={Link} to={`/users/${user.id}`} hover>
                 <TableCell component="th" scope="row">
                   {user.name}
                 </TableCell>
