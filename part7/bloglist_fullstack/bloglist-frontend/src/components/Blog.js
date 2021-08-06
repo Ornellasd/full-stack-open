@@ -122,7 +122,7 @@ const Blog = ({ loggedInUser, blogs }) => {
 
   return (
     <div>
-      <Card variant="outlined">
+      <Card variant="outlined" style={{ marginBottom: 20 }}>
         <CardContent>
           <Typography variant="h5">
             {blog.title}
@@ -155,6 +155,16 @@ const Blog = ({ loggedInUser, blogs }) => {
           }
         </CardActions>
       </Card>
+      {blog.comments.length > 0 &&
+        <div>
+        <Typography align="center" variant="h6">Comments</Typography>
+        {blog.comments.map(comment =>
+          <Box boxShadow="1" m={3} p={1} bgcolor="#efefef">
+            {comment.text}
+          </Box>
+        )}
+        </div>
+      }
       {dialog()}
     </div>
   )
