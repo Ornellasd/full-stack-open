@@ -14,8 +14,6 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-  List, 
-  ListItem,
   TextField,
   Typography
 } from '@material-ui/core'
@@ -23,7 +21,6 @@ import {
 import {
   Chat,
   ThumbUp,
-  Delete
 } from '@material-ui/icons'
 
 import { upvote, addComment, deleteBlog } from '../reducers/blogReducer'
@@ -57,16 +54,17 @@ const Blog = ({ loggedInUser, blogs }) => {
     setCommentDialogOpen(false)
   }
 
-  const handleComment = (event) => {
+  const handleCommentSubmit = (event) => {
     event.preventDefault()
     const comment = {
       text: event.target.comment.value,
     }
 
     const commentedBlog = {...blog, comments: blog.comments.concat(comment)}
-    
+
     dispatch(addComment(commentedBlog))
     event.target.comment.value = ''
+    handleCommentDialogClose()
   }
 
   const dialog = () => (
@@ -74,51 +72,26 @@ const Blog = ({ loggedInUser, blogs }) => {
       open={commentDialogOpen}
       fullWidth
     >
-      <DialogTitle>Create New Comment</DialogTitle>
-      <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          name="text"
-          label="Text"
-          fullWidth
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleCommentDialogClose}>
-          Cancel
-        </Button>
-        <Button>Create</Button>
-      </DialogActions>
+      <form onSubmit={handleCommentSubmit}>     
+        <DialogTitle>Create New Comment</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            name="comment"
+            label="Text"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCommentDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button type="submit" color="primary">Create</Button>
+        </DialogActions>
+      </form>
     </Dialog>
   )
-
-  // return (
-  //   <div>
-  //     <h2>{blog.title}</h2>
-  //     <a href={blog.url}>{blog.url}</a>
-  //     <p>{blog.likes} <button className="like-button" onClick={() => handleUpvote()}>like</button></p>
-  //     <p>added by {blog.user.name}</p>
-  //     {(loggedInUser && loggedInUser.username === blog.user.username) &&
-  //       <button className="remove-button" onClick={handleDelete}>remove</button>
-  //     }
-  //     <h3>comments</h3>
-  //     <span>
-  //       <form onSubmit={handleComment}>
-  //         <input type="text" name="comment" />
-  //         <button>add comment</button>
-  //       </form>
-  //     </span>
-      
-  //     {blog.comments.length > 0 &&
-  //       <ul>
-  //         {blog.comments.map(comment =>
-  //           <li>{comment.text}</li>
-  //         )}
-  //       </ul>
-  //     }
-  //   </div>
-  // )
 
   return (
     <div>
