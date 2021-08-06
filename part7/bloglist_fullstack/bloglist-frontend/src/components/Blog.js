@@ -121,16 +121,22 @@ const Blog = ({ loggedInUser, blogs }) => {
       </Card>
       <Dialog
         open={commentDialogOpen}
-        onClose={handleCommentDialogClose}
+        fullWidth
       >
         <DialogTitle>Create New Comment</DialogTitle>
         <DialogContent>
-          <TextField 
+          <TextField
             autoFocus
+            margin="dense"
+            name="text"
             label="Text"
+            fullWidth
           />
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleCommentDialogClose}>
+            Cancel
+          </Button>
           <Button>Create</Button>
         </DialogActions>
       </Dialog>

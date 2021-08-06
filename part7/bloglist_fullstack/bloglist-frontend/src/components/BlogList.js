@@ -14,7 +14,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import BlogForm from '../components/BlogForm'
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none',
     color: '#000000'
