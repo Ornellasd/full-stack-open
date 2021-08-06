@@ -37,7 +37,7 @@ const BlogForm = ({ dialogOpen, handleDialogClose }) => {
       onClose={handleDialogClose}
     >
       <DialogTitle>Create New Blog</DialogTitle>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off">
         <DialogContent>
           <TextField
             autoFocus
