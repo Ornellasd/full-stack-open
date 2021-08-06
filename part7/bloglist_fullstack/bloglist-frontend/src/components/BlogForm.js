@@ -1,4 +1,3 @@
-import { forwardRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 
