@@ -22,7 +22,8 @@ import {
 
 import {
   Chat,
-  ThumbUp
+  ThumbUp,
+  Delete
 } from '@material-ui/icons'
 
 import { upvote, addComment, deleteBlog } from '../reducers/blogReducer'
@@ -42,7 +43,7 @@ const Blog = ({ loggedInUser, blogs }) => {
   }
 
   const handleDelete = () => {
-    if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
+    if(window.confirm(`Delete '${blog.title}' by ${blog.author}?`)) {
       dispatch(deleteBlog(blog))
       history.push('/')
     } 
@@ -67,6 +68,30 @@ const Blog = ({ loggedInUser, blogs }) => {
     dispatch(addComment(commentedBlog))
     event.target.comment.value = ''
   }
+
+  const dialog = () => (
+    <Dialog
+      open={commentDialogOpen}
+      fullWidth
+    >
+      <DialogTitle>Create New Comment</DialogTitle>
+      <DialogContent>
+        <TextField
+          autoFocus
+          margin="dense"
+          name="text"
+          label="Text"
+          fullWidth
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCommentDialogClose}>
+          Cancel
+        </Button>
+        <Button>Create</Button>
+      </DialogActions>
+    </Dialog>
+  )
 
   // return (
   //   <div>
@@ -117,29 +142,20 @@ const Blog = ({ loggedInUser, blogs }) => {
           <IconButton onClick={handleCommentDialogOpen}>
             <Chat />
           </IconButton>
+          {(loggedInUser && loggedInUser.username === blog.user.username) &&
+            <Button
+              size="small" 
+              color="secondary" 
+              variant="contained" 
+              style={{ marginLeft: 'auto' }}
+              onClick={() => handleDelete()}
+            >
+              Delete
+            </Button>
+          }
         </CardActions>
       </Card>
-      <Dialog
-        open={commentDialogOpen}
-        fullWidth
-      >
-        <DialogTitle>Create New Comment</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="text"
-            label="Text"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCommentDialogClose}>
-            Cancel
-          </Button>
-          <Button>Create</Button>
-        </DialogActions>
-      </Dialog>
+      {dialog()}
     </div>
   )
 }
