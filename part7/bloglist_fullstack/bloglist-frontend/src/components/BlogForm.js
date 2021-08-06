@@ -45,18 +45,21 @@ const BlogForm = ({ dialogOpen, handleDialogClose }) => {
             name="title"
             label="Title"
             fullWidth
+            required
           />
           <TextField
             margin="dense"
             name="author"
             label="Author"
             fullWidth
+            required
           />
           <TextField
             margin="dense"
             name="url"
             label="URL"
             fullWidth
+            required
           />
         </DialogContent>
         <DialogActions>

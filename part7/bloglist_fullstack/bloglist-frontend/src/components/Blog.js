@@ -76,11 +76,12 @@ const Blog = ({ loggedInUser, blogs }) => {
         <DialogTitle>Create New Comment</DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
             margin="dense"
             name="comment"
             label="Text"
             fullWidth
+            autoFocus
+            required
           />
         </DialogContent>
         <DialogActions>
