@@ -1,13 +1,15 @@
+import React from 'react'
+
 import { useDispatch } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 
-import { 
+import {
   Button,
-  Dialog, 
-  DialogContent, 
-  DialogTitle, 
+  Dialog,
+  DialogContent,
+  DialogTitle,
   DialogActions,
-  TextField 
+  TextField
 } from '@material-ui/core'
 
 const BlogForm = ({ dialogOpen, handleDialogClose }) => {
@@ -20,7 +22,7 @@ const BlogForm = ({ dialogOpen, handleDialogClose }) => {
       author: event.target.author.value,
       url: event.target.url.value
     }
-    
+
     dispatch(createBlog(content))
 
     event.target.title.value = ''

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { React, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -33,7 +33,7 @@ const Users = () => {
   useEffect(() => {
     dispatch(getUsers())
   }, [dispatch])
-  
+
   const users = useSelector(state => state.users)
 
   return (
@@ -51,7 +51,7 @@ const Users = () => {
           </TableHead>
           <TableBody>
             {users.map(user =>
-              <TableRow className={classes.userRow} component={Link} to={`/users/${user.id}`} hover>
+              <TableRow className={classes.userRow} component={Link} to={`/users/${user.id}`} key={user.id} hover>
                 <TableCell component="th" scope="row">
                   {user.name}
                 </TableCell>

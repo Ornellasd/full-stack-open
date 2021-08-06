@@ -15,7 +15,7 @@ export const setAlerts = (content, type, time) => {
   if(timeout) {
     clearTimeout(timeout)
   }
-  
+
   return async dispatch => {
     dispatch({
       type: 'SET_ALERTS',

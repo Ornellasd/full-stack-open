@@ -41,7 +41,7 @@ const Login = ({ alerts }) => {
   const dispatch = useDispatch()
   const history = useHistory()
   const classes = useStyles()
-  
+
   const handleSubmit = event => {
     event.preventDefault()
 
@@ -64,7 +64,7 @@ const Login = ({ alerts }) => {
           Log in to application
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
-          <TextField 
+          <TextField
             label="Username"
             name="username"
             variant="outlined"
@@ -73,15 +73,15 @@ const Login = ({ alerts }) => {
             fullWidth
             autoFocus
           />
-          <TextField 
-            label="Password" 
-            type="password" 
+          <TextField
+            label="Password"
+            type="password"
             name="password"
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            autoFocus 
+            autoFocus
           />
           <Button
             type="submit"

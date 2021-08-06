@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const dispatch = useDispatch()
   const classes = useStyles()
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { React, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { Link, useHistory } from 'react-router-dom'
@@ -33,9 +33,9 @@ const Blog = ({ loggedInUser, blogs }) => {
   const history = useHistory()
 
   const blog = blogs.find(b => b.id === id)
-  
+
   const handleUpvote = () => {
-    const upvotedBlog = {...blog, likes: blog.likes += 1, user: blog.user.id}
+    const upvotedBlog = { ...blog, likes: blog.likes += 1, user: blog.user.id }
     dispatch(upvote(upvotedBlog))
   }
 
@@ -43,7 +43,7 @@ const Blog = ({ loggedInUser, blogs }) => {
     if(window.confirm(`Delete '${blog.title}' by ${blog.author}?`)) {
       dispatch(deleteBlog(blog))
       history.push('/')
-    } 
+    }
   }
 
   const handleCommentDialogOpen = () => {
@@ -60,7 +60,7 @@ const Blog = ({ loggedInUser, blogs }) => {
       text: event.target.comment.value,
     }
 
-    const commentedBlog = {...blog, comments: blog.comments.concat(comment)}
+    const commentedBlog = { ...blog, comments: blog.comments.concat(comment) }
 
     dispatch(addComment(commentedBlog))
     event.target.comment.value = ''
@@ -72,7 +72,7 @@ const Blog = ({ loggedInUser, blogs }) => {
       open={commentDialogOpen}
       fullWidth
     >
-      <form onSubmit={handleCommentSubmit}>     
+      <form onSubmit={handleCommentSubmit}>
         <DialogTitle>Create New Comment</DialogTitle>
         <DialogContent>
           <TextField
@@ -118,9 +118,9 @@ const Blog = ({ loggedInUser, blogs }) => {
           </IconButton>
           {(loggedInUser && loggedInUser.username === blog.user.username) &&
             <Button
-              size="small" 
-              color="secondary" 
-              variant="contained" 
+              size="small"
+              color="secondary"
+              variant="contained"
               style={{ marginLeft: 'auto' }}
               onClick={() => handleDelete()}
             >
@@ -131,12 +131,12 @@ const Blog = ({ loggedInUser, blogs }) => {
       </Card>
       {blog.comments.length > 0 &&
         <div>
-        <Typography align="center" variant="h6">Comments</Typography>
-        {blog.comments.map(comment =>
-          <Box boxShadow="1" m={3} p={1} bgcolor="#efefef">
-            {comment.text}
-          </Box>
-        )}
+          <Typography align="center" variant="h6">Comments</Typography>
+          {blog.comments.map(comment =>
+            <Box boxShadow="1" m={3} p={1} bgcolor="#efefef" key={comment.id}>
+              {comment.text}
+            </Box>
+          )}
         </div>
       }
       {dialog()}

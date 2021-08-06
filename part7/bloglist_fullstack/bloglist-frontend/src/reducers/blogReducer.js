@@ -19,11 +19,12 @@ const blogReducer = (state = [], action) => {
       const blogToChange = state.find(b => b.id === id)
       return state.map(blog => blog.id !== id ? blog: blogToChange).sort(order)
     }
-    case 'ADD_COMMENT':
+    case 'ADD_COMMENT': {
       const id = action.data.id
       const blogToChange = state.find(b => b.id === id)
-      const commentedBlog = { ...blogToChange, comments: action.data.comments}
+      const commentedBlog = { ...blogToChange, comments: action.data.comments }
       return state.map(blog => blog.id !== id ? blog : commentedBlog)
+    }
     default:
       return state
   }

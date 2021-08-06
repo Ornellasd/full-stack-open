@@ -1,20 +1,22 @@
+import React from 'react'
+
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
-import { 
+import {
   Divider,
-  Fab, 
-  List, 
-  ListItem, 
-  makeStyles, 
-  Typography 
+  Fab,
+  List,
+  ListItem,
+  makeStyles,
+  Typography
 } from '@material-ui/core'
 
 import AddIcon from '@material-ui/icons/Add'
 
 import BlogForm from '../components/BlogForm'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
   link: {
     textDecoration: 'none',
     color: '#000000'
@@ -51,7 +53,7 @@ const BlogList = ({ blogs }) => {
       <BlogForm dialogOpen={dialogOpen} handleDialogClose={handleDialogClose} />
       <List>
         {blogs.map(blog =>
-          <Link to={`/blogs/${blog.id}`} className={classes.link}>
+          <Link to={`/blogs/${blog.id}`} className={classes.link} key={blog.id}>
             <ListItem button>
               <article className={classes.article}>
                 <Typography variant="h6">

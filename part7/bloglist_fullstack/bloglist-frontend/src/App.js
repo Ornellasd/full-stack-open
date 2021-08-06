@@ -13,7 +13,7 @@ import {
   CssBaseline
 } from '@material-ui/core'
 
-import { getBlogs } from './reducers/blogReducer' 
+import { getBlogs } from './reducers/blogReducer'
 import { initializeUser } from './reducers/loginReducer'
 
 import blogService from './services/blogs'
@@ -32,7 +32,7 @@ const App = () => {
   const alerts = useSelector(state => state.alerts)
   const blogs = useSelector(state => state.blogs)
   const loggedInUser = useSelector(state => state.login)
-  
+
   useEffect(() => {
     dispatch(getBlogs())
   }, [dispatch])

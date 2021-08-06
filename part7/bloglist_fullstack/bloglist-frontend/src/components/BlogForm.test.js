@@ -2,8 +2,6 @@ import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import BlogForm from './BlogForm'
-import { prettyDOM } from '@testing-library/dom'
-
 
 describe('blog form tests', () => {
   test('form calls event handler with right details', () => {
@@ -12,7 +10,7 @@ describe('blog form tests', () => {
     const component = render(
       <BlogForm createBlog={createBlog} />
     )
-    
+
     const form = component.container.querySelector('form')
     const titleInput = component.container.querySelector('#title')
     const authorInput = component.container.querySelector('#author')
