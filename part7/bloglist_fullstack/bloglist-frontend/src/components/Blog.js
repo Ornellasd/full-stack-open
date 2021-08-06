@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router'
 import { Link, useHistory } from 'react-router-dom'
@@ -8,6 +9,10 @@ import {
   Card,
   CardActions,
   CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   IconButton,
   List, 
   ListItem,
@@ -15,11 +20,16 @@ import {
   Typography
 } from '@material-ui/core'
 
-import ThumbUpIcon from '@material-ui/icons/ThumbUp'
+import {
+  Chat,
+  ThumbUp
+} from '@material-ui/icons'
 
 import { upvote, addComment, deleteBlog } from '../reducers/blogReducer'
 
 const Blog = ({ loggedInUser, blogs }) => {
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false)
+
   const id = useParams().id
   const dispatch = useDispatch()
   const history = useHistory()
@@ -29,6 +39,21 @@ const Blog = ({ loggedInUser, blogs }) => {
   const handleUpvote = () => {
     const upvotedBlog = {...blog, likes: blog.likes += 1, user: blog.user.id}
     dispatch(upvote(upvotedBlog))
+  }
+
+  const handleDelete = () => {
+    if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
+      dispatch(deleteBlog(blog))
+      history.push('/')
+    } 
+  }
+
+  const handleCommentDialogOpen = () => {
+    setCommentDialogOpen(true)
+  }
+
+  const handleCommentDialogClose = () => {
+    setCommentDialogOpen(false)
   }
 
   const handleComment = (event) => {
@@ -41,13 +66,6 @@ const Blog = ({ loggedInUser, blogs }) => {
     
     dispatch(addComment(commentedBlog))
     event.target.comment.value = ''
-  }
-
-  const handleDelete = () => {
-    if(window.confirm(`Delete ${blog.title} by ${blog.author}?`)) {
-      dispatch(deleteBlog(blog))
-      history.push('/')
-    } 
   }
 
   // return (
@@ -78,25 +96,45 @@ const Blog = ({ loggedInUser, blogs }) => {
   // )
 
   return (
-    <Card variant="outlined">
-      <CardContent>
-        <Typography variant="h5">
-          {blog.title}
-        </Typography>
-        <Typography color="textSecondary" style={{ marginBottom: 12 }}>
-          added by {blog.user.name}
-        </Typography>
-        <Typography component={Link} to={blog.url}>
-          {blog.url}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <IconButton onClick={() => handleUpvote()}>
-          <ThumbUpIcon />
-        </IconButton>
-        <Typography>{blog.likes} likes</Typography>
-      </CardActions>
-    </Card>
+    <div>
+      <Card variant="outlined">
+        <CardContent>
+          <Typography variant="h5">
+            {blog.title}
+          </Typography>
+          <Typography color="textSecondary" style={{ marginBottom: 12 }}>
+            added by {blog.user.name}
+          </Typography>
+          <Typography component={Link} to={blog.url}>
+            {blog.url}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <IconButton onClick={() => handleUpvote()}>
+            <ThumbUp />
+          </IconButton>
+          <Typography>{blog.likes} likes</Typography>
+          <IconButton onClick={handleCommentDialogOpen}>
+            <Chat />
+          </IconButton>
+        </CardActions>
+      </Card>
+      <Dialog
+        open={commentDialogOpen}
+        onClose={handleCommentDialogClose}
+      >
+        <DialogTitle>Create New Comment</DialogTitle>
+        <DialogContent>
+          <TextField 
+            autoFocus
+            label="Text"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button>Create</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   )
 }
 
