@@ -23,8 +23,6 @@ const App = () => {
     return <div>loading...</div>
   }
 
-  console.log(result.data.allAuthors)
-
   return (
     <div>
       <div>
@@ -35,6 +33,8 @@ const App = () => {
 
       <Authors
         show={page === 'authors'}
+        authors={result.data.allAuthors}
+
       />
 
       <Books
