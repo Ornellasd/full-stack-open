@@ -6,6 +6,8 @@ import { ALL_AUTHORS } from '../queries'
 const Authors = (props) => {
   const result = useQuery(ALL_AUTHORS)
   const [authors, setAuthors] = useState([])
+  const [authorToChange, setAuthorToChange] = useState('')
+  const [born, setBorn] = useState('')
 
   useEffect(() => {
     if(result.data) {
@@ -15,7 +17,19 @@ const Authors = (props) => {
 
   if (!props.show) {
     return null
-  } 
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const derp = {
+      authorToChange,
+      born,
+    }
+
+    console.log(derp)
+    setAuthorToChange('')
+    setBorn('')
+  }
   
   return (
     <div>
@@ -40,7 +54,26 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-
+      <div>
+        <h3>Set birthyear</h3>
+        <form onSubmit={handleSubmit}>
+          <div>
+            name
+            <input
+              value={authorToChange}
+              onChange={({ target }) => setAuthorToChange(target.value)}
+            />
+          </div>
+          <div>
+            born
+            <input
+              value={born}
+              onChange={({ target }) => setBorn(target.value)}
+            />
+          </div>
+          <button type='submit'>update author</button>
+        </form>
+      </div>
     </div>
   )
 }
