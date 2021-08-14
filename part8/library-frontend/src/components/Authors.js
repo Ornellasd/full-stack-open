@@ -65,6 +65,7 @@ const Authors = (props) => {
         <h3>Set birthyear</h3>
         <form onSubmit={handleSubmit}>
           <Select
+            value={selectedAuthor}
             onChange={setSelectedAuthor}
             options={
               authors.map(author => {
