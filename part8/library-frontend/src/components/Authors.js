@@ -1,13 +1,17 @@
   
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
-import { ALL_AUTHORS } from '../queries'
+import { useMutation, useQuery } from '@apollo/client'
+import { ALL_AUTHORS, SET_BORN } from '../queries'
 
 const Authors = (props) => {
   const result = useQuery(ALL_AUTHORS)
   const [authors, setAuthors] = useState([])
   const [authorToChange, setAuthorToChange] = useState('')
   const [born, setBorn] = useState('')
+
+  const [ changeBorn ] = useMutation(SET_BORN, {
+    refetchQueries: [ { query: ALL_AUTHORS } ]
+  })
 
   useEffect(() => {
     if(result.data) {
@@ -21,12 +25,14 @@ const Authors = (props) => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    const derp = {
-      authorToChange,
-      born,
-    }
+    
+    changeBorn({ 
+      variables: {
+        "name": authorToChange,
+        "born": parseInt(born)
+      } 
+    })
 
-    console.log(derp)
     setAuthorToChange('')
     setBorn('')
   }
