@@ -157,7 +157,8 @@ const resolvers = {
         const author = {
           name: args.author,
           born: null,
-          bookCount: 1
+          bookCount: 1,
+          id: uuid()
         }
         authors = authors.concat(author)
       }
