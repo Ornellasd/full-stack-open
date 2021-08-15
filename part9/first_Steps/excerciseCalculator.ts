@@ -42,5 +42,7 @@ const calculateExercises = (hourArr: Array<number>, target: number): Result => {
   return result;
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
-console.log(calculateExercises([1, 1, 1, 0, 0, 0, 1], 2));
+const target: number = Number(process.argv[2]);
+const hourArr: Array<number> = process.argv.slice(3).map(Number);
+
+console.log(calculateExercises(hourArr, target));
