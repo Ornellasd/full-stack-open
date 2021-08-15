@@ -42,7 +42,21 @@ const calculateExercises = (hourArr: Array<number>, target: number): Result => {
   return result;
 }
 
-const target: number = Number(process.argv[2]);
-const hourArr: Array<number> = process.argv.slice(3).map(Number);
+interface ExcerciseValues {
+  hourArr: Array<string>;
+  target: number;
+}
 
-console.log(calculateExercises(hourArr, target));
+// const parseArguments = (args: Array<string>) => {
+//   if(args.length)
+// }
+// const parseArguments = (args: Array<string>): ExcerciseValues => {
+
+// } 
+console.log(process.argv.slice(3).map(Number).every(element => !isNaN(element)));
+
+// console.log(process.argv.slice(3).map(Number).length);
+// const target: number = Number(process.argv[2]);
+// const hourArr: Array<number> = process.argv.slice(3).map(Number);
+
+// calculateExercises(hourArr, target));
