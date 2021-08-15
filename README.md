@@ -20,3 +20,6 @@
 ### Part 7 - [React router, custom hooks, styling app with CSS and webpack](https://github.com/Ornellasd/full_stack_open/tree/master/part7)
 
 ### Part 8 - [GraphQL](https://github.com/Ornellasd/full_stack_open/tree/master/part8)
+
+### Part 9 - [TypeScript](https://github.com/Ornellasd/full_stack_open/tree/master/part9)
+
