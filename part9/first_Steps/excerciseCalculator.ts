@@ -51,6 +51,8 @@ const parseArguments = (args: Array<string>): ExcerciseValues => {
   const hourArr = args.slice(3).map(Number);
   const target = Number(args[2]);
 
+  if(args.length < 5) throw new Error('Not Enough arguments');
+
   if(!isNaN(target) && hourArr.every(element => !isNaN(element))) {
     return {
       hourArr,
