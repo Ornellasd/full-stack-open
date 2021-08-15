@@ -43,20 +43,27 @@ const calculateExercises = (hourArr: Array<number>, target: number): Result => {
 }
 
 interface ExcerciseValues {
-  hourArr: Array<string>;
+  hourArr: Array<number>;
   target: number;
 }
 
-// const parseArguments = (args: Array<string>) => {
-//   if(args.length)
-// }
-// const parseArguments = (args: Array<string>): ExcerciseValues => {
+const parseArguments = (args: Array<string>): ExcerciseValues => {
+  const hourArr = args.slice(3).map(Number);
+  const target = Number(args[2]);
 
-// } 
-console.log(process.argv.slice(3).map(Number).every(element => !isNaN(element)));
+  if(!isNaN(target) && hourArr.every(element => !isNaN(element))) {
+    return {
+      hourArr,
+      target
+    }
+  } else {
+    throw new Error('Provided values were not numbers!');
+  }
+}
 
-// console.log(process.argv.slice(3).map(Number).length);
-// const target: number = Number(process.argv[2]);
-// const hourArr: Array<number> = process.argv.slice(3).map(Number);
-
-// calculateExercises(hourArr, target));
+try {
+  const { hourArr, target } = parseArguments(process.argv);
+  console.log(calculateExercises(hourArr, target));
+} catch(e) {
+  console.log('Error, something bad happened, message: ', e.message);
+}
