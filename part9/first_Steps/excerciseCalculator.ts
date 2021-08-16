@@ -37,10 +37,10 @@ const calculateExercises = (hourArr: Array<number>, target: number): Result => {
     ratingDescription,
     target,
     average
-  }
+  };
 
   return result;
-}
+};
 
 interface ExcerciseValues {
   hourArr: Array<number>;
@@ -57,15 +57,16 @@ const parseArguments = (args: Array<string>): ExcerciseValues => {
     return {
       hourArr,
       target
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
 try {
   const { hourArr, target } = parseArguments(process.argv);
   console.log(calculateExercises(hourArr, target));
 } catch(e) {
-  console.log('Error, something bad happened, message: ', e.message);
+  const error = (e as Error).message;
+  console.log('Error, something bad happened, message: ', error);
 }

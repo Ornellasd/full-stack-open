@@ -10,7 +10,7 @@ const calculateBmi = (height: number, weight: number): string => {
   } else {
     return 'Obese';
   }
-}
+};
 
 interface BmiValues {
   height: number;
@@ -25,17 +25,18 @@ const parseArguments = (args: Array<string>): BmiValues => {
     return {
       height: Number(args[2]),
       weight: Number(args[3])
-    }
+    };
   } else {
     throw new Error('Provided values were not numbers!');
   }
-}
+};
 
 try {
   const { height, weight } = parseArguments(process.argv);
-  console.log(calculateBmi(height, weight))
+  console.log(calculateBmi(height, weight));
 } catch(e) {
-  console.log('Error, something bad happened, message: ', e.message);
+  const error = (e as Error).message;
+  console.log('Error, something bad happened, message: ', error);
 }
 
 export { calculateBmi };
