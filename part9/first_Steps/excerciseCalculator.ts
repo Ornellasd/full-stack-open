@@ -70,3 +70,5 @@ try {
   const error = (e as Error).message;
   console.log('Error, something bad happened, message: ', error);
 }
+
+export { calculateExercises };

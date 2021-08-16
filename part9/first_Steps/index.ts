@@ -1,7 +1,10 @@
 import express from 'express';
 import { calculateBmi } from './bmiCalculator';
+// import { calculateExercises } from './excerciseCalculator';
 
 const app = express();
+
+app.use(express.json());
 
 app.get('/bmi', (_req, res) => {
   const { height, weight } = _req.query;
@@ -15,6 +18,12 @@ app.get('/bmi', (_req, res) => {
       bmi: calculateBmi(Number(height), Number(weight))
     });
   }
+});
+
+app.post('/exercise', (_req, res) => {
+ console.log(_req.body.name);
+
+ res.send('derp');
 });
 
 const PORT = 3003;
