@@ -24,18 +24,8 @@ app.post('/exercise', (_req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { daily_exercises, target } = _req.body;
 
-  if(!daily_exercises || !target) {
-    res.send({
-      // add correct response codes!
-      error: 'missing parameters'
-    });
-  }
-
-  if(!Array.isArray(daily_exercises) || isNaN(target)) {
-    res.send({
-      error: 'malformatted parameters'
-    });
-  }
+  if(!daily_exercises || ! target) res.status(400).json({ error: 'missing parameters' });
+  if(!Array.isArray(daily_exercises) || isNaN(target)) res.status(400).json({ error: 'malformatted parameters' });
 
   res.send(calculateExercises(daily_exercises, target));
 });

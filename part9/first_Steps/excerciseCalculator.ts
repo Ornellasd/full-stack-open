@@ -29,7 +29,7 @@ const calculateExercises = (hourArr: Array<number>, target: number): Result => {
     ratingDescription = 'Try better next week...';
   }
 
-  const result = {
+  return {
     periodLength: hourArr.length,
     trainingDays: hourArr.filter(d => d !== 0).length,
     success: average < target ? false : true,
@@ -38,37 +38,6 @@ const calculateExercises = (hourArr: Array<number>, target: number): Result => {
     target,
     average
   };
-
-  return result;
 };
-
-interface ExcerciseValues {
-  hourArr: Array<number>;
-  target: number;
-}
-
-const parseArguments = (args: Array<string>): ExcerciseValues => {
-  const hourArr = args.slice(3).map(Number);
-  const target = Number(args[2]);
-
-  if(args.length < 5) throw new Error('Not Enough arguments');
-
-  if(!isNaN(target) && hourArr.every(element => !isNaN(element))) {
-    return {
-      hourArr,
-      target
-    };
-  } else {
-    throw new Error('Provided values were not numbers!');
-  }
-};
-
-try {
-  const { hourArr, target } = parseArguments(process.argv);
-  console.log(calculateExercises(hourArr, target));
-} catch(e) {
-  const error = (e as Error).message;
-  console.log('Error, something bad happened, message: ', error);
-}
 
 export { calculateExercises };
