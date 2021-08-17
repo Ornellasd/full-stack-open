@@ -1,6 +1,6 @@
 import diagnoses from '../../data/diagnoses';
 
-import { Diagnoses, NoLatinDiagnoses } from '../../types';
+import { Diagnoses, NoLatinDiagnoses } from '../types';
 
 const getDiagnoses = (): Array<Diagnoses> => {
   return diagnoses;
