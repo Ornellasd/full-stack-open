@@ -1,6 +1,8 @@
 import express from 'express';
 import diagnosesRouter from './routes/diagnoses';
+
 const app = express();
+
 app.use(express.json());
 
 const PORT = 3001;
