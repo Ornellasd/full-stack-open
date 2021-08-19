@@ -3,12 +3,12 @@ import {v1 as uuid} from 'uuid';
 import patients from '../../data/patientEntries';
 
 import {
-  NewPatient, 
-  Patients, 
+  NewPatientEntry, 
+  PatientEntry, 
   NoSSN 
 } from '../types';
 
-const getPatients = (): Array<Patients> => {
+const getPatients = (): Array<PatientEntry> => {
   return patients;
 };
 
@@ -22,9 +22,8 @@ const getNonSensitivePatients = (): NoSSN [] => {
   }));
 };
 
-const addPatient = ( patient: NewPatient ): Patients => {
+const addPatient = ( patient: NewPatientEntry ): PatientEntry => {
   const newPatient = {
-    /* eslint-disable @typescript-eslint/no-unsafe-call; */
     id: uuid(),
     ...patient
   };
