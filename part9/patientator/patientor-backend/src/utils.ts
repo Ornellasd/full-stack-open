@@ -1,14 +1,7 @@
-import { Gender, Patients } from "./types";
+import { Gender, NewPatient } from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
-};
-
-const parseId = (id: unknown): string => {
-  if(!id || !isString(id)) {
-    throw new Error('Incorrect or missing id: ' + id);
-  }
-  return id;
 };
 
 const parseName = (name: unknown): string => {
@@ -51,10 +44,16 @@ const parseOccupation = (occupation: unknown): string => {
   return occupation;
 };
 
-const toNewPatientEntry = (object: unknown): Patients => {
-  const newPatient: Patients = {
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const toNewPatientEntry = (object: any): NewPatient => {
+  const newPatient: NewPatient = {
+    name: parseName(object.name),
+    dateOfBirth: parseDateOfBirth(object.dateOfBirth),
+    ssn: parseSSN(object.ssn),
+    gender: parseGender(object.gender),
+    occupation: parseOccupation(object.occupation)
   };
+
   return newPatient;
 };
 
