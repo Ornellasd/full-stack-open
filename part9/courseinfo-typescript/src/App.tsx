@@ -33,7 +33,7 @@ const App = () => {
       exerciseSubmissionLink: "https://fake-exercise-submit.made-up-url.dev",
       type: "submission"
     }
-  ]
+  ];
 
   return (
     <div>
