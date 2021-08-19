@@ -24,7 +24,7 @@ const getNonSensitivePatients = (): NoSSN [] => {
 
 const addPatient = ( patient: NewPatient ): Patients => {
   const newPatient = {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    /* eslint-disable @typescript-eslint/no-unsafe-call; */
     id: uuid(),
     ...patient
   };
