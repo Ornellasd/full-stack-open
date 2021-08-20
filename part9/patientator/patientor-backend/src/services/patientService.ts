@@ -13,13 +13,13 @@ const getPatients = (): Array<PatientEntry> => {
 };
 
 const getNonSensitivePatients = (): NoSSN [] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
     id,
     name,
     dateOfBirth,
     gender,
     occupation,
-    entries: []
+    entries
   }));
 };
 

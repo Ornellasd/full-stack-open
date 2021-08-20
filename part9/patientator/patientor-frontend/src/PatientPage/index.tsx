@@ -11,17 +11,6 @@ const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
 
-  const genderIcon = (): SemanticICONS => {
-    switch (patient?.gender) {
-      case 'male':
-        return 'mars';
-      case 'female':
-        return 'venus';
-      default:
-        return 'genderless';
-    }
-  };
-
   React.useEffect(() => {
     const fetchPatient = async () => {
       try {
@@ -35,6 +24,17 @@ const PatientPage = () => {
     };
     void fetchPatient();
   }, [dispatch]);
+
+  const genderIcon = (): SemanticICONS => {
+    switch (patient?.gender) {
+      case 'male':
+        return 'mars';
+      case 'female':
+        return 'venus';
+      default:
+        return 'genderless';
+    }
+  };
 
   if(patient) {
     return (
