@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { apiBaseUrl } from "../constants";
-import { Diagnosis, Patient } from "../types";
+import { Diagnosis, Patient, Entry } from "../types";
 import { useStateValue } from "../state";
 import { useParams } from "react-router";
 import { Icon, SemanticICONS } from "semantic-ui-react";
@@ -42,6 +42,19 @@ const PatientPage = () => {
     return Object.values(diagnoses).filter((diagnosis: Diagnosis) => diagnosis.code === code )[0].name;
   };
 
+  const EntryDetails = ({ entry }: { entry: Entry }) => {
+    switch(entry.type) {
+      case 'Hospital':
+        return <p>hospital</p>;
+      case 'OccupationalHealthcare':
+        return <p>Occupational Derp</p>;
+      case 'HealthCheck':
+        return <p>health check check</p>;
+      default:
+        return null;
+    }
+  };
+
   if(patient) {
     return (
       <div className="App">
@@ -61,6 +74,7 @@ const PatientPage = () => {
                 )}
               </ul>
             }
+            <EntryDetails entry={entry} />
           </div>
         )}
       </div>
