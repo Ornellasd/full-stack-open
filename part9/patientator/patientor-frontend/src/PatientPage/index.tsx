@@ -42,6 +42,19 @@ const PatientPage = () => {
         <h2>{patient.name} <Icon name={genderIcon()} /></h2>
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient?.occupation}</p>
+        <h3>entries</h3>
+        {patient.entries.map((entry, index) =>
+          <p key={index}>
+            {entry.date} <em>{entry.description}</em>
+            {entry.diagnosisCodes &&
+              <ul>
+                {entry.diagnosisCodes.map((code, index) =>
+                  <li key={index}>{code}</li>
+                )}
+              </ul>
+            }
+          </p>
+        )}
       </div>
     );
   } else {
