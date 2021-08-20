@@ -23,12 +23,9 @@ const PatientPage = () => {
     void fetchPatient();
   }, [dispatch]);
 
-
   console.log(patient);
-  
   return (
-    <div>
-      <p>DERP</p>
+    <div className="App">
     </div>
   );
 };
