@@ -9,6 +9,8 @@ import { setPatient } from "../state";
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
+  const [{ diagnoses }] = useStateValue();
+
   const { id } = useParams<{ id: string }>();
 
   React.useEffect(() => {
@@ -36,6 +38,7 @@ const PatientPage = () => {
     }
   };
 
+  console.log(diagnoses);
   if(patient) {
     return (
       <div className="App">
