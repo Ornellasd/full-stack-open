@@ -18,7 +18,8 @@ const getNonSensitivePatients = (): NoSSN [] => {
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries: []
   }));
 };
 
