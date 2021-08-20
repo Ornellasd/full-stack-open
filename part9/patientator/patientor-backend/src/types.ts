@@ -20,9 +20,8 @@ export interface PatientEntry {
   ssn: string;
   gender: string;
   occupation: string;
-  entries: Entry[];
+  entries?: Entry[];
 }
 
-export type NoSSN = Omit<PatientEntry, 'ssn'>;
+export type NoSSN = Omit<PatientEntry, 'ssn' | 'entries'>;
 export type NewPatientEntry = Omit<PatientEntry, 'id'>;
-export type PublicPatient = Omit<PatientEntry, 'ssn' | 'entries'>;
