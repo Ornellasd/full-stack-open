@@ -3,15 +3,17 @@ import React from "react";
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
 import { useStateValue } from "../state";
+import { useParams } from "react-router";
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
+  const { id } = useParams<{ id: string }>();
 
   React.useEffect(() => {
     const fetchPatient = async () => {
       try {
         const { data: patientInfoFromApi } = await axios.get<Patient>(
-          `${apiBaseUrl}/patients/d2773822-f723-11e9-8f0b-362b9e155667`
+          `${apiBaseUrl}/patients/${id}`
         );
         dispatch({ type: 'SET_PATIENT', payload: patientInfoFromApi });
       } catch(e) {
@@ -20,6 +22,7 @@ const PatientPage = () => {
     };
     void fetchPatient();
   }, [dispatch]);
+
 
   console.log(patient);
   
