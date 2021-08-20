@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { apiBaseUrl } from "../constants";
-import { Patient } from "../types";
+import { Diagnosis, Patient } from "../types";
 import { useStateValue } from "../state";
 import { useParams } from "react-router";
 import { Icon, SemanticICONS } from "semantic-ui-react";
@@ -37,8 +37,11 @@ const PatientPage = () => {
         return 'genderless';
     }
   };
+  
+  const filteredDiagnosisName = (code: string): string => {
+    return Object.values(diagnoses).filter((diagnosis: Diagnosis) => diagnosis.code === code )[0].name;
+  };
 
-  console.log(diagnoses);
   if(patient) {
     return (
       <div className="App">
@@ -47,16 +50,18 @@ const PatientPage = () => {
         <p>occupation: {patient?.occupation}</p>
         <h3>entries</h3>
         {patient.entries.map((entry, index) =>
-          <p key={index}>
+          <div key={index}>
             {entry.date} <em>{entry.description}</em>
             {entry.diagnosisCodes &&
               <ul>
                 {entry.diagnosisCodes.map((code, index) =>
-                  <li key={index}>{code}</li>
+                  <li key={index}>
+                    {code} {filteredDiagnosisName(code)}
+                  </li>
                 )}
               </ul>
             }
-          </p>
+          </div>
         )}
       </div>
     );
