@@ -1,18 +1,18 @@
 import React from 'react';
 import { Entry } from '../types';
 
-import HospitalEntry from './HospitalEntry';
-import OccupationalHealthcareEntry from './OccupationalHealthCareEntry';
-import HealthCheckEntry from './HealthCheckEntry';
+import Hospital from './Hospital';
+import HealthCheck from './HealthCheck';
+import OccupationalHealthcare from './OccupationalHealth';
 
 const EntryDetails = ({ entry }: { entry: Entry }) => {
   switch(entry.type) {
     case 'Hospital':
-      return <HospitalEntry entry={entry} />;
+      return <Hospital entry={entry} />;
     case 'OccupationalHealthcare':
-      return <OccupationalHealthcareEntry entry={entry} />;
+      return <OccupationalHealthcare entry={entry} />;
     case 'HealthCheck':
-      return <HealthCheckEntry entry={entry} />;
+      return <HealthCheck entry={entry} />;
     default:
       return null;
   }
