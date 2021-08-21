@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from 'axios';
 import React from 'react';
 import { apiBaseUrl } from "../constants";
-import { Diagnosis, Patient } from "../types";
+import { Patient } from "../types";
 import { useStateValue } from "../state";
 import { useParams } from "react-router";
 import { Icon, SemanticICONS } from "semantic-ui-react";
@@ -11,7 +10,6 @@ import EntryDetails from "./Entry";
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
-  const [{ diagnoses }] = useStateValue();
 
   const { id } = useParams<{ id: string }>();
 
@@ -42,13 +40,13 @@ const PatientPage = () => {
   
   if(patient) {
     return (
-      <div className="App">
+      <div className="Patient-Details">
         <h2>{patient.name} <Icon name={genderIcon()} /></h2>
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient?.occupation}</p>
         <h3>entries</h3>
-        {patient.entries.map((entry, index) =>
-          <EntryDetails key={index} entry={entry} />
+        {patient.entries.map(entry =>
+          <EntryDetails key={entry.id} entry={entry} />
         )}
       </div>
     );
