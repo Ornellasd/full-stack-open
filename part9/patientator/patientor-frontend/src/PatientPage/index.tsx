@@ -1,11 +1,13 @@
-import axios from "axios";
-import React from "react";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import axios from 'axios';
+import React from 'react';
 import { apiBaseUrl } from "../constants";
-import { Diagnosis, Patient, Entry } from "../types";
+import { Diagnosis, Patient } from "../types";
 import { useStateValue } from "../state";
 import { useParams } from "react-router";
 import { Icon, SemanticICONS } from "semantic-ui-react";
 import { setPatient } from "../state";
+import EntryDetails from "./Entry";
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
@@ -38,23 +40,6 @@ const PatientPage = () => {
     }
   };
   
-  const filteredDiagnosisName = (code: string): string => {
-    return Object.values(diagnoses).filter((diagnosis: Diagnosis) => diagnosis.code === code )[0].name;
-  };
-
-  const EntryDetails = ({ entry }: { entry: Entry }) => {
-    switch(entry.type) {
-      case 'Hospital':
-        return <p>hospital</p>;
-      case 'OccupationalHealthcare':
-        return <p>Occupational Derp</p>;
-      case 'HealthCheck':
-        return <p>health check check</p>;
-      default:
-        return null;
-    }
-  };
-
   if(patient) {
     return (
       <div className="App">
@@ -63,19 +48,7 @@ const PatientPage = () => {
         <p>occupation: {patient?.occupation}</p>
         <h3>entries</h3>
         {patient.entries.map((entry, index) =>
-          <div key={index}>
-            {entry.date} <em>{entry.description}</em>
-            {entry.diagnosisCodes &&
-              <ul>
-                {entry.diagnosisCodes.map((code, index) =>
-                  <li key={index}>
-                    {code} {filteredDiagnosisName(code)}
-                  </li>
-                )}
-              </ul>
-            }
-            <EntryDetails entry={entry} />
-          </div>
+          <EntryDetails key={index} entry={entry} />
         )}
       </div>
     );
