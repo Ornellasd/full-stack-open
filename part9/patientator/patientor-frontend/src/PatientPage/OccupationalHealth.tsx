@@ -1,6 +1,6 @@
 import React from 'react';
 import { Diagnosis, OccupationalHealthCareEntry } from '../types';
-import { Icon } from "semantic-ui-react";
+import { Icon } from 'semantic-ui-react';
 
 import { filteredDiagnosisName } from './helper';
 

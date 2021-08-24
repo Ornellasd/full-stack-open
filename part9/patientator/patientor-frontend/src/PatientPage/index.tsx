@@ -1,12 +1,12 @@
 import axios from 'axios';
 import React from 'react';
-import { apiBaseUrl } from "../constants";
-import { Patient } from "../types";
-import { useStateValue } from "../state";
-import { useParams } from "react-router";
-import { Icon, SemanticICONS } from "semantic-ui-react";
-import { setPatient } from "../state";
-import EntryDetails from "./Entry";
+import { apiBaseUrl } from '../constants';
+import { Patient } from '../types';
+import { useStateValue } from '../state';
+import { useParams } from 'react-router';
+import { Icon, SemanticICONS } from 'semantic-ui-react';
+import { setPatient } from '../state';
+import EntryDetails from './Entry';
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();

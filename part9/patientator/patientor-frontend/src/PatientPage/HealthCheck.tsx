@@ -1,6 +1,6 @@
 import React from 'react';
 import { HealthCheckEntry } from '../types';
-import { Icon, SemanticCOLORS } from "semantic-ui-react";
+import { Icon, SemanticCOLORS } from 'semantic-ui-react';
 import { HealthCheckRating } from '../types';
 
 const HealthCheck = ({ entry }: { entry: HealthCheckEntry }) => {
