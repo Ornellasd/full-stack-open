@@ -4,7 +4,12 @@ import { Icon } from "semantic-ui-react";
 
 import { filteredDiagnosisName } from './helper';
 
-const OccupationalHealthcare = ({ entry, diagnoses }: { entry: OccupationalHealthCareEntry, diagnoses: Diagnosis[] }) => {
+interface Props {
+  entry: OccupationalHealthCareEntry;
+  diagnoses: Diagnosis[];
+}
+
+const OccupationalHealthcare = ({ entry, diagnoses }: Props) => {
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="building" /></h2>

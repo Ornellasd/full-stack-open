@@ -4,7 +4,12 @@ import { Icon } from "semantic-ui-react";
 
 import { filteredDiagnosisName } from './helper';
 
-const Hospital = ({ entry, diagnoses }: { entry: HospitalEntry, diagnoses: Diagnosis[] }) => {
+interface Props {
+  entry: HospitalEntry;
+  diagnoses: Diagnosis[]
+}
+
+const Hospital = ({ entry, diagnoses }: Props) => {
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="hospital" /></h2>
