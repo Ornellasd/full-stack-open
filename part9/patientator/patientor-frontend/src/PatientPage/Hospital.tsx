@@ -7,12 +7,12 @@ import { filteredDiagnosisName } from './helper';
 
 const Hospital = ({ entry }: { entry: HospitalEntry }) => {
   const [{ diagnoses }] = useStateValue();
-  
+
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="hospital" /></h2>
       <em style={{ color: 'grey' }}>{entry.description}</em>
-      <h4>Diagnosis:</h4>
+      <h4>Diagnoses:</h4>
       <div className="ui bulleted list">
         {entry.diagnosisCodes?.map(code =>
           <div key={code} className="item">
