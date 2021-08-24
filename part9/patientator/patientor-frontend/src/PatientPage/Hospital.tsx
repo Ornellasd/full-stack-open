@@ -7,7 +7,6 @@ import { Icon } from "semantic-ui-react";
 
 const Hospital = ({ entry }: { entry: HospitalEntry }) => {
   // const [{ diagnoses }] = useStateValue();
-  console.log(entry.discharge);
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="hospital" /></h2>

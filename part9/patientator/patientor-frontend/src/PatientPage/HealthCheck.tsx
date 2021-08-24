@@ -1,20 +1,29 @@
 import React from 'react';
-// import { useStateValue } from '../state';
 import { HealthCheckEntry } from '../types';
-import { Icon } from "semantic-ui-react";
-
-// import { filteredDiagnosisName } from './helper';
+import { Icon, SemanticCOLORS } from "semantic-ui-react";
+import { HealthCheckRating } from '../types';
 
 const HealthCheck = ({ entry }: { entry: HealthCheckEntry }) => {
-  // const [{ diagnoses }] = useStateValue();
+  const healthCheckRatingIcon = (): SemanticCOLORS => {
+    switch(entry.healthCheckRating) {
+      case HealthCheckRating.Healthy:
+        return 'green';
+      case HealthCheckRating.LowRisk:
+        return 'yellow';
+      case HealthCheckRating.HighRisk:
+        return 'orange';
+      default:
+        return 'red';      
+    }
+  };
+  
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="stethoscope" /></h2>
       <em style={{ color: 'grey' }}>{entry.description}</em>
-      {/* {entry.diagnosisCodes?.map((code, index) =>
-        <em key={index} style={{ color: 'grey' }}>{filteredDiagnosisName(code, diagnoses)}</em>
-        )} */}
-      
+      <p style={{ paddingTop: '5px' }}>
+        <Icon name="heart" color={healthCheckRatingIcon()} />
+      </p>
     </div>
   );
 };
