@@ -1,19 +1,25 @@
 import React from 'react';
-// import { useStateValue } from '../state';
+import { useStateValue } from '../state';
 import { HospitalEntry } from '../types';
 import { Icon } from "semantic-ui-react";
 
-// import { filteredDiagnosisName } from './helper';
+import { filteredDiagnosisName } from './helper';
 
 const Hospital = ({ entry }: { entry: HospitalEntry }) => {
-  // const [{ diagnoses }] = useStateValue();
+  const [{ diagnoses }] = useStateValue();
+  
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="hospital" /></h2>
       <em style={{ color: 'grey' }}>{entry.description}</em>
-      {/* {entry.diagnosisCodes?.map((code, index) =>
-        <em key={index} style={{ color: 'grey' }}>{filteredDiagnosisName(code, diagnoses)}</em>
-      )} */}
+      <h4>Diagnosis:</h4>
+      <div className="ui bulleted list">
+        {entry.diagnosisCodes?.map(code =>
+          <div key={code} className="item">
+            {filteredDiagnosisName(code, diagnoses)}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
