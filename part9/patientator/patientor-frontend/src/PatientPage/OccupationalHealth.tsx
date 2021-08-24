@@ -17,7 +17,7 @@ const OccupationalHealthcare = ({ entry, diagnoses }: Props) => {
 
       {entry.diagnosisCodes &&
         <div style={{ paddingTop: '10px' }}>
-          <h4>Diagnoses:</h4>
+          <strong>Diagnoses:</strong>
           <div className="ui bulleted list">
             {Object.keys(diagnoses).length > 0 && entry.diagnosisCodes.map(code =>
               <div key={code} className="item">
