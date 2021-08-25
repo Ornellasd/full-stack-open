@@ -1,4 +1,4 @@
-import { Gender, NewPatientEntry } from "./types";
+import { Gender, NewPatientEntry, NewVisitEntry, DiagnosesEntry } from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -45,7 +45,7 @@ const parseOccupation = (occupation: unknown): string => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toNewPatientEntry = (object: any): NewPatientEntry => {
+export const toNewPatientEntry = (object: any): NewPatientEntry => {
   const newPatient: NewPatientEntry = {
     name: parseName(object.name),
     dateOfBirth: parseDateOfBirth(object.dateOfBirth),
@@ -57,4 +57,60 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
   return newPatient;
 };
 
-export default toNewPatientEntry;
+const parseDescription = (description: unknown): string => {
+  if(!description || !isString(description)) {
+    throw new Error('Incorrect or missing occupation: ' + description);
+  }
+  return description;
+};
+
+const parseDate = (date: unknown): string => {
+  if(!date || !isString(date)) {
+    throw new Error('Incorrect or missing date: ' + date);
+  }
+  return date;
+};
+
+const parseSpecialist = (specialist: unknown): string => {
+  if(!specialist || !isString(specialist)) {
+    throw new Error('Incorrect or missing specialist: ' + specialist);
+  }
+  return specialist;
+};
+
+const parseDiagnosisCodes = (codes: DiagnosesEntry['code']): DiagnosesEntry['code'][] => {
+  if(!Array.isArray(codes) || !codes.every(code => isString(code))) {
+    throw new Error('Incorrect or missing diagnosis codes');
+  }
+
+  return codes;
+};
+
+export enum VisitEntryType {
+  HealthCheck = "HealthCheck",
+  OccupationalHealthCare = "OccupationalHealthcare",
+  Hospital = "Hospital",
+}
+
+const parseType = (type: VisitEntryType): VisitEntryType => {
+  if(!isString(type) || !Object.values(VisitEntryType).includes(type)) {
+    throw new Error('Incorrect or missing type: ' + type);
+  }
+  return type;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const toNewBaseVisitEntry = (object: any): NewVisitEntry => {
+  const newBaseVisit: NewVisitEntry = {
+    type: parseType(object.type),
+    description: parseDescription(object.description),
+    date: parseDate(object.date),
+    specialist: parseSpecialist(object.specialist),
+  };
+
+  if(object.diagnosisCodes) {
+    newBaseVisit.diagnosisCodes = parseDiagnosisCodes(object.diagnosisCodes);
+  }
+
+  return newBaseVisit;
+};

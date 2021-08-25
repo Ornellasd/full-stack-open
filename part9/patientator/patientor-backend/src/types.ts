@@ -61,6 +61,12 @@ interface HospitalEntry extends BaseEntry {
   discharge: Discharge
 }
 
+export enum VisitEntryType {
+  Hospital = 'Hospital',
+  OccupationalHealthcare = 'OccupationalHealthCare',
+  HealthCheck = 'HealthCheck'
+}
+
 export type Entry = 
   | HealthCheckEntry
   | OccupationalHealthCareEntry

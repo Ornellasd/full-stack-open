@@ -1,6 +1,6 @@
 import express from 'express';
 import patientService from '../services/patientService';
-import toNewPatientEntry from '../utils';
+import { toNewPatientEntry, toNewVisitEntry } from '../utils';
 
 const router = express.Router();
 
@@ -8,12 +8,12 @@ router.get('/', (_req, res) => {
   res.send(patientService.getNonSensitivePatients());
 });
 
-router.post('/', (_req, res) => {
+router.post('/', (req, res) => {
   try {
-    const newPatientEntry = toNewPatientEntry(_req.body);
+    const newPatientEntry = toNewPatientEntry(req.body);
     const addedPatientEntry = patientService.addPatient(newPatientEntry);
     res.json(addedPatientEntry);
-  } catch (e) {
+  } catch(e) {
     res.status(400).send(e.message);
   }
 });
@@ -25,12 +25,13 @@ router.get('/:id', (req, res) => {
 
 router.post('/:id/entries', (req, res) => {
   const patient = req.params.id;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const newVisit = req.body;
-  
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  const addedVisitEntry = patientService.addVisit(newVisit, patient);
-  res.json(addedVisitEntry);
+  try {
+    const newVisitEntry = toNewVisitEntry(req.body);
+    const addedVisitEntry = patientService.addVisit(newVisitEntry, patient);
+    res.json(addedVisitEntry);
+  } catch(e) {
+    res.status(400).send(e.message);
+  }
 });
 
 export default router;
