@@ -6,7 +6,7 @@ import {
   // BaseEntry,
   NewPatientEntry, 
   PatientEntry, 
-  NoSSN 
+  NoSSN, 
 } from '../types';
 
 const getPatients = (): Array<PatientEntry> => {
@@ -35,17 +35,16 @@ const addPatient = ( patient: NewPatientEntry ): PatientEntry => {
 };
 
 const addVisit = ( entry: any, patientId: string ) => {
-  console.log(entry);
+  const patient = patients.find(patient => patient.id === patientId);
 
-  const patient = patients.find(p => p.id === patientId);
-
-  const updatedPatient = {
-    ...patient,
-    entries: patient?.entries?.concat(entry)
+  const newEntry = {
+    id: uuid(),
+    ...entry
   };
 
+  patient?.entries?.push(newEntry);
 
-  return updatedPatient;
+  return patient;
 };
 
 export default {

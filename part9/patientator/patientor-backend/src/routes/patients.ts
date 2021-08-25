@@ -29,8 +29,8 @@ router.post('/:id/entries', (req, res) => {
   const newVisit = req.body;
   
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-  patientService.addVisit(newVisit, patient);
-  res.json(newVisit);
+  const addedVisitEntry = patientService.addVisit(newVisit, patient);
+  res.json(addedVisitEntry);
 });
 
 export default router;
