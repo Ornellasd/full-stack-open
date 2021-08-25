@@ -23,4 +23,14 @@ router.get('/:id', (req, res) => {
   res.send(patient[0]);
 });
 
+router.post('/:id/entries', (req, res) => {
+  const patient = req.params.id;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const newVisit = req.body;
+  
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  patientService.addVisit(newVisit, patient);
+  res.json(newVisit);
+});
+
 export default router;

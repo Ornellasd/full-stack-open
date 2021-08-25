@@ -3,6 +3,7 @@ import {v1 as uuid} from 'uuid';
 import patients from '../../data/patientEntries';
 
 import {
+  // BaseEntry,
   NewPatientEntry, 
   PatientEntry, 
   NoSSN 
@@ -33,8 +34,23 @@ const addPatient = ( patient: NewPatientEntry ): PatientEntry => {
   return newPatient;
 };
 
+const addVisit = ( entry: any, patientId: string ) => {
+  console.log(entry);
+
+  const patient = patients.find(p => p.id === patientId);
+
+  const updatedPatient = {
+    ...patient,
+    entries: patient?.entries?.concat(entry)
+  };
+
+
+  return updatedPatient;
+};
+
 export default {
   getPatients,
   getNonSensitivePatients,
   addPatient,
+  addVisit
 };

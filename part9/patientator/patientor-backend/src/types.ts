@@ -68,3 +68,4 @@ export type Entry =
 
 export type NoSSN = Omit<PatientEntry, 'ssn' | 'entries'>;
 export type NewPatientEntry = Omit<PatientEntry, 'id'>;
+export type NewVisitEntry = Omit<Entry, 'id'>;
