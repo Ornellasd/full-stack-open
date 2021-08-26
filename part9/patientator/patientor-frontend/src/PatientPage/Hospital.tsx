@@ -14,6 +14,7 @@ const Hospital = ({ entry, diagnoses }: Props) => {
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="hospital" /></h2>
       <em style={{ color: 'grey' }}>{entry.description}</em>
+
       {(entry.diagnosisCodes && entry.diagnosisCodes.length > 0)  &&
         <div style={{ paddingTop: '10px' }}>
           <strong>Diagnoses:</strong>
@@ -26,7 +27,19 @@ const Hospital = ({ entry, diagnoses }: Props) => {
           </div>
         </div>
       }
-    </div>
+
+      <div style={{ paddingTop: '10px' }}>
+        <div>
+          <strong>Discharge Date:</strong>
+          <span> {entry.discharge.date}</span>
+        </div>
+        <div>
+          <strong>Discharge Criteria:</strong>
+          <span> {entry.discharge.criteria}</span>
+        </div>
+        </div>
+      </div>
+     
   );
 };
 
