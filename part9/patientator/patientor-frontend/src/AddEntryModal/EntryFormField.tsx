@@ -1,8 +1,8 @@
 import React from 'react';
-import { Field, FieldProps } from 'formik';
-import { Form } from 'semantic-ui-react';
+import { Field, FieldProps, FormikProps } from 'formik';
+import { Dropdown, DropdownProps, Form } from 'semantic-ui-react';
 
-import { EntryType } from '../types';
+import { EntryType, Diagnosis } from '../types';
 
 interface TextProps extends FieldProps {
   label: string;
@@ -51,3 +51,43 @@ export const SelectField = ({
     </Field>
   </Form.Field>
 );
+
+export const DiagnosisSelection = ({
+  diagnoses,
+  setFieldValue,
+  setFieldTouched
+}: {
+  diagnoses: Diagnosis[];
+  setFieldValue: FormikProps<{ diagnosisCodes: string[] }>['setFieldValue'];
+  setFieldTouched: FormikProps<{ diagnosisCodes: string[] }>['setFieldTouched'];
+}) => {
+  const field = 'diagnosisCodes';
+  const onChange = (
+    _event: React.SyntheticEvent<HTMLElement, Event>,
+    data: DropdownProps
+  ) => {
+    setFieldTouched(field, true);
+    setFieldValue(field, data.value);
+  };
+
+  const stateOptions = diagnoses.map(diagnosis => ({
+    key: diagnosis.code,
+    text: `${diagnosis.name} (${diagnosis.code})`,
+    value: diagnosis.code
+  }));
+
+  return (
+    <Form.Field>
+      <label>Diagnoses</label>
+      <Dropdown
+        fluid
+        multiple
+        search
+        selection
+        options={stateOptions}
+        onChange={onChange}
+      />
+      {/* <ErrorMessage name={field} /> */}
+    </Form.Field>
+  );
+};
