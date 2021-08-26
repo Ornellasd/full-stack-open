@@ -32,6 +32,7 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         specialist: '',
         diagnosisCodes: [],
         discharge: { date: '', criteria: '' },
+        type: 'Hospital'
       }}
       onSubmit={onSubmit}
       // validate={values => {
@@ -56,12 +57,6 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         return (
           <Form className="form ui">
             <Field
-              label="Description"
-              placeholder="Description"
-              name="description"
-              component={TextField}
-            />
-            <Field
               label="Date"
               placeholder="YYYY-MM-DD"
               name="date"
@@ -73,10 +68,28 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
               name="specialist"
               component={TextField}
             />
+            <Field
+              label="Description"
+              placeholder="Description"
+              name="description"
+              component={TextField}
+            />
             <SelectField
               label="Entry Type"
-              name="entryType"
+              name="type"
               options={entryTypeOptions}
+            />
+            <Field
+              label="Discharge Date"
+              placeholder="YYYY-MM-DD"
+              name="discharge.date"
+              component={TextField}
+            />
+            <Field
+              label="Discharge Criteria"
+              placeholder="Criteria"
+              name="discharge.criteria"
+              component={TextField}
             />
             <Grid>
               <Grid.Column floated="left" width={5}>

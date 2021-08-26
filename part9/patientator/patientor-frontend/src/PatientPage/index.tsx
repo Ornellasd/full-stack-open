@@ -54,6 +54,7 @@ const PatientPage = () => {
         `${apiBaseUrl}/patients/${id}/entries`,
         values
       );
+      console.log(newEntry, 'WHO DIS?');
       dispatch(updatePatient(newEntry));
       closeModal();
     } catch(e) {
