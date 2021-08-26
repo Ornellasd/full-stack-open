@@ -38,23 +38,33 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         type: 'Hospital'
       }}
       onSubmit={onSubmit}
-      // validate={values => {
-      //   const requiredError = 'Field is required';
-      //   const errors: { [field: string]: string } = {};
-      //   if (!values.name) {
-      //     errors.name = requiredError;
-      //   }
-      //   if (!values.ssn) {
-      //     errors.ssn = requiredError;
-      //   }
-      //   if (!values.dateOfBirth) {
-      //     errors.dateOfBirth = requiredError;
-      //   }
-      //   if (!values.occupation) {
-      //     errors.occupation = requiredError;
-      //   }
-      //   return errors;
-      // }}
+      validate={values => {
+        const requiredError = 'Field is required';
+        const formatError = 'Formatted incorrectly';
+        const errors: { [field: string]: string } = {};
+        if(!values.description) {
+          errors.description = requiredError;
+        }
+        if(!values.date) {
+          errors.date = requiredError;
+        }
+        if(!values.specialist) {
+          errors.specialist = requiredError;
+        }
+        if(!values.discharge.date || !values.discharge.criteria) {
+          errors.discharge = requiredError;
+        }
+        if(typeof values.description !== 'string') {
+          errors.description = formatError;
+        }
+        if(typeof values.date !== 'string') {
+          errors.date = formatError;
+        }
+        if(typeof values.specialist !== 'string') {
+          errors.specialist = formatError;
+        }
+        return errors;
+      }}
     >
       {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
         return (
