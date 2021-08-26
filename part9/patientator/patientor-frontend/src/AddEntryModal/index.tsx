@@ -10,7 +10,7 @@ interface Props {
 
 const AddEntryModal = ({ modalOpen, onClose, onSubmit}: Props) => (
   <Modal open={modalOpen} onClose={onClose} centered={false} closeIcon>
-    <Modal.Header>Add a new patient</Modal.Header>
+    <Modal.Header>Add a new Entry</Modal.Header>
     <Modal.Content>
       <AddEntryForm onSubmit={onSubmit} onCancel={onClose} />
     </Modal.Content>
