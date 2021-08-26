@@ -35,7 +35,7 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         specialist: '',
         diagnosisCodes: [],
         discharge: { date: '', criteria: '' },
-        type: 'Hospital'
+        type: EntryType.HealthCheck
       }}
       onSubmit={onSubmit}
       validate={values => {

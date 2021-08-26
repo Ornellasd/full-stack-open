@@ -1,5 +1,5 @@
 import React from 'react';
-import { Field, FieldProps, FormikProps } from 'formik';
+import { ErrorMessage, Field, FieldProps, FormikProps } from 'formik';
 import { Dropdown, DropdownProps, Form } from 'semantic-ui-react';
 
 import { EntryType, Diagnosis } from '../types';
@@ -17,9 +17,9 @@ export const TextField= ({
   <Form.Field>
     <label>{label}</label>
     <Field placeholder={placeholder} {...field} />
-    {/* <div style={{ color:'red' }}>
+    <div style={{ color:'red' }}>
       <ErrorMessage name={field.name} />
-    </div> */}
+    </div>
   </Form.Field>
 );
 
