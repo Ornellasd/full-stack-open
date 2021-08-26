@@ -6,7 +6,8 @@ import {
   Discharge,
   Entry,
   HealthCheckRating,
-  SickLeave
+  SickLeave,
+  VisitEntryType
 } from "./types";
 
 const isString = (text: unknown): text is string => {
@@ -95,12 +96,6 @@ const parseDiagnosisCodes = (codes: DiagnosesEntry['code']): DiagnosesEntry['cod
   return codes;
 };
 
-export enum VisitEntryType {
-  HealthCheck = "HealthCheck",
-  OccupationalHealthCare = "OccupationalHealthcare",
-  Hospital = "Hospital",
-}
-
 const parseType = (type: VisitEntryType): VisitEntryType => {
   if(!isString(type) || !Object.values(VisitEntryType).includes(type)) {
     throw new Error('Incorrect or missing type: ' + type);
@@ -136,24 +131,20 @@ const isHealthCheckRating = (param: any): param is HealthCheckRating => {
 };
 
 const parseHealthCheckRating = (rating: unknown): HealthCheckRating => {
-  if(!isHealthCheckRating(rating) || !rating) {
+  if(!isHealthCheckRating(rating) || rating === null) {
     throw new Error('Incorrect or missing health check rating: ' + rating);
   }
 
   return rating;
 };
 
-const isSickLeave = (param: any): param is SickLeave => {
-  return Object.values(SickLeave).includes(param);
-}
-
-const parseSickLeave = (sickLeave: unknown): SickLeave => {
-  if(!isSickLeave(sickLeave) || !sickLeave) {
-    throw new Error('Incorrect or missing sick leave: ' + sick sickLeave);
+const parseSickLeave = (sickLeave: SickLeave): SickLeave => {
+  if(!sickLeave.startDate || !isString(sickLeave.startDate) || !isString(sickLeave.endDate)) {
+    throw new Error('Incorrect or missing sick leave data');
   }
 
   return sickLeave;
-}
+};
 
 export const toNewVisitEntry = (object: Entry) => {
   const baseVisitEntry: NewVisitEntry = newBaseVisitEntry(object);
@@ -176,13 +167,14 @@ export const toNewVisitEntry = (object: Entry) => {
       };
 
       if(object.sickLeave) {
-        ohEntry.sickLeave = object.sickLeave;
+        return {
+          ...ohEntry,
+          sickLeave: parseSickLeave(object.sickLeave)
+        };
       }
 
       return ohEntry;
     default:
       return baseVisitEntry;
   }
-  
-  return baseVisitEntry;
 };
