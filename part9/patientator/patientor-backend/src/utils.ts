@@ -1,4 +1,13 @@
-import { Gender, NewPatientEntry, NewVisitEntry, DiagnosesEntry } from "./types";
+import {
+  Gender,
+  NewPatientEntry,
+  NewVisitEntry, 
+  DiagnosesEntry, 
+  Discharge,
+  Entry,
+  HealthCheckRating,
+  SickLeave
+} from "./types";
 
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
@@ -100,7 +109,7 @@ const parseType = (type: VisitEntryType): VisitEntryType => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const toNewBaseVisitEntry = (object: any): NewVisitEntry => {
+const newBaseVisitEntry = (object: any): NewVisitEntry => {
   const newBaseVisit: NewVisitEntry = {
     type: parseType(object.type),
     description: parseDescription(object.description),
@@ -111,6 +120,69 @@ export const toNewBaseVisitEntry = (object: any): NewVisitEntry => {
   if(object.diagnosisCodes) {
     newBaseVisit.diagnosisCodes = parseDiagnosisCodes(object.diagnosisCodes);
   }
-
+  
   return newBaseVisit;
+};
+
+const parseDischarge = (discharge: Discharge): Discharge => {
+  if(!isString(discharge.date) || !isString(discharge.criteria) || !discharge.date || !discharge.criteria) {
+    throw new Error('Incorrect or missing discharge fields');
+  }
+  return discharge; 
+};
+
+const isHealthCheckRating = (param: any): param is HealthCheckRating => {
+  return Object.values(HealthCheckRating).includes(param);
+};
+
+const parseHealthCheckRating = (rating: unknown): HealthCheckRating => {
+  if(!isHealthCheckRating(rating) || !rating) {
+    throw new Error('Incorrect or missing health check rating: ' + rating);
+  }
+
+  return rating;
+};
+
+const isSickLeave = (param: any): param is SickLeave => {
+  return Object.values(SickLeave).includes(param);
+}
+
+const parseSickLeave = (sickLeave: unknown): SickLeave => {
+  if(!isSickLeave(sickLeave) || !sickLeave) {
+    throw new Error('Incorrect or missing sick leave: ' + sick sickLeave);
+  }
+
+  return sickLeave;
+}
+
+export const toNewVisitEntry = (object: Entry) => {
+  const baseVisitEntry: NewVisitEntry = newBaseVisitEntry(object);
+
+  switch(object.type) {
+    case 'Hospital':
+      return {
+        ...baseVisitEntry,
+        discharge: parseDischarge(object.discharge)
+      };
+    case 'HealthCheck':
+      return {
+        ...baseVisitEntry,
+        healthCheckRating: parseHealthCheckRating(object.healthCheckRating)
+      };
+    case 'OccupationalHealthcare':
+      const ohEntry = {
+        ...baseVisitEntry,
+        employerName: object.employerName,
+      };
+
+      if(object.sickLeave) {
+        ohEntry.sickLeave = object.sickLeave;
+      }
+
+      return ohEntry;
+    default:
+      return baseVisitEntry;
+  }
+  
+  return baseVisitEntry;
 };
