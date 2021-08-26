@@ -126,6 +126,7 @@ const parseDischarge = (discharge: Discharge): Discharge => {
   return discharge; 
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isHealthCheckRating = (param: any): param is HealthCheckRating => {
   return Object.values(HealthCheckRating).includes(param);
 };
@@ -172,7 +173,7 @@ export const toNewVisitEntry = (object: Entry) => {
           sickLeave: parseSickLeave(object.sickLeave)
         };
       }
-
+      
       return ohEntry;
     default:
       return baseVisitEntry;

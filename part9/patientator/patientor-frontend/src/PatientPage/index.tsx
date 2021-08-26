@@ -2,14 +2,24 @@ import axios from 'axios';
 import React from 'react';
 import { apiBaseUrl } from '../constants';
 import { Patient } from '../types';
-import { useStateValue } from '../state';
+import { updatePatient, useStateValue } from '../state';
 import { useParams } from 'react-router';
-import { Icon, SemanticICONS } from 'semantic-ui-react';
+import { Icon, SemanticICONS, Button } from 'semantic-ui-react';
 import { setPatient } from '../state';
 import EntryDetails from './Entry';
+import AddEntryModal from '../AddEntryModal';
+import { EntryFormValues } from '../AddEntryModal/AddEntryForm';
 
 const PatientPage = () => {
   const [{ patient }, dispatch] = useStateValue();
+
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+  };
 
   const { id } = useParams<{ id: string }>();
 
@@ -38,16 +48,35 @@ const PatientPage = () => {
     }
   };
   
+  const submitNewEntry = async (values: EntryFormValues) => {
+    try {
+      const { data: newEntry } = await axios.post<Patient>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      dispatch(updatePatient(newEntry));
+      closeModal();
+    } catch(e) {
+      console.error(e.response?.data || 'Unknown Error');
+    }
+  };
+
   if(patient) {
     return (
       <div className="Patient-Details">
         <h2>{patient.name} <Icon name={genderIcon()} /></h2>
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient?.occupation}</p>
+        <Button onClick={() => openModal()}>Add New Entry</Button>
         <h3>entries</h3>
         {patient.entries.map(entry =>
           <EntryDetails key={entry.id} entry={entry} />
         )}
+        <AddEntryModal 
+          modalOpen={modalOpen}
+          onSubmit={submitNewEntry}
+          onClose={closeModal} 
+        />
       </div>
     );
   } else {
