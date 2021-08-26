@@ -15,7 +15,7 @@ const OccupationalHealthcare = ({ entry, diagnoses }: Props) => {
       <h2>{entry.date} <Icon name="building" /></h2>
       <em style={{ color: 'grey' }}>{entry.description}</em>
 
-      {entry.diagnosisCodes &&
+      {(entry.diagnosisCodes && entry.diagnosisCodes.length > 0)  &&
         <div style={{ paddingTop: '10px' }}>
           <strong>Diagnoses:</strong>
           <div className="ui bulleted list">

@@ -49,12 +49,12 @@ const PatientPage = () => {
   };
   
   const submitNewEntry = async (values: EntryFormValues) => {
+    console.log(values, 'values from submitNewEntry');
     try {
       const { data: newEntry } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
         values
       );
-      console.log(newEntry, 'WHO DIS?');
       dispatch(updatePatient(newEntry));
       closeModal();
     } catch(e) {
