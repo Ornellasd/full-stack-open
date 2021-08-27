@@ -35,6 +35,8 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         specialist: '',
         diagnosisCodes: [],
         discharge: { date: '', criteria: '' },
+        sickLeave: { startDate: '', endDate: '' },
+        employerName: '',
         type: EntryType.HealthCheck
       }}
       onSubmit={onSubmit}
@@ -51,7 +53,7 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         if(!values.specialist) {
           errors.specialist = requiredError;
         }
-        if(values.type === 'Hospital' && !values.discharge.date || !values.discharge.criteria) {
+        if(values.type === 'Hospital' && (!values.discharge.date || !values.discharge.criteria)) {
           errors.discharge = requiredError;
         }
         if(typeof values.description !== 'string') {
@@ -97,7 +99,7 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
               name="type"
               options={entryTypeOptions}
             />
-            {values.type === 'Hospital' &&
+            {values.type === EntryType.Hospital &&
               <div style={{ paddingBottom: '10px' }}>
                 <Field
                   label="Discharge Date"
@@ -109,6 +111,28 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
                   label="Discharge Criteria"
                   placeholder="Criteria"
                   name="discharge.criteria"
+                  component={TextField}
+                />
+              </div>
+            }
+            {values.type === EntryType.OccupationalHealthcare &&
+              <div style={{ paddingBottom: '10px' }}>
+                <Field
+                  label="Sick Leave Start Date"
+                  placeholder="YYYY-MM-DD"
+                  name="sickLeave.startDate"
+                  component={TextField}
+                />
+                <Field
+                  label="Sick Leave End Date"
+                  placeholder="YYYY-MM-DD"
+                  name="sickLeave.endDate"
+                  component={TextField}
+                />
+                <Field
+                  label="Employer Name"
+                  placeholder="Employer"
+                  name="employerName"
                   component={TextField}
                 />
               </div>

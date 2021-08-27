@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React from 'react';
 import { apiBaseUrl } from '../constants';
-import { Patient } from '../types';
+import { Patient, EntryType } from '../types';
 import { useStateValue, setPatient } from '../state';
 import { useParams } from 'react-router';
 import { Icon, SemanticICONS, Button } from 'semantic-ui-react';
@@ -51,14 +51,14 @@ const PatientPage = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const formattedEntry = (entry: any) => {
     const baseEntry = {
-      date: entry.date,
+      type: entry.type,
       description: entry.description,
-      diagnosisCodes: entry.diagnosisCodes,
+      date: entry.date,
       specialist: entry.specialist,
-      type: entry.type
+      diagnosisCodes: entry.diagnosisCodes,
     };
 
-    if(entry.type === 'Hospital') {
+    if(entry.type === EntryType.Hospital) {
       const newEntry = {
         ...baseEntry,
         discharge: entry.discharge
@@ -66,10 +66,20 @@ const PatientPage = () => {
       
       return newEntry;
     }
+
+    if(entry.type === EntryType.OccupationalHealthcare) {
+      const newEntry = {
+        ...baseEntry,
+        sickLeave: entry.sickLeave,
+        employerName: entry.employerName
+      };
+
+      return newEntry;
+    }
   };
 
   const submitNewEntry = async (values: EntryFormValues) => {
-    formattedEntry(values);
+    console.log(formattedEntry(values));
     try {
       const { data: newEntry } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
