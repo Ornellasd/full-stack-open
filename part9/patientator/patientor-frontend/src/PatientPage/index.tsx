@@ -59,22 +59,25 @@ const PatientPage = () => {
     };
 
     if(entry.type === EntryType.Hospital) {
-      const newEntry = {
+      return {
         ...baseEntry,
         discharge: entry.discharge
       };
-      
-      return newEntry;
     }
 
     if(entry.type === EntryType.OccupationalHealthcare) {
-      const newEntry = {
+      return {
         ...baseEntry,
         sickLeave: entry.sickLeave,
         employerName: entry.employerName
       };
+    }
 
-      return newEntry;
+    if(entry.type === EntryType.HealthCheck) {
+      return {
+        ...baseEntry,
+        healthCheckRating: entry.healthCheckRating
+      };
     }
   };
 

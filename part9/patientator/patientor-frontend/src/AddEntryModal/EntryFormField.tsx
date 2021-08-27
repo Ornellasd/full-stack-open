@@ -87,7 +87,25 @@ export const DiagnosisSelection = ({
         options={stateOptions}
         onChange={onChange}
       />
-      {/* <ErrorMessage name={field} /> */}
+      <ErrorMessage name={field} />
     </Form.Field>
   );
 };
+
+interface NumberProps extends FieldProps {
+  label: string;
+  errorMessage?: string;
+  min: number;
+  max: number;
+}
+
+export const NumberField = ({ field, label, min, max } : NumberProps ) => (
+  <Form.Field>
+    <label>{label}</label>
+    <Field {...field} type="number" min={min} max={max} />
+
+    <div style={{ color:'red' }}>
+      <ErrorMessage name={field.name} />
+    </div>
+  </Form.Field>
+);

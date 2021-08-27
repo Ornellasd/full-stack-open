@@ -2,15 +2,10 @@ import React from 'react';
 import { Grid, Button } from 'semantic-ui-react';
 import { Field, Formik, Form } from 'formik';
 
-import { TextField, EntryTypeOption, SelectField, DiagnosisSelection } from './EntryFormField';
+import { TextField, EntryTypeOption, SelectField, DiagnosisSelection, NumberField } from './EntryFormField';
 import { EntryType, NewVisitEntry } from '../types';
 import { useStateValue } from '../state';
 
-
-/*
- * use type Patient, but omit id and entries,
- * because those are irrelevant for new patient object.
- */
 export type EntryFormValues = Omit<NewVisitEntry, 'type'>;
 
 interface Props {
@@ -146,6 +141,15 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
                   component={TextField}
                 />
               </div>
+            }
+            {values.type === EntryType.HealthCheck &&
+              <Field
+                label="Health Check Rating"
+                name="healthCheckRating"
+                component={NumberField}
+                min={0}
+                max={3}
+              />
             }
             <Grid>
               <Grid.Column floated="left" width={5}>
