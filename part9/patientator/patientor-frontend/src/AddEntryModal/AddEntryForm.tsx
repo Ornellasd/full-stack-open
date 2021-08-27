@@ -23,6 +23,10 @@ const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
 };
 
+const isNumber = (num: unknown): num is number => {
+  return typeof Number(num) === 'number';
+};
+
 export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
   const [{ diagnoses }] = useStateValue();
 
@@ -36,7 +40,8 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         discharge: { date: '', criteria: '' },
         sickLeave: { startDate: '', endDate: '' },
         employerName: '',
-        type: EntryType.HealthCheck
+        healthCheckRating: 0, 
+        type: EntryType.Hospital
       }}
       onSubmit={onSubmit}
       validate={values => {
@@ -64,11 +69,17 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         if(values.type === EntryType.Hospital && (!values.discharge.date || !values.discharge.criteria)) {
           errors.discharge = requiredError;
         }
-        if(values.type == EntryType.OccupationalHealthcare && (!isString(values.sickLeave.startDate) || !isString(values.sickLeave.endDate))) {
+        if(values.type === EntryType.OccupationalHealthcare && (!isString(values.sickLeave.startDate) || !isString(values.sickLeave.endDate))) {
           errors.sickLeave = formatError;
         }
-        if(values.type == EntryType.OccupationalHealthcare && !isString(values.employerName)) {
+        if(values.type === EntryType.OccupationalHealthcare && !isString(values.employerName)) {
           errors.sickLeave = formatError;
+        }
+        if(values.type === EntryType.HealthCheck && values.healthCheckRating === null) {
+          errors.healthCheckRating = requiredError;
+        }
+        if(values.type === EntryType.HealthCheck && !isNumber(values.healthCheckRating)) {
+          errors.healthCheckRating = formatError;
         }
         return errors;
       }}
@@ -76,6 +87,11 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
       {({ isValid, dirty, setFieldValue, setFieldTouched, values }) => {
         return (
           <Form className="form ui">
+            <SelectField
+              label="Entry Type"
+              name="type"
+              options={entryTypeOptions}
+            />
             <Field
               label="Date"
               placeholder="YYYY-MM-DD"
@@ -98,12 +114,7 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
               setFieldValue={setFieldValue}
               setFieldTouched={setFieldTouched}
               diagnoses={Object.values(diagnoses)}
-            />
-            <SelectField
-              label="Entry Type"
-              name="type"
-              options={entryTypeOptions}
-            />
+            />         
             {values.type === EntryType.Hospital &&
               <div style={{ paddingBottom: '10px' }}>
                 <Field
