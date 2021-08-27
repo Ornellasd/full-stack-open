@@ -51,7 +51,7 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         if(!values.specialist) {
           errors.specialist = requiredError;
         }
-        if(!values.discharge.date || !values.discharge.criteria) {
+        if(values.type === 'Hospital' && !values.discharge.date || !values.discharge.criteria) {
           errors.discharge = requiredError;
         }
         if(typeof values.description !== 'string') {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios from 'axios';
 import React from 'react';
 import { apiBaseUrl } from '../constants';
@@ -46,13 +47,33 @@ const PatientPage = () => {
         return 'genderless';
     }
   };
-  
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const formattedEntry = (entry: any) => {
+    const baseEntry = {
+      date: entry.date,
+      description: entry.description,
+      diagnosisCodes: entry.diagnosisCodes,
+      specialist: entry.specialist,
+      type: entry.type
+    };
+
+    if(entry.type === 'Hospital') {
+      const newEntry = {
+        ...baseEntry,
+        discharge: entry.discharge
+      };
+      
+      return newEntry;
+    }
+  };
+
   const submitNewEntry = async (values: EntryFormValues) => {
-    console.log(values, 'values from submitNewEntry');
+    formattedEntry(values);
     try {
       const { data: newEntry } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
-        values
+        formattedEntry(values)
       );
       dispatch(setPatient(newEntry));
       closeModal();
