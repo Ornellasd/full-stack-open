@@ -24,6 +24,10 @@ const entryTypeOptions: EntryTypeOption[] = [
   { value: EntryType.OccupationalHealthcare, label: 'Occupational Healthcare' },
 ];
 
+const isString = (text: unknown): text is string => {
+  return typeof text === 'string' || text instanceof String;
+};
+
 export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
   const [{ diagnoses }] = useStateValue();
 
@@ -53,9 +57,6 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         if(!values.specialist) {
           errors.specialist = requiredError;
         }
-        if(values.type === 'Hospital' && (!values.discharge.date || !values.discharge.criteria)) {
-          errors.discharge = requiredError;
-        }
         if(typeof values.description !== 'string') {
           errors.description = formatError;
         }
@@ -64,6 +65,15 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
         }
         if(typeof values.specialist !== 'string') {
           errors.specialist = formatError;
+        }
+        if(values.type === EntryType.Hospital && (!values.discharge.date || !values.discharge.criteria)) {
+          errors.discharge = requiredError;
+        }
+        if(values.type == EntryType.OccupationalHealthcare && (!isString(values.sickLeave.startDate) || !isString(values.sickLeave.endDate))) {
+          errors.sickLeave = formatError;
+        }
+        if(values.type == EntryType.OccupationalHealthcare && !isString(values.employerName)) {
+          errors.sickLeave = formatError;
         }
         return errors;
       }}
@@ -137,7 +147,6 @@ export const AddEntryForm = ({ onSubmit, onCancel } : Props ) => {
                 />
               </div>
             }
-
             <Grid>
               <Grid.Column floated="left" width={5}>
                 <Button type="button" onClick={onCancel} color="red">

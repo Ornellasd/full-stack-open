@@ -10,6 +10,7 @@ interface Props {
 }
 
 const OccupationalHealthcare = ({ entry, diagnoses }: Props) => {
+  console.log(entry.sickLeave?.startDate);
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="building" /></h2>
@@ -28,7 +29,7 @@ const OccupationalHealthcare = ({ entry, diagnoses }: Props) => {
         </div>
       }
     
-      {entry.sickLeave  &&
+      {entry.sickLeave?.startDate  &&
         <div style={{ paddingTop: '10px' }}>
           <strong>
             Sick leave:

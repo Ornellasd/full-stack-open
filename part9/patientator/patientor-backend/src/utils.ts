@@ -140,7 +140,7 @@ const parseHealthCheckRating = (rating: unknown): HealthCheckRating => {
 };
 
 const parseSickLeave = (sickLeave: SickLeave): SickLeave => {
-  if(!sickLeave.startDate || !isString(sickLeave.startDate) || !isString(sickLeave.endDate)) {
+  if(!isString(sickLeave.startDate) || !isString(sickLeave.endDate)) {
     throw new Error('Incorrect or missing sick leave data');
   }
 
