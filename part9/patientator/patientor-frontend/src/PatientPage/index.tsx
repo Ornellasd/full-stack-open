@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import axios from 'axios';
 import React from 'react';
 import { apiBaseUrl } from '../constants';
-import { Patient, EntryType, NewVisitEntry } from '../types';
+import { Patient } from '../types';
 import { useStateValue, setPatient } from '../state';
 import { useParams } from 'react-router';
 import { Icon, SemanticICONS, Button } from 'semantic-ui-react';
@@ -48,44 +47,11 @@ const PatientPage = () => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const formattedEntry = (entry: any): NewVisitEntry | undefined => {
-    const baseEntry = {
-      type: entry.type,
-      description: entry.description,
-      date: entry.date,
-      specialist: entry.specialist,
-      diagnosisCodes: entry.diagnosisCodes,
-    };
-
-    if(entry.type === EntryType.Hospital) {
-      return {
-        ...baseEntry,
-        discharge: entry.discharge
-      };
-    }
-
-    if(entry.type === EntryType.OccupationalHealthcare) {
-      return {
-        ...baseEntry,
-        sickLeave: entry.sickLeave,
-        employerName: entry.employerName
-      };
-    }
-
-    if(entry.type === EntryType.HealthCheck) {
-      return {
-        ...baseEntry,
-        healthCheckRating: entry.healthCheckRating
-      };
-    }
-  };
-
   const submitNewEntry = async (values: EntryFormValues) => {
     try {
       const { data: newEntry } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
-        formattedEntry(values)
+        values
       );
       dispatch(setPatient(newEntry));
       closeModal();

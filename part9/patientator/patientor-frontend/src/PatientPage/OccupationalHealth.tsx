@@ -10,7 +10,6 @@ interface Props {
 }
 
 const OccupationalHealthcare = ({ entry, diagnoses }: Props) => {
-  console.log(entry.sickLeave?.startDate);
   return (
     <div key={entry.id} className="ui segment">
       <h2>{entry.date} <Icon name="building" /></h2>
