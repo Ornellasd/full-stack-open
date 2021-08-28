@@ -60,31 +60,29 @@ const PatientPage = () => {
     }
   };
 
-  if(patient) {
-    return (
-      <div className="Patient-Details">
-        <h2>{patient.name} <Icon name={genderIcon()} /></h2>
-        <p>ssn: {patient.ssn}</p>
-        <p>occupation: {patient?.occupation}</p>
-        <Button onClick={() => openModal()}>Add New Entry</Button>
-        {patient.entries.length > 0 &&
-          <div style={{ paddingTop: '10px' }}>
-            <h3>entries</h3>
-            {patient.entries.map(entry =>
-              <EntryDetails key={entry.id} entry={entry} />
-            )}
-          </div>
-        }
-        <AddEntryModal 
-          modalOpen={modalOpen}
-          onSubmit={submitNewEntry}
-          onClose={closeModal} 
-        />
-      </div>
-    );
-  } else {
-    return null;
-  }
+  if(!patient) return null;
+  
+  return (
+    <div className="Patient-Details">
+      <h2>{patient.name} <Icon name={genderIcon()} /></h2>
+      <p>ssn: {patient.ssn}</p>
+      <p>occupation: {patient?.occupation}</p>
+      <Button onClick={() => openModal()}>Add New Entry</Button>
+      {patient.entries.length > 0 &&
+        <div style={{ paddingTop: '10px' }}>
+          <h3>entries</h3>
+          {patient.entries.map(entry =>
+            <EntryDetails key={entry.id} entry={entry} />
+          )}
+        </div>
+      }
+      <AddEntryModal 
+        modalOpen={modalOpen}
+        onSubmit={submitNewEntry}
+        onClose={closeModal} 
+      />
+    </div>
+  );
 };
 
 export default PatientPage;

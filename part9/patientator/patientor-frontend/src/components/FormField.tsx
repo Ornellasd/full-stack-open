@@ -1,8 +1,42 @@
 import React from 'react';
 import { ErrorMessage, Field, FieldProps, FormikProps } from 'formik';
 import { Dropdown, DropdownProps, Form } from 'semantic-ui-react';
+import { Diagnosis, Gender, EntryType } from '../types';
 
-import { EntryType, Diagnosis } from '../types';
+// structure of a single option
+export type GenderOption = {
+  value: Gender;
+  label: string;
+};
+
+export type EntryTypeOption = {
+  value: EntryType;
+  label: string;
+};
+
+// props for select field component
+type SelectFieldProps = {
+  name: string;
+  label: string;
+  options: (GenderOption | EntryTypeOption)[];
+};
+
+export const SelectField = ({
+  name,
+  label,
+  options
+}: SelectFieldProps) => (
+  <Form.Field>
+    <label>{label}</label>
+    <Field as="select" name={name} className="ui dropdown">
+      {options.map(option => (
+        <option key={option.value} value={option.value}>
+          {option.label || option.value}
+        </option>
+      ))}
+    </Field>
+  </Form.Field>
+);
 
 interface TextProps extends FieldProps {
   label: string;
@@ -23,32 +57,24 @@ export const TextField= ({
   </Form.Field>
 );
 
-// structure of a single option
-export type EntryTypeOption = {
-  value: EntryType;
+/*
+  for exercises 9.24.-
+*/
+interface NumberProps extends FieldProps {
   label: string;
-};
+  errorMessage?: string;
+  min: number;
+  max: number;
+}
 
-type SelectFieldProps = {
-  name: string;
-  label: string;
-  options: EntryTypeOption[];
-};
-
-export const SelectField = ({
-  name,
-  label,
-  options
-}: SelectFieldProps) => (
+export const NumberField = ({ field, label, min, max } : NumberProps ) => (
   <Form.Field>
     <label>{label}</label>
-    <Field as="select" name={name} className="ui dropdown">
-      {options.map(option => (
-        <option key={option.value} value={option.value}>
-          {option.label || option.value}
-        </option>
-      ))}
-    </Field>
+    <Field {...field} type="number" min={min} max={max} />
+
+    <div style={{ color:'red' }}>
+      <ErrorMessage name={field.name} />
+    </div>
   </Form.Field>
 );
 
@@ -91,21 +117,3 @@ export const DiagnosisSelection = ({
     </Form.Field>
   );
 };
-
-interface NumberProps extends FieldProps {
-  label: string;
-  errorMessage?: string;
-  min: number;
-  max: number;
-}
-
-export const NumberField = ({ field, label, min, max } : NumberProps ) => (
-  <Form.Field>
-    <label>{label}</label>
-    <Field {...field} type="number" min={min} max={max} />
-
-    <div style={{ color:'red' }}>
-      <ErrorMessage name={field.name} />
-    </div>
-  </Form.Field>
-);
