@@ -27,6 +27,7 @@ const getNonSensitivePatients = (): NoSSN [] => {
 const addPatient = ( patient: NewPatientEntry ): PatientEntry => {
   const newPatient = {
     id: uuid(),
+    entries: [],
     ...patient
   };
   
@@ -34,6 +35,7 @@ const addPatient = ( patient: NewPatientEntry ): PatientEntry => {
   return newPatient;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const addVisit = ( entry: any, patientId: string ) => {
   const patient = patients.find(patient => patient.id === patientId);
 

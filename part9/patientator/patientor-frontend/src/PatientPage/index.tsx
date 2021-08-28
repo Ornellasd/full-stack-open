@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React from 'react';
 import { apiBaseUrl } from '../constants';
-import { Patient, EntryType } from '../types';
+import { Patient, EntryType, NewVisitEntry } from '../types';
 import { useStateValue, setPatient } from '../state';
 import { useParams } from 'react-router';
 import { Icon, SemanticICONS, Button } from 'semantic-ui-react';
@@ -49,7 +49,7 @@ const PatientPage = () => {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const formattedEntry = (entry: any) => {
+  const formattedEntry = (entry: any): NewVisitEntry | undefined => {
     const baseEntry = {
       type: entry.type,
       description: entry.description,
@@ -101,10 +101,14 @@ const PatientPage = () => {
         <p>ssn: {patient.ssn}</p>
         <p>occupation: {patient?.occupation}</p>
         <Button onClick={() => openModal()}>Add New Entry</Button>
-        <h3>entries</h3>
-        {patient.entries.map(entry =>
-          <EntryDetails key={entry.id} entry={entry} />
-        )}
+        {patient.entries.length > 0 &&
+          <div style={{ paddingTop: '10px' }}>
+            <h3>entries</h3>
+            {patient.entries.map(entry =>
+              <EntryDetails key={entry.id} entry={entry} />
+            )}
+          </div>
+        }
         <AddEntryModal 
           modalOpen={modalOpen}
           onSubmit={submitNewEntry}
