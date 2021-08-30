@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Container, Table, Button } from 'semantic-ui-react';
+import { Container, Table, Button, Loader } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 import { PatientFormValues } from '../AddPatientModal/AddPatientForm';
@@ -10,7 +10,11 @@ import { apiBaseUrl } from '../constants';
 import HealthRatingBar from '../components/HealthRatingBar';
 import { useStateValue, addPatient } from '../state';
 
-const PatientListPage = () => {
+interface Props {
+  isLoading: boolean;
+}
+
+const PatientListPage = ({ isLoading }: Props) => {
   const [{ patients }, dispatch] = useStateValue();
 
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
@@ -36,6 +40,12 @@ const PatientListPage = () => {
       setError(e.response?.data?.error || 'Unknown error');
     }
   };
+
+  if(isLoading) {
+    return (
+      <Loader active inline="centered" />
+    );
+  }
 
   return (
     <div className="App">

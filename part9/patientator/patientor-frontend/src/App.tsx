@@ -12,16 +12,19 @@ import PatientPage from './PatientPage';
 
 const App = () => {
   const [, dispatch] = useStateValue();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   
   React.useEffect(() => {
     void axios.get<void>(`${apiBaseUrl}/ping`);
 
     const fetchPatientList = async () => {
+      setIsLoading(true);
       try {
         const { data: patientListFromApi } = await axios.get<Patient[]>(
           `${apiBaseUrl}/patients`
         );
         dispatch(setPatients(patientListFromApi));
+        setIsLoading(false);
       } catch (e) {
         console.error(e);
       }
@@ -57,7 +60,7 @@ const App = () => {
               <PatientPage />
             </Route>
             <Route path="/">
-              <PatientListPage />
+              <PatientListPage isLoading={isLoading} />
             </Route>
           </Switch>
         </Container>
