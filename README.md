@@ -1,5 +1,8 @@
 # Excercise solutions for [Full Stack Open 2021](https://fullstackopen.com/en/)
-[Grade 5 Certificate](https://github.com/Ornellasd/full_stack_open/blob/master/certificate-fullstack.png)
+<div align="center">
+  <img src="https://studies.cs.helsinki.fi/stats/api/certificate/fullstackopen/en/d1897e47fde9c16b444b0b156921cb70" width="400">
+  <img src="https://studies.cs.helsinki.fi/stats/api/certificate/fs-typescript/en/140925a63c0defe021ff04efc4796e39" width="400">
+</div>
 
 ## Content
 
