@@ -26,3 +26,6 @@
 
 ### Part 9 - [TypeScript](https://github.com/Ornellasd/full_stack_open/tree/master/part9)
 
+### Part 10 - [React Native](https://github.com/Ornellasd/rate-repository-app)
+
+
