@@ -1,10 +1,13 @@
 const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const mongoose = require('mongoose')
-const { v1: uuid } = require('uuid')
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
 const Author = require('./models/Author')
 const Book = require('./models/Book')
+const User = require('./models/User')
+
+const JWT_SECRET = process.env.JWT_SECRET
 
 console.log('connecting to ', process.env.MONGODB_URI)
 
@@ -17,6 +20,16 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
   })
 
 const typeDefs = gql`
+  type User {
+    username: String!
+    favoriteGenre: String!
+    id: ID!
+  }
+
+  type Token {
+    value: String!
+  }
+
   type Author {
     name: String!
     id: ID!
@@ -40,6 +53,7 @@ const typeDefs = gql`
       genre: String
     ): [Book!]!
     allAuthors: [Author!]!
+    me: User
   }
 
   type Mutation {
@@ -53,6 +67,14 @@ const typeDefs = gql`
       name: String!
       setBornTo: Int!
     ): Author
+    createUser(
+      username: String!
+      favoriteGenre: String!
+    ): User
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `
 
@@ -109,7 +131,6 @@ const resolvers = {
           invalidArgs: args,
         })
       }
- 
     },
     editAuthor: async (root, args) => {
       try {
@@ -120,6 +141,17 @@ const resolvers = {
         })
       }
     },
+    createUser: async (root, args) => {
+      console.log(args, 'args matey')
+      const user = new User({ ...args })
+
+      return user.save()
+        .catch(error => {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        })
+    }
   }
 }
 
