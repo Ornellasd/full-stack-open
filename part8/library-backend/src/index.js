@@ -74,13 +74,11 @@ const resolvers = {
       const author = await Author.findOne({ name: args.author })
 
       if(args.genre && args.author) {
-        console.log('find book by auhtor and genre')
-        // return await Book.find({})    
+        // return await Book.find({})
+        return await Book.find({ author: author._id, genres: { $in: args.genre} })    
       } else if(args.author) {
         return await Book.find({ author: author._id }).populate('author')
       } else if(args.genre) {
-        // console.log('return books by genre only')
-        console.log(args.genre, 'genre sselected')
         return await Book.find({ genres: { $in: args.genre } })
       } else {
         return await Book.find({})
