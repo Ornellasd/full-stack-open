@@ -1,4 +1,4 @@
-const { ApolloServer, gql, UserInputError } = require('apollo-server')
+const { ApolloServer, gql, UserInputError, AuthenticationError } = require('apollo-server')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
@@ -106,7 +106,11 @@ const resolvers = {
     }
   },
   Mutation: {
-    addBook: async (root, args) => {
+    addBook: async (root, args, context) => {
+      if(!context.currentUser) {
+        throw new AuthenticationError('User is not logged in.')
+      }
+
       if(args.title.length < 3) {
         throw new UserInputError('Book title is too short.')
       }
@@ -135,7 +139,11 @@ const resolvers = {
         })
       }
     },
-    editAuthor: async (root, args) => {
+    editAuthor: async (root, args, context) => {
+      if(!context.currentUser) {
+        throw new AuthenticationError('User is not logged in.')
+      }
+
       try {
         return await Author.findOneAndUpdate({ name: args.name }, { born: args.setBornTo }, { new: true } )
       } catch (error) {
