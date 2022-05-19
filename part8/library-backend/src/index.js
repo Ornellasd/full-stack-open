@@ -142,7 +142,6 @@ const resolvers = {
       }
     },
     createUser: async (root, args) => {
-      console.log(args, 'args matey')
       const user = new User({ ...args })
 
       return user.save()
@@ -151,8 +150,22 @@ const resolvers = {
             invalidArgs: args,
           })
         })
-    }
-  }
+    },
+    login: async (root, args) => {
+      const user = await User.findOne({ username: args.username })
+
+      if( !user || args.password !== 'secret' ) {
+        throw new UserInputError('Wrong credentials')
+      }
+
+      const userForToken = {
+        username: user.username,
+        id: user._id,
+      }
+
+      return { value: jwt.sign(userForToken, JWT_SECRET) }
+    },
+  },
 }
 
 const server = new ApolloServer({
