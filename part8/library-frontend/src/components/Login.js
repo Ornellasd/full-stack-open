@@ -6,7 +6,7 @@ const Login = () => {
 
   const submit = (event) => {
     event.preventDefault()
-    
+
     console.log('submitting!')
   }
 
@@ -23,6 +23,7 @@ const Login = () => {
         password
         <input 
           value={password}
+          type="password"
           onChange={({ target }) => setPassword(target.value)}
         />
       </div>

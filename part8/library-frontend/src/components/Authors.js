@@ -1,7 +1,8 @@
   
 import React, { useState, useEffect } from 'react'
 import { useMutation, useQuery } from '@apollo/client'
-import { ALL_AUTHORS, SET_BORN } from '../queries'
+import { ALL_AUTHORS } from '../queries'
+import { SET_BORN } from '../mutations'
 import Select from 'react-select'
 
 const Authors = (props) => {
