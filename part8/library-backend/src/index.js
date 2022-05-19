@@ -61,7 +61,30 @@ const resolvers = {
     bookCount: async () => Book.collection.countDocuments(),
     authorCount: async () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
-      return await Book.find({})
+      console.log(args, 'arggggs matey')
+      // if(args.genre && args.author) {
+      //   return books.filter(book => book.author === args.author && book.genres.includes(args.genre))
+      // } else if(args.author) {
+      //   return books.filter(book => book.author === args.author)
+      // } else if(args.genre){
+      //   return books.filter(book => book.genres.includes(args.genre))
+      // } else {
+      //   return books
+      // }
+      const author = await Author.findOne({ name: args.author })
+
+      if(args.genre && args.author) {
+        console.log('find book by auhtor and genre')
+        // return await Book.find({})    
+      } else if(args.author) {
+        return await Book.find({ author: author._id }).populate('author')
+      } else if(args.genre) {
+        // console.log('return books by genre only')
+        console.log(args.genre, 'genre sselected')
+        return await Book.find({ genres: { $in: args.genre } })
+      } else {
+        return await Book.find({})
+      }
     },
     allAuthors: async () => await Author.find({}),
   },
@@ -82,8 +105,6 @@ const resolvers = {
       } else {
         authorId = author._id
       }
-
-      // console.log(authorId, 'author id shit')
 
       const book = new Book({ ...args, author: authorId })
       return book.save()
