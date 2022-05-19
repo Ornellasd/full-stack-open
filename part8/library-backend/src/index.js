@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server')
+const { ApolloServer, gql, UserInputError } = require('apollo-server')
 const mongoose = require('mongoose')
 const { v1: uuid } = require('uuid')
 require('dotenv').config()
@@ -82,22 +82,43 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args) => {
-      const author = await Author.findOne({ name: args.author })
-      let authorId
-
-      if(!author) {
-        const newAuthor = new Author({ name: args.author })
-        newAuthor.save()
-        authorId = newAuthor._id
-      } else {
-        authorId = author._id
+      if(args.title.length < 3) {
+        throw new UserInputError('Book title is too short.')
       }
 
-      const book = new Book({ ...args, author: authorId })
-      return book.save()
+      if(args.author.length < 3) {
+        throw new UserInputError('Author name is too short.')
+      }
+
+      try {
+        const author = await Author.findOne({ name: args.author })
+        let authorId
+  
+        if(!author) {
+          const newAuthor = new Author({ name: args.author })
+          newAuthor.save()
+          authorId = newAuthor._id
+        } else {
+          authorId = author._id
+        }
+  
+        const book = new Book({ ...args, author: authorId })
+        return book.save()
+      } catch(error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+ 
     },
     editAuthor: async (root, args) => {
-      return await Author.findOneAndUpdate({ name: args.name }, { born: args.setBornTo }, { new: true } )
+      try {
+        return await Author.findOneAndUpdate({ name: args.name }, { born: args.setBornTo }, { new: true } )
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
     },
   }
 }
