@@ -24,3 +24,13 @@ export const ALL_BOOKS = gql`
     }
   }
 `
+
+export const GET_CURRENT_USER = gql`
+  query {
+    me {
+      username
+      favoriteGenre
+      id
+    }
+  }
+`

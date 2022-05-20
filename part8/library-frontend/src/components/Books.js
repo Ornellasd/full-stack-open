@@ -1,32 +1,40 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { ALL_BOOKS } from '../queries'
+import { ALL_BOOKS, GET_CURRENT_USER } from '../queries'
 
 const Books = (props) => {
-  const result = useQuery(ALL_BOOKS)
   const [books, setBooks] = useState([])
   const [genres, setGenres] = useState([])
   const [genre, setGenre] = useState(null)
 
-  useEffect(() => {
-    if(result.data) {
-      setBooks(result.data.allBooks)
-    }
-  }, [result])
+  const result = useQuery(ALL_BOOKS)
+  const currentUser = useQuery(GET_CURRENT_USER)
+  const favoriteGenre = currentUser.data?.me.favoriteGenre
 
-  useEffect(() => {
-    setGenres([...new Set(books.map(book => book.genres))].flat())
-  }, [books])
-
-  const filterByGenre = (selectedGenre) => {
+  const filterByGenre = (selectedGenre, rec) => {
     setBooks(books.filter(book => book.genres.some(genre => genre === selectedGenre)))
-    setGenre(selectedGenre)
+    if(!rec) {
+      setGenre(selectedGenre)
+    }
   }
 
   const clearGenreFilter = () => {
     setBooks(result.data.allBooks)
     setGenre(null)
   }
+
+  useEffect(() => {
+    if(props.showRecommendations) {
+      filterByGenre(favoriteGenre, true)
+    } else if(result.data){
+      setBooks(result.data.allBooks)
+    }
+   
+  }, [props.showRecommendations, result])
+
+  useEffect(() => {
+    setGenres([...new Set(books.map(book => book.genres))].flat())
+  }, [books])
 
   if (!props.show) {
     return null
@@ -38,7 +46,7 @@ const Books = (props) => {
         ? 
           <>
             <h2>recommendations</h2>
-            <span>books in your favorite genre <strong>GENRE</strong></span>
+            <span>books in your favorite genre <strong>{favoriteGenre}</strong></span>
           </>
         : <h2>books</h2>
       }
@@ -68,7 +76,7 @@ const Books = (props) => {
               <td>{a.published}</td>
             </tr>
           )}
-          {!genre && genres.map(genre => 
+          {(!genre && !props.showRecommendations) && genres.map(genre => 
             <button onClick={() => filterByGenre(genre)}>{genre}</button>
           )}
         </tbody>
