@@ -5,7 +5,7 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 
-const Routes = ({ token, setToken, page, setPage, setError }) => {
+const Routes = ({ token, setToken, page, setPage, setError, showRecommendations }) => {
   return (
     <div>
       <Authors
@@ -15,6 +15,7 @@ const Routes = ({ token, setToken, page, setPage, setError }) => {
 
       <Books
         show={page === 'books'}
+        showRecommendations={showRecommendations}
       />
 
       <NewBook
@@ -36,6 +37,7 @@ const App = () => {
   const [token, setToken] = useState(null)
   const [page, setPage] = useState('authors')
   const [error, setError] = useState('')
+  const [showRecommendations, setShowRecommendations] = useState(false)
 
   const client = useApolloClient()
 
@@ -53,27 +55,38 @@ const App = () => {
     }
   }, [])
 
+  const showBooks = (showRecs) => {
+    setPage('books')
+
+    if(showRecs) {
+      setShowRecommendations(true)
+    } else {
+      setShowRecommendations(false)
+    }
+  }
+
   return (
-    <div>
+    <>
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
-        <button onClick={() => setPage('books')}>books</button>
+        <button onClick={() => showBooks()}>books</button>
         {token
           ? 
             <>
               <button onClick={() => setPage('add')}>add book</button>
+              <button onClick={() => showBooks(true)}>recommend</button>
               <button onClick={logout}>logout</button>
             </>
           : <button onClick={() => setPage('login')}>login</button>
         }
       </div>
 
-      <Routes token={token} setToken={setToken} page={page} setPage={setPage} setError={setError} />
+      <Routes token={token} setToken={setToken} page={page} setPage={setPage} setError={setError} showRecommendations={showRecommendations} />
 
       {error &&
         <h4 style={{ color: 'red' }}>{error}</h4>
       }
-    </div>
+    </>
   )
 }
 

@@ -34,7 +34,14 @@ const Books = (props) => {
 
   return (
     <div>
-      <h2>books</h2>
+      {props.showRecommendations
+        ? 
+          <>
+            <h2>recommendations</h2>
+            <span>books in your favorite genre <strong>GENRE</strong></span>
+          </>
+        : <h2>books</h2>
+      }
 
       {genre &&
         <>
