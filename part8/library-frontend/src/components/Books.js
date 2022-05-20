@@ -12,15 +12,12 @@ const Books = (props) => {
     variables: { genre: selectedGenre }
   })
 
-  const currentUser = useQuery(GET_CURRENT_USER, {
-    fetchPolicy: 'cache-and-network',
-    pollInterval: 500,
-  })
+  const { data: currentUserData, error: currentUserError, loading: currentUserLoading, startPolling, stopPolling } = useQuery(GET_CURRENT_USER)
 
   useEffect(() => {
     setBooks(bookData?.allBooks)
-    if(props.showRecommendations) {
-      setSelectedGenre(currentUser.data?.me.favoriteGenre)
+    if(props.showRecommendations && currentUserData?.me) {
+      setSelectedGenre(currentUserData?.me.favoriteGenre)
       booksRefetch({ genre: selectedGenre })
       setButtonSelected(false)
     } else if(!buttonSelected) {
@@ -29,53 +26,15 @@ const Books = (props) => {
   }, [bookData, props.showRecommendations])
 
   useEffect(() => {
+    startPolling(500)
+    return () => {
+      stopPolling()
+    }
+  }, [startPolling, stopPolling])
+
+  useEffect(() => {
     setGenres([...new Set(books?.map(book => book.genres))].flat())
   }, [books])
-
-  // useEffect(() => {
-  //   if(props.showRecommendations) {
-
-  //   }
-  // }, [currentUser.data.me])
-
-
-  // const filterByGenre = (selectedGenreDERP, rec) => {
-  //   setBooks(books.filter(book => book.genres.some(genre => genre === selectedGenre)))
-  //   if(!rec) {
-  //     setSelectedGenre(selectedGenreDERP)
-  //   }
-  // }
-
-  // const filterByGenre2 = (genre) => {
-  //   setSelectedGenre(genre)
-  //   booksRefetch({ genre })
-  //   console.log(bookData, 'after refetch')
-  // }
-
-  // const clearGenreFilter = () => {
-  //   setBooks(bookData?.allBooks)
-  //   setSelectedGenre('')
-  // }
-
-  // useEffect(() => {
-  //   if(props.showRecommendations && favoriteGenre) {
-  //     // make this use graphql 
-  //     // filterByGenre(favoriteGenre, true)
-  //     filterByGenre2(favoriteGenre)
-  //   } else if(bookData?.allBooks) {
-  //     setBooks(bookData?.allBooks)
-  //   }
-  // }, [props.showRecommendations, bookData])
-
-
-
-  // useEffect(() => {
-  //   if(currentUser.data && currentUser.data.me) {
-  //     setFavoriteGenre(currentUser.data.me.favoriteGenre)
-  //   }
-  // }, [currentUser.data])
-
-  
 
   const handleSpecificGenreSelect = (genre) => {
     setSelectedGenre(genre)
@@ -107,7 +66,7 @@ const Books = (props) => {
         : 
           <div>
             <h2>recommendations</h2>
-            <span>books in your favorite genre <strong>{currentUser.data?.me.favoriteGenre}</strong></span>
+            <span>books in your favorite genre <strong>{currentUserData?.me && currentUserData?.me.favoriteGenre}</strong></span>
           </div>
       }
       <table>
@@ -135,28 +94,6 @@ const Books = (props) => {
       </table>
     </div>
   )
-
-  // return (
-  //   <div>
-  //     {props.showRecommendations
-  //       ? 
-  //         <>
-  //           <h2>recommendations</h2>
-  //           <span>books in your favorite genre <strong>{favoriteGenre}</strong></span>
-  //         </>
-  //       : <h2>books</h2>
-  //     }
-
-  //     {selectedGenre &&
-  //       <>
-  //         <span>in genre <strong>{selectedGenre}</strong></span>
-  //         <button onClick={() => clearGenreFilter() }>clear</button>
-  //       </>
-  //     }
-
-
-  //   </div>
-  // )
 }
 
 export default Books
