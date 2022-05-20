@@ -12,7 +12,7 @@ const Books = (props) => {
     variables: { genre: selectedGenre }
   })
 
-  const { data: currentUserData, error: currentUserError, loading: currentUserLoading, startPolling, stopPolling } = useQuery(GET_CURRENT_USER)
+  const { data: currentUserData, error: currentUserError, loading: currentUserLoading, refetch: currentUserRefetch } = useQuery(GET_CURRENT_USER)
 
   useEffect(() => {
     setBooks(bookData?.allBooks)
@@ -26,11 +26,8 @@ const Books = (props) => {
   }, [bookData, props.showRecommendations])
 
   useEffect(() => {
-    startPolling(500)
-    return () => {
-      stopPolling()
-    }
-  }, [startPolling, stopPolling])
+    currentUserRefetch()
+  }, [props.page])
 
   useEffect(() => {
     setGenres([...new Set(books?.map(book => book.genres))].flat())

@@ -5,7 +5,7 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 
-const Routes = ({ token, setToken, page, setPage, setError, showRecommendations }) => {
+const Routes = ({ token, setToken, page, setPage, setError, showRecommendations, client }) => {
   return (
     <div>
       <Authors
@@ -16,6 +16,7 @@ const Routes = ({ token, setToken, page, setPage, setError, showRecommendations 
       <Books
         show={page === 'books'}
         showRecommendations={showRecommendations}
+        page={page}
       />
 
       <NewBook
@@ -28,6 +29,7 @@ const Routes = ({ token, setToken, page, setPage, setError, showRecommendations 
         setToken={setToken}
         setPage={setPage}
         setError={setError}
+        client={client}
       />
     </div>
   )
@@ -38,7 +40,6 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [error, setError] = useState('')
   const [showRecommendations, setShowRecommendations] = useState(false)
-  const [favoriteGenre, setFavoriteGenre] = useState('')
 
   const client = useApolloClient()
 
@@ -82,7 +83,15 @@ const App = () => {
         }
       </div>
 
-      <Routes token={token} setToken={setToken} page={page} setPage={setPage} setError={setError} showRecommendations={showRecommendations} />
+      <Routes 
+        token={token}
+        setToken={setToken} 
+        page={page} 
+        setPage={setPage} 
+        setError={setError} 
+        showRecommendations={showRecommendations}
+        client={client}
+      />
 
       {error &&
         <h4 style={{ color: 'red' }}>{error}</h4>
