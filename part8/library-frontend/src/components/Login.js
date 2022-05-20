@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../mutations'
 
-const Login = ({ show, setToken, setPage }) => {
+const Login = ({ show, setToken, setPage, setError }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
 
   const [ login, result ] = useMutation(LOGIN, {
     onError: (error) => {
@@ -32,37 +31,32 @@ const Login = ({ show, setToken, setPage }) => {
   if(!show) {
     return null
   }
-  
+
   return (
-    <div>
-      <form onSubmit={submit}>
-        <div>
-          name
-          <input 
-            value={username}
-            onChange={({ target }) => {
-              setUsername(target.value)
-              setError('')
-            }}
-          />
-        </div>
-        <div>
-          password
-          <input 
-            value={password}
-            type="password"
-            onChange={({ target }) => {
-              setPassword(target.value)
-              setError('')
-            }}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
-      {error &&
-        <h4 style={{ color: 'red' }}>{error}</h4>
-      }
-    </div>
+    <form onSubmit={submit}>
+      <div>
+        name
+        <input 
+          value={username}
+          onChange={({ target }) => {
+            setUsername(target.value)
+            setError('')
+          }}
+        />
+      </div>
+      <div>
+        password
+        <input 
+          value={password}
+          type="password"
+          onChange={({ target }) => {
+            setPassword(target.value)
+            setError('')
+          }}
+        />
+      </div>
+      <button type="submit">login</button>
+    </form>
   )
 }
 

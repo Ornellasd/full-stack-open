@@ -5,11 +5,12 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 
-const Routes = ({ token, setToken, page, setPage }) => {
+const Routes = ({ token, setToken, page, setPage, setError }) => {
   return (
     <div>
       <Authors
         show={page === 'authors'}
+        token={token}
       />
 
       <Books
@@ -24,6 +25,7 @@ const Routes = ({ token, setToken, page, setPage }) => {
         show={page === 'login'}
         setToken={setToken}
         setPage={setPage}
+        setError={setError}
       />
     </div>
   )
@@ -32,14 +34,7 @@ const Routes = ({ token, setToken, page, setPage }) => {
 const App = () => {
   const [token, setToken] = useState(null)
   const [page, setPage] = useState('authors')
-
-  useEffect(() => {
-    const loggedInUserToken = window.localStorage.getItem('library-user-token')
-    
-    if(loggedInUserToken) {
-      setToken(loggedInUserToken)
-    }
-  }, [])
+  const [error, setError] = useState('')
 
   const client = useApolloClient()
 
@@ -48,6 +43,14 @@ const App = () => {
     localStorage.clear()
     client.resetStore()
   }
+
+  useEffect(() => {
+    const loggedInUserToken = window.localStorage.getItem('library-user-token')
+    
+    if(loggedInUserToken) {
+      setToken(loggedInUserToken)
+    }
+  }, [])
 
   return (
     <div>
@@ -63,7 +66,11 @@ const App = () => {
         }
       </div>
 
-      <Routes token={token} setToken={setToken} page={page} setPage={setPage} />
+      <Routes token={token} setToken={setToken} page={page} setPage={setPage} setError={setError} />
+
+      {error &&
+        <h4 style={{ color: 'red' }}>{error}</h4>
+      }
     </div>
   )
 }
