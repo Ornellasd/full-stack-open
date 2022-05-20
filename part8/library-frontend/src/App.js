@@ -3,6 +3,7 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
+import { useApolloClient } from '@apollo/client'
 
 const Routes = ({ token, setToken, page, setPage }) => {
   return (
@@ -32,8 +33,14 @@ const App = () => {
   const [token, setToken] = useState(null)
   const [page, setPage] = useState('authors')
 
-  console.log(token)
- 
+  const client = useApolloClient()
+
+  const logout = () => {
+    setToken(null)
+    localStorage.clear()
+    client.resetStore()
+  }
+
   return (
     <div>
       <div>
@@ -44,7 +51,7 @@ const App = () => {
         }
         <button onClick={() => setPage('login')}>login</button>
         {token &&
-          <button>logout</button>
+          <button onClick={logout}>logout</button>
         }
       </div>
 
