@@ -5,6 +5,14 @@ import { ALL_BOOKS } from '../queries'
 const Books = (props) => {
   const result = useQuery(ALL_BOOKS)
   const [books, setBooks] = useState([])
+  const [genres, setGenres] = useState([])
+  
+  // use this to filter books by genre
+  const biographyGenreBooks = books.filter(book => book.genres.some(genre => genre === 'biography'))
+
+  useEffect(() => {
+    setGenres([...new Set(books.map(book => book.genres))].flat())
+  }, [books])
 
   useEffect(() => {
     if(result.data) {
