@@ -4,7 +4,7 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 
-const Routes = ({ token, page }) => {
+const Routes = ({ token, setToken, page, setPage }) => {
   return (
     <div>
       <Authors
@@ -21,6 +21,8 @@ const Routes = ({ token, page }) => {
       
       <Login
         show={page === 'login'}
+        setToken={setToken}
+        setPage={setPage}
       />
     </div>
   )
@@ -29,6 +31,8 @@ const Routes = ({ token, page }) => {
 const App = () => {
   const [token, setToken] = useState(null)
   const [page, setPage] = useState('authors')
+
+  console.log(token)
  
   return (
     <div>
@@ -44,7 +48,7 @@ const App = () => {
         }
       </div>
 
-      <Routes token={token} page={page} />
+      <Routes token={token} setToken={setToken} page={page} setPage={setPage} />
     </div>
   )
 }
