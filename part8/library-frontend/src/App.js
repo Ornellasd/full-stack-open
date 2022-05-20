@@ -19,6 +19,7 @@ const Routes = ({ token, setToken, page, setPage, setError }) => {
 
       <NewBook
         show={page === 'add'}
+        setError={setError}
       />
       
       <Login
