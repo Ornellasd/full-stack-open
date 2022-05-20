@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../mutations'
 
-const Login = ({ setToken, setPage }) => {
+const Login = ({ show, setToken, setPage }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -29,6 +29,10 @@ const Login = ({ setToken, setPage }) => {
     setPassword('')
   }
 
+  if(!show) {
+    return null
+  }
+  
   return (
     <div>
       <form onSubmit={submit}>
