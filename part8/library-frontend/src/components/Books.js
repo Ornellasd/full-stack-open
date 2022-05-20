@@ -5,17 +5,20 @@ import { ALL_BOOKS, GET_CURRENT_USER } from '../queries'
 const Books = (props) => {
   const [books, setBooks] = useState([])
   const [genres, setGenres] = useState([])
-  const [genre, setGenre] = useState(null)
+  const [genre, setGenre] = useState('')
   const [favoriteGenre, setFavoriteGenre] = useState('')
 
-  const result = useQuery(ALL_BOOKS)
+  const result = useQuery(ALL_BOOKS, {
+    fetchPolicy: 'cache-and-network',
+    variables: {
+      genre: genre
+    },
+  })
 
-  const { data, loading, error } = useQuery(GET_CURRENT_USER, {
+  const currentUser = useQuery(GET_CURRENT_USER, {
     fetchPolicy: 'cache-and-network',
     pollInterval: 500,
   })
-
-  console.log(data)
 
   const filterByGenre = (selectedGenre, rec) => {
     setBooks(books.filter(book => book.genres.some(genre => genre === selectedGenre)))
@@ -43,10 +46,10 @@ const Books = (props) => {
   }, [books])
 
   useEffect(() => {
-    if(data && data.me) {
-      setFavoriteGenre(data.me.favoriteGenre)
+    if(currentUser.data && currentUser.data.me) {
+      setFavoriteGenre(currentUser.data.me.favoriteGenre)
     }
-  }, [data])
+  }, [currentUser.data])
 
   if (!props.show) {
     return null
