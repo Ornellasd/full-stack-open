@@ -38,6 +38,7 @@ const App = () => {
   const [page, setPage] = useState('authors')
   const [error, setError] = useState('')
   const [showRecommendations, setShowRecommendations] = useState(false)
+  const [favoriteGenre, setFavoriteGenre] = useState('')
 
   const client = useApolloClient()
 
@@ -49,11 +50,12 @@ const App = () => {
 
   useEffect(() => {
     const loggedInUserToken = window.localStorage.getItem('library-user-token')
+    console.log(loggedInUserToken)
     
     if(loggedInUserToken) {
       setToken(loggedInUserToken)
     }
-  }, [])
+  }, [token])
 
   const showBooks = (showRecs) => {
     setPage('books')

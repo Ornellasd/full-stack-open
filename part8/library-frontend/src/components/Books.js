@@ -6,10 +6,10 @@ const Books = (props) => {
   const [books, setBooks] = useState([])
   const [genres, setGenres] = useState([])
   const [genre, setGenre] = useState(null)
+  const [favoriteGenre, setFavoriteGenre] = useState('')
 
   const result = useQuery(ALL_BOOKS)
   const currentUser = useQuery(GET_CURRENT_USER)
-  const favoriteGenre = currentUser.data?.me.favoriteGenre
 
   const filterByGenre = (selectedGenre, rec) => {
     setBooks(books.filter(book => book.genres.some(genre => genre === selectedGenre)))
@@ -24,7 +24,7 @@ const Books = (props) => {
   }
 
   useEffect(() => {
-    if(props.showRecommendations) {
+    if(props.showRecommendations && favoriteGenre) {
       filterByGenre(favoriteGenre, true)
     } else if(result.data){
       setBooks(result.data.allBooks)
@@ -35,6 +35,12 @@ const Books = (props) => {
   useEffect(() => {
     setGenres([...new Set(books.map(book => book.genres))].flat())
   }, [books])
+
+  useEffect(() => {
+    if(currentUser.data && currentUser.data.me) {
+      setFavoriteGenre(currentUser.data.me.favoriteGenre)
+    }
+  }, [currentUser.data])
 
   if (!props.show) {
     return null
