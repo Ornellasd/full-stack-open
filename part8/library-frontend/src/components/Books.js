@@ -6,7 +6,7 @@ const Books = (props) => {
   const [books, setBooks] = useState([])
   const [genres, setGenres] = useState([])
   const [selectedGenre, setSelectedGenre] = useState('')
-  const [favoriteGenre, setFavoriteGenre] = useState('')
+  const [buttonSelected, setButtonSelected] = useState(false)
 
   const { data: bookData, error: booksError, loading: booksLoading, refetch: booksRefetch } = useQuery(ALL_BOOKS, {
     variables: { genre: selectedGenre }
@@ -17,17 +17,20 @@ const Books = (props) => {
     pollInterval: 500,
   })
 
-  console.log(bookData?.allBooks)
-
   useEffect(() => {
     setBooks(bookData?.allBooks)
     if(props.showRecommendations) {
       setSelectedGenre(currentUser.data?.me.favoriteGenre)
       booksRefetch({ genre: selectedGenre })
-    } else {
+      setButtonSelected(false)
+    } else if(!buttonSelected) {
       setSelectedGenre('')
     }
   }, [bookData, props.showRecommendations])
+
+  useEffect(() => {
+    setGenres([...new Set(books?.map(book => book.genres))].flat())
+  }, [books])
 
   // useEffect(() => {
   //   if(props.showRecommendations) {
@@ -64,9 +67,7 @@ const Books = (props) => {
   //   }
   // }, [props.showRecommendations, bookData])
 
-  // useEffect(() => {
-  //   setGenres([...new Set(books.map(book => book.genres))].flat())
-  // }, [books])
+
 
   // useEffect(() => {
   //   if(currentUser.data && currentUser.data.me) {
@@ -74,15 +75,41 @@ const Books = (props) => {
   //   }
   // }, [currentUser.data])
 
+  
+
+  const handleSpecificGenreSelect = (genre) => {
+    setSelectedGenre(genre)
+    setButtonSelected(true)
+  }
+
+  const handleClearGenre = () => {
+    setSelectedGenre('')
+    setButtonSelected(false)
+  }
+
   if (!props.show) {
     return null
   }
 
-  // return <h1>DERP</h1>
-
   return (
     <div>
-      <h1>DEV</h1>
+      {!props.showRecommendations
+        ?
+          <>
+            <h2>books</h2>
+            {buttonSelected &&
+              <div>
+                <span>in genre <strong>{selectedGenre}</strong></span>
+                <button onClick={() => handleClearGenre()}>clear</button>
+              </div> 
+            }
+          </>
+        : 
+          <div>
+            <h2>recommendations</h2>
+            <span>books in your favorite genre <strong>{currentUser.data?.me.favoriteGenre}</strong></span>
+          </div>
+      }
       <table>
         <tbody>
           <tr>
@@ -101,9 +128,8 @@ const Books = (props) => {
               <td>{a.published}</td>
             </tr>
           )}
-          {(!selectedGenre && !props.showRecommendations) && genres.map(genre =>
-            // <button onClick={() => filterByGenre2(genre)}>{genre}</button>
-            <button onClick={() => console.log('filterbygenre')}>{genre}</button>
+          {(!props.showRecommendations && !buttonSelected) && genres.map(genre =>
+            <button onClick={() => handleSpecificGenreSelect(genre)}>{genre}</button>
           )}
         </tbody>
       </table>
