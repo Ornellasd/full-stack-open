@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useQuery } from '@apollo/client'
+import { useQuery, useLazyQuery } from '@apollo/client'
 import { ALL_BOOKS, GET_CURRENT_USER } from '../queries'
 
 const Books = (props) => {
@@ -9,7 +9,13 @@ const Books = (props) => {
   const [favoriteGenre, setFavoriteGenre] = useState('')
 
   const result = useQuery(ALL_BOOKS)
-  const currentUser = useQuery(GET_CURRENT_USER)
+
+  const { data, loading, error } = useQuery(GET_CURRENT_USER, {
+    fetchPolicy: 'cache-and-network',
+    pollInterval: 500,
+  })
+
+  console.log(data)
 
   const filterByGenre = (selectedGenre, rec) => {
     setBooks(books.filter(book => book.genres.some(genre => genre === selectedGenre)))
@@ -37,10 +43,10 @@ const Books = (props) => {
   }, [books])
 
   useEffect(() => {
-    if(currentUser.data && currentUser.data.me) {
-      setFavoriteGenre(currentUser.data.me.favoriteGenre)
+    if(data && data.me) {
+      setFavoriteGenre(data.me.favoriteGenre)
     }
-  }, [currentUser.data])
+  }, [data])
 
   if (!props.show) {
     return null

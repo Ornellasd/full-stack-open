@@ -50,7 +50,6 @@ const App = () => {
 
   useEffect(() => {
     const loggedInUserToken = window.localStorage.getItem('library-user-token')
-    console.log(loggedInUserToken)
     
     if(loggedInUserToken) {
       setToken(loggedInUserToken)
