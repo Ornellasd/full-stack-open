@@ -6,19 +6,27 @@ const Books = (props) => {
   const result = useQuery(ALL_BOOKS)
   const [books, setBooks] = useState([])
   const [genres, setGenres] = useState([])
-  
-  // use this to filter books by genre
-  const biographyGenreBooks = books.filter(book => book.genres.some(genre => genre === 'biography'))
-
-  useEffect(() => {
-    setGenres([...new Set(books.map(book => book.genres))].flat())
-  }, [books])
+  const [genre, setGenre] = useState(null)
 
   useEffect(() => {
     if(result.data) {
       setBooks(result.data.allBooks)
     }
   }, [result])
+
+  useEffect(() => {
+    setGenres([...new Set(books.map(book => book.genres))].flat())
+  }, [books])
+
+  const filterByGenre = (selectedGenre) => {
+    setBooks(books.filter(book => book.genres.some(genre => genre === selectedGenre)))
+    setGenre(selectedGenre)
+  }
+
+  const clearGenreFilter = () => {
+    setBooks(result.data.allBooks)
+    setGenre(null)
+  }
 
   if (!props.show) {
     return null
@@ -27,6 +35,13 @@ const Books = (props) => {
   return (
     <div>
       <h2>books</h2>
+
+      {genre &&
+        <>
+          <span>in genre <strong>{genre}</strong></span>
+          <button onClick={() => clearGenreFilter() }>clear</button>
+        </>
+      }
 
       <table>
         <tbody>
@@ -45,6 +60,9 @@ const Books = (props) => {
               <td>{a.author.name}</td>
               <td>{a.published}</td>
             </tr>
+          )}
+          {!genre && genres.map(genre => 
+            <button onClick={() => filterByGenre(genre)}>{genre}</button>
           )}
         </tbody>
       </table>
