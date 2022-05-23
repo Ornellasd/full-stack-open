@@ -30,7 +30,7 @@ const Books = (props) => {
   }, [props.page])
 
   useEffect(() => {
-    setGenres([...new Set(books?.map(book => book.genres))].flat())
+    setGenres([...new Set(books?.flatMap(book => book.genres))])
   }, [books])
 
   const handleSpecificGenreSelect = (genre) => {
