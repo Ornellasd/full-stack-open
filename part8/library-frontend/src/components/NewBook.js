@@ -23,8 +23,7 @@ const NewBook = (props) => {
       { query: ALL_AUTHORS },
     ],
     onError: (error) => {
-      // expand this messsage to catch more errors
-      props.setNotification(error.graphQLErrors[0].message)
+      props.setNotification(error.graphQLErrors.length > 0 ? error.graphQLErrors[0].message : 'Error with book details')
     }
   })
 

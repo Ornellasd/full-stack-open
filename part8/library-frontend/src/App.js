@@ -24,7 +24,7 @@ const Routes = ({ token, setToken, page, setPage, setNotification, showRecommend
 
       <NewBook
         show={page === 'add'}
-        setError={setNotification}
+        setNotification={setNotification}
       />
       
       <Login
