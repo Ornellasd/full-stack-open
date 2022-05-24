@@ -84,11 +84,11 @@ const Books = (props) => {
               <td>{a.published}</td>
             </tr>
           )}
-          {(!props.showRecommendations && !buttonSelected) && genres.map(genre =>
-            <button onClick={() => handleSpecificGenreSelect(genre)} key={genre}>{genre}</button>
-          )}
         </tbody>
       </table>
+      {(!props.showRecommendations && !buttonSelected) && genres.map(genre =>
+        <button onClick={() => handleSpecificGenreSelect(genre)} key={genre}>{genre}</button>
+      )}
     </div>
   )
 }
