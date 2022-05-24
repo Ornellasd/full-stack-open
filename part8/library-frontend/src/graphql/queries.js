@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client'
+import { BOOK_DETAILS } from './fragments'
 
 export const ALL_AUTHORS = gql`
   query {
@@ -14,16 +15,10 @@ export const ALL_AUTHORS = gql`
 export const ALL_BOOKS = gql`
   query getAllBooks($genre: String!) {
     allBooks(genre: $genre) {
-      title
-      published
-      id
-      genres
-      author {
-        name
-        id
-      }
+      ...BookDetails
     }
   }
+  ${BOOK_DETAILS}
 `
 
 export const GET_CURRENT_USER = gql`

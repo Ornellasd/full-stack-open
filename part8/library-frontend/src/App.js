@@ -5,8 +5,8 @@ import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
 
-import { BOOK_ADDED } from './components/subscriptions'
-import { ALL_BOOKS } from './queries'
+import { BOOK_ADDED } from './graphql/subscriptions'
+import { ALL_BOOKS } from './graphql/queries'
 
 const Routes = ({ token, setToken, page, setPage, setNotification, showRecommendations, client }) => {
   return (
@@ -38,6 +38,11 @@ const Routes = ({ token, setToken, page, setPage, setNotification, showRecommend
   )
 }
 
+const Notification = ({ message }) => {
+  if(!message) return null
+  return <h4 style={{ color: message.type === 'danger' ? 'red' : 'green' }}>{message.text}</h4>
+}
+
 export const updateCache = (cache, query, addedBook) => {
   const uniqByName = (a) => {
     let seen = new Set()
@@ -52,11 +57,6 @@ export const updateCache = (cache, query, addedBook) => {
       allBooks: uniqByName(allBooks.concat(addedBook))
     }
   })
-}
-
-const Notification = ({ message }) => {
-  if(!message) return null
-  return <h4 style={{ color: message.type === 'danger' ? 'red' : 'green' }}>{message.text}</h4>
 }
 
 const App = () => {
@@ -75,7 +75,7 @@ const App = () => {
         text: `"${addedBook.title}" by ${addedBook.author.name} was added`,
         type: 'success'
       })
-      
+
       updateCache(client.cache, { query: ALL_BOOKS,
         variables: {
           genre: '',
