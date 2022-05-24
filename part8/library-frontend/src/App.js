@@ -61,15 +61,16 @@ const Notification = ({ message }) => (
 const App = () => {
   const [token, setToken] = useState(null)
   const [page, setPage] = useState('authors')
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
   const [showRecommendations, setShowRecommendations] = useState(false)
 
   const client = useApolloClient()
 
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
-      setNotification('Book added')
       const addedBook = subscriptionData.data.bookAdded
+
+      setNotification(`"${addedBook.title}" by ${addedBook.author.name} was added`)
       updateCache(client.cache, { query: ALL_BOOKS,
         variables: {
           genre: '',
@@ -91,6 +92,12 @@ const App = () => {
       setToken(loggedInUserToken)
     }
   }, [token])
+
+  useEffect(() => {
+    if(notification) {
+      setTimeout(() => setNotification(''), 5000)
+    }
+  }, [notification])
 
   const showBooks = (showRecs) => {
     setPage('books')
@@ -129,7 +136,6 @@ const App = () => {
       />
 
       <Notification message={notification} />
-      
     </>
   )
 }
