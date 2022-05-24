@@ -33,7 +33,8 @@ const resolvers = {
   },
   Author: {
     bookCount: async (root) => {
-      return Book.find({ author: root._id }).countDocuments()
+      const author = await Author.findOne({ name: root.name }).populate('bookList')
+      return author.bookList.length
     }
   },
   Mutation: {
@@ -56,11 +57,14 @@ const resolvers = {
         let author = await Author.findOne({ name: args.author })
   
         if(!author) {
-          author = await new Author({ name: args.author }).save()
+          author = await new Author({ name: args.author })
         }
   
         book = new Book({ ...args, author })
 
+        author.bookList = author.bookList.concat(book)
+
+        await author.save()
         await book.save()
 
       } catch(error) {
