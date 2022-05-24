@@ -1,4 +1,4 @@
-# Excercise solutions for [Full Stack Open 2021](https://fullstackopen.com/en/)
+# Excercise solutions for [Full Stack Open 2022](https://fullstackopen.com/en/)
 <div align="center">
   <img src="./certficates/certificate-fullstack.png" width="300">
   <img src="./certficates/certificate-graphql.png" width="300">
