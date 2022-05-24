@@ -1,9 +1,9 @@
 # Excercise solutions for [Full Stack Open 2022](https://fullstackopen.com/en/)
 <div align="center">
-  <img src="./certificates/certificate-fullstack.png" width="500">
-  <img src="./certificates/certificate-graphql.png" width="500">
-  <img src="./certificates/certificate-typescript.png" width="500">
-  <img src="./certificates/certificate-reactnative.png" width="500">
+  <img src="./certificates/certificate-fullstack.png" width="400">
+  <img src="./certificates/certificate-graphql.png" width="400">
+  <img src="./certificates/certificate-typescript.png" width="400">
+  <img src="./certificates/certificate-reactnative.png" width="400">
 </div>
 
 ## Content
