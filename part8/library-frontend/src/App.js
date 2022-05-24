@@ -54,9 +54,10 @@ export const updateCache = (cache, query, addedBook) => {
   })
 }
 
-const Notification = ({ message }) => (
-  message ? <h4 style={{ color: 'red' }}>{message}</h4> : null
-)
+const Notification = ({ message }) => {
+  if(!message) return null
+  return <h4 style={{ color: message.type === 'danger' ? 'red' : 'green' }}>{message.text}</h4>
+}
 
 const App = () => {
   const [token, setToken] = useState(null)
@@ -70,7 +71,11 @@ const App = () => {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded
 
-      setNotification(`"${addedBook.title}" by ${addedBook.author.name} was added`)
+      setNotification({
+        text: `"${addedBook.title}" by ${addedBook.author.name} was added`,
+        type: 'success'
+      })
+      
       updateCache(client.cache, { query: ALL_BOOKS,
         variables: {
           genre: '',
@@ -96,7 +101,7 @@ const App = () => {
 
   useEffect(() => {
     if(notification) {
-      setTimeout(() => setNotification(''), 5000)
+      setTimeout(() => setNotification(null), 5000)
     }
   }, [notification])
 

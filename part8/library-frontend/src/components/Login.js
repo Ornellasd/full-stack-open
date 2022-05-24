@@ -8,7 +8,7 @@ const Login = ({ show, setToken, setPage, setNotification }) => {
 
   const [ login, result ] = useMutation(LOGIN, {
     onError: (error) => {
-      setNotification(error.graphQLErrors[0].message)
+      setNotification({ text: error.graphQLErrors[0].message, type: 'danger' })
     }
   })
 
@@ -40,7 +40,7 @@ const Login = ({ show, setToken, setPage, setNotification }) => {
           value={username}
           onChange={({ target }) => {
             setUsername(target.value)
-            setNotification('')
+            setNotification(null)
           }}
         />
       </div>
@@ -51,7 +51,7 @@ const Login = ({ show, setToken, setPage, setNotification }) => {
           type="password"
           onChange={({ target }) => {
             setPassword(target.value)
-            setNotification('')
+            setNotification(null)
           }}
         />
       </div>
