@@ -85,7 +85,7 @@ const Books = (props) => {
             </tr>
           )}
           {(!props.showRecommendations && !buttonSelected) && genres.map(genre =>
-            <button onClick={() => handleSpecificGenreSelect(genre)}>{genre}</button>
+            <button onClick={() => handleSpecificGenreSelect(genre)} key={genre}>{genre}</button>
           )}
         </tbody>
       </table>
