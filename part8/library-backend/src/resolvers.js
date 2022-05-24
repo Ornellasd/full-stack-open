@@ -51,18 +51,13 @@ const resolvers = {
       }
 
       try {
-        const author = await Author.findOne({ name: args.author })
-        let authorId
+        let author = await Author.findOne({ name: args.author })
   
         if(!author) {
-          const newAuthor = new Author({ name: args.author })
-          newAuthor.save()
-          authorId = newAuthor._id
-        } else {
-          authorId = author._id
+          author = await new Author({ name: args.author }).save()
         }
   
-        book = new Book({ ...args, author: authorId })
+        book = new Book({ ...args, author })
 
         await book.save()
 
