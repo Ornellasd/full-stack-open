@@ -19,7 +19,7 @@ const Login = ({ show, setToken, setPage, setNotification }) => {
       localStorage.setItem('library-user-token', token)
       setPage('authors')
     }
-  }, [result.data])
+  }, [result.data, setPage, setToken])
 
   const submit = async (event) => {
     event.preventDefault()
