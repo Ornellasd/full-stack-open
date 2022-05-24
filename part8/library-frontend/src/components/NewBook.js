@@ -24,7 +24,7 @@ const NewBook = (props) => {
     ],
     onError: (error) => {
       // expand this messsage to catch more errors
-      props.setError(error.graphQLErrors[0].message)
+      props.setNotification(error.graphQLErrors[0].message)
     }
   })
 

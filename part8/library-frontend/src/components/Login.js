@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useMutation } from '@apollo/client'
 import { LOGIN } from '../mutations'
 
-const Login = ({ show, setToken, setPage, setError }) => {
+const Login = ({ show, setToken, setPage, setNotification }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const [ login, result ] = useMutation(LOGIN, {
     onError: (error) => {
-      setError(error.graphQLErrors[0].message)
+      setNotification(error.graphQLErrors[0].message)
     }
   })
 
@@ -40,7 +40,7 @@ const Login = ({ show, setToken, setPage, setError }) => {
           value={username}
           onChange={({ target }) => {
             setUsername(target.value)
-            setError('')
+            setNotification('')
           }}
         />
       </div>
@@ -51,7 +51,7 @@ const Login = ({ show, setToken, setPage, setError }) => {
           type="password"
           onChange={({ target }) => {
             setPassword(target.value)
-            setError('')
+            setNotification('')
           }}
         />
       </div>
