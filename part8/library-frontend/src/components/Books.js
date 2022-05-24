@@ -8,11 +8,11 @@ const Books = (props) => {
   const [selectedGenre, setSelectedGenre] = useState('')
   const [buttonSelected, setButtonSelected] = useState(false)
 
-  const { data: bookData, error: booksError, loading: booksLoading, refetch: booksRefetch } = useQuery(ALL_BOOKS, {
+  const { data: bookData, refetch: booksRefetch } = useQuery(ALL_BOOKS, {
     variables: { genre: selectedGenre }
   })
 
-  const { data: currentUserData, error: currentUserError, loading: currentUserLoading, refetch: currentUserRefetch } = useQuery(GET_CURRENT_USER)
+  const { data: currentUserData, refetch: currentUserRefetch } = useQuery(GET_CURRENT_USER)
 
   useEffect(() => {
     setBooks(bookData?.allBooks)
@@ -23,11 +23,11 @@ const Books = (props) => {
     } else if(!buttonSelected) {
       setSelectedGenre('')
     }
-  }, [bookData, props.showRecommendations])
+  }, [bookData, props.showRecommendations, booksRefetch, buttonSelected, currentUserData, selectedGenre])
 
   useEffect(() => {
     currentUserRefetch()
-  }, [props.page])
+  }, [props.page, currentUserRefetch])
 
   useEffect(() => {
     setGenres([...new Set(books?.flatMap(book => book.genres))])
