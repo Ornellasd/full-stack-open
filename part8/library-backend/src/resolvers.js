@@ -1,8 +1,10 @@
 const { UserInputError, AuthenticationError } = require('apollo-server')
 const { PubSub } = require('graphql-subscriptions')
 const jwt = require('jsonwebtoken')
+
 const Author = require('./models/Author')
 const Book = require('./models/Book')
+const User = require('./models/User')
 
 const pubsub = new PubSub()
 const JWT_SECRET = process.env.JWT_SECRET
