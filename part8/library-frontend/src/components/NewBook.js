@@ -16,7 +16,6 @@ const NewBook = (props) => {
         variables: {
           genre: ''
         } 
-        
       },
       { query: ALL_AUTHORS },
     ],
