@@ -30,4 +30,7 @@
 
 ### Part 10 - [React Native](https://github.com/Ornellasd/rate-repository-app)
 
+### Part 11 - [CI/CD](https://github.com/Ornellasd/full-stack-open-pokedex)
+
+
 
