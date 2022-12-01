@@ -32,5 +32,7 @@
 
 ### Part 11 - [CI/CD](https://github.com/Ornellasd/full-stack-open-pokedex)
 
+### Part 12 - [Containers](https://github.com/Ornellasd/fso-part12-containers-applications)
+
 
 
