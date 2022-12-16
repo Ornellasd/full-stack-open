@@ -4,6 +4,7 @@
   <img src="./certificates/certificate-graphql.png" width="400">
   <img src="./certificates/certificate-typescript.png" width="400">
   <img src="./certificates/certificate-reactnative.png" width="400">
+  <img src="./certificates/certificate-containers.png" width="400">
 </div>
 
 ## Content
