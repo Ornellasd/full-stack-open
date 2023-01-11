@@ -2,8 +2,10 @@ services:
   db:
     image: postgres
     restart: always
+    ports:
+      - 5432:5432
     environment:
-      POSTGRES_USER: root
+      POSTGRES_USER: psql
       POSTGRES_PASSWORD: example
       POSTGRES_DB: notes_db
   adminer:
