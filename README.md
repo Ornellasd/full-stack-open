@@ -35,5 +35,6 @@
 
 ### Part 12 - [Containers](https://github.com/Ornellasd/fso-part12-containers-applications)
 
+### Part 13 - [Using Relational Databases](https://github.com/Ornellasd/full_stack_open/tree/part13-relational_databases/part13)
 
 
