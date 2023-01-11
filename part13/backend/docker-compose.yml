@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: notes_db
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
