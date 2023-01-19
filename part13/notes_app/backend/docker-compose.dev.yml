@@ -20,6 +20,8 @@ services:
       POSTGRES_USER: psql
       POSTGRES_PASSWORD: example
       POSTGRES_DB: notes_db
+    volumes: 
+      - ./postgres_data:/var/lib/postgresql/data
   adminer:
     image: adminer
     restart: always
