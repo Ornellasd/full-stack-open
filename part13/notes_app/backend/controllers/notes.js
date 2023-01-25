@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
   try {
     const date = new Date()
     const note = await Note.build(req.body)
-    note.date = date
+    // note.date = date
     await note.save()
     return res.json(note)
   } catch (error) {
